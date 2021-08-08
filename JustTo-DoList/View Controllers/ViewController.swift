@@ -8,6 +8,13 @@
 import Cocoa
 
 class ViewController: NSViewController {
+	
+	override func loadView() {
+		self.view = NSView()
+		
+//		self.view.wantsLayer = true
+//		self.view.layer?.backgroundColor = NSColor.yellow.cgColor
+	}
 
 	override func viewDidLoad() {
 		super.viewDidLoad()

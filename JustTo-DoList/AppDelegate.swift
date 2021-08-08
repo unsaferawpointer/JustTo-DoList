@@ -7,19 +7,54 @@
 
 import Cocoa
 
-@main
+
 class AppDelegate: NSObject, NSApplicationDelegate {
 
+	private var window: NSWindow?
 	
-
+	func applicationWillFinishLaunching(_ notification: Notification) {
+		setupMainMenu()
+	}
 
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
 		// Insert code here to initialize your application
+		let size = CGSize(width: 800, height: 600)
+		let origin = NSPoint(x: 200.0, y: 200.0)
+		let rect = NSRect(origin: origin, size: size)
+		window = NSWindow(contentRect: rect,
+						  styleMask: [.miniaturizable, .closable, .resizable, .titled, .fullSizeContentView],
+						  backing: .buffered,
+						  defer: false)
+		window?.toolbarStyle = .unified
+		window?.titlebarSeparatorStyle = .automatic
+		window?.title = "Just To-Do List"
+		window?.contentViewController = MainSplitViewController()
+		window?.makeKeyAndOrderFront(nil)
+		
+		
 	}
 
 	func applicationWillTerminate(_ aNotification: Notification) {
 		// Insert code here to tear down your application
 	}
+	
+	
+	func setupToolbar() {
+		let toolbar = NSToolbar()
+		
+	}
+	
+	func setupMainMenu() {
+		let menu = NSMenu()
+		
+		menu.addItem(NSMenuItem(title: "Задания", action: nil, keyEquivalent: ""))
+		
+		//NSApplication.shared.mainMenu = menu
+		NSApp.menu = menu
+	}
+	
+	
+	
 
 	// MARK: - Core Data stack
 

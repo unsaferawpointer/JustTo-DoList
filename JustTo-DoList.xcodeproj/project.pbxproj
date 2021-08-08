@@ -11,7 +11,12 @@
 		4CD00B7526BFBD8A00AC491E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD00B7426BFBD8A00AC491E /* ViewController.swift */; };
 		4CD00B7826BFBD8A00AC491E /* JustTo_DoList.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4CD00B7626BFBD8A00AC491E /* JustTo_DoList.xcdatamodeld */; };
 		4CD00B7A26BFBD8B00AC491E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4CD00B7926BFBD8B00AC491E /* Assets.xcassets */; };
-		4CD00B7D26BFBD8B00AC491E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CD00B7B26BFBD8B00AC491E /* Main.storyboard */; };
+		4CD00B8626BFC00300AC491E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD00B8526BFC00300AC491E /* main.swift */; };
+		4CD00B8926BFC16B00AC491E /* MainSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD00B8826BFC16B00AC491E /* MainSplitViewController.swift */; };
+		4CD00B8D26BFCB9800AC491E /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD00B8C26BFCB9800AC491E /* MainWindowController.swift */; };
+		4CD00B9126BFDC6500AC491E /* Core Data Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD00B9026BFDC6500AC491E /* Core Data Model.swift */; };
+		4CD00B9326BFF17500AC491E /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD00B9226BFF17500AC491E /* ContentViewController.swift */; };
+		4CD00B9626BFF1BA00AC491E /* TableBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD00B9526BFF1BA00AC491E /* TableBuilder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,9 +25,14 @@
 		4CD00B7426BFBD8A00AC491E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		4CD00B7726BFBD8A00AC491E /* JustTo_DoList.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = JustTo_DoList.xcdatamodel; sourceTree = "<group>"; };
 		4CD00B7926BFBD8B00AC491E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		4CD00B7C26BFBD8B00AC491E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4CD00B7E26BFBD8B00AC491E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4CD00B7F26BFBD8B00AC491E /* JustTo_DoList.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = JustTo_DoList.entitlements; sourceTree = "<group>"; };
+		4CD00B8526BFC00300AC491E /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		4CD00B8826BFC16B00AC491E /* MainSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSplitViewController.swift; sourceTree = "<group>"; };
+		4CD00B8C26BFCB9800AC491E /* MainWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
+		4CD00B9026BFDC6500AC491E /* Core Data Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Core Data Model.swift"; sourceTree = "<group>"; };
+		4CD00B9226BFF17500AC491E /* ContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
+		4CD00B9526BFF1BA00AC491E /* TableBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableBuilder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,15 +65,52 @@
 		4CD00B7126BFBD8A00AC491E /* JustTo-DoList */ = {
 			isa = PBXGroup;
 			children = (
+				4CD00B8F26BFDC4E00AC491E /* Core Data */,
+				4CD00B8E26BFCBA400AC491E /* Window Controllers */,
+				4CD00B8726BFC14500AC491E /* View Controllers */,
 				4CD00B7226BFBD8A00AC491E /* AppDelegate.swift */,
-				4CD00B7426BFBD8A00AC491E /* ViewController.swift */,
 				4CD00B7926BFBD8B00AC491E /* Assets.xcassets */,
-				4CD00B7B26BFBD8B00AC491E /* Main.storyboard */,
 				4CD00B7E26BFBD8B00AC491E /* Info.plist */,
 				4CD00B7F26BFBD8B00AC491E /* JustTo_DoList.entitlements */,
 				4CD00B7626BFBD8A00AC491E /* JustTo_DoList.xcdatamodeld */,
+				4CD00B8526BFC00300AC491E /* main.swift */,
 			);
 			path = "JustTo-DoList";
+			sourceTree = "<group>";
+		};
+		4CD00B8726BFC14500AC491E /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				4CD00B7426BFBD8A00AC491E /* ViewController.swift */,
+				4CD00B9426BFF1BA00AC491E /* Builders */,
+				4CD00B8826BFC16B00AC491E /* MainSplitViewController.swift */,
+				4CD00B9226BFF17500AC491E /* ContentViewController.swift */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		4CD00B8E26BFCBA400AC491E /* Window Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				4CD00B8C26BFCB9800AC491E /* MainWindowController.swift */,
+			);
+			path = "Window Controllers";
+			sourceTree = "<group>";
+		};
+		4CD00B8F26BFDC4E00AC491E /* Core Data */ = {
+			isa = PBXGroup;
+			children = (
+				4CD00B9026BFDC6500AC491E /* Core Data Model.swift */,
+			);
+			path = "Core Data";
+			sourceTree = "<group>";
+		};
+		4CD00B9426BFF1BA00AC491E /* Builders */ = {
+			isa = PBXGroup;
+			children = (
+				4CD00B9526BFF1BA00AC491E /* TableBuilder.swift */,
+			);
+			path = Builders;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -124,7 +171,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4CD00B7A26BFBD8B00AC491E /* Assets.xcassets in Resources */,
-				4CD00B7D26BFBD8B00AC491E /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,24 +181,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CD00B9326BFF17500AC491E /* ContentViewController.swift in Sources */,
+				4CD00B8926BFC16B00AC491E /* MainSplitViewController.swift in Sources */,
 				4CD00B7526BFBD8A00AC491E /* ViewController.swift in Sources */,
+				4CD00B9126BFDC6500AC491E /* Core Data Model.swift in Sources */,
+				4CD00B8D26BFCB9800AC491E /* MainWindowController.swift in Sources */,
 				4CD00B7326BFBD8A00AC491E /* AppDelegate.swift in Sources */,
+				4CD00B9626BFF1BA00AC491E /* TableBuilder.swift in Sources */,
+				4CD00B8626BFC00300AC491E /* main.swift in Sources */,
 				4CD00B7826BFBD8A00AC491E /* JustTo_DoList.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		4CD00B7B26BFBD8B00AC491E /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4CD00B7C26BFBD8B00AC491E /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		4CD00B8026BFBD8B00AC491E /* Debug */ = {
@@ -285,7 +326,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.antoncherkasov.JustTo-DoList";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -307,7 +348,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.antoncherkasov.JustTo-DoList";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
