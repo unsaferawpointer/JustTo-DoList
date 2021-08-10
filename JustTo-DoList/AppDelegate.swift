@@ -74,8 +74,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 }
 
 private extension NSToolbarItem.Identifier {
-	static let addTask		= NSToolbarItem.Identifier(rawValue: "addTask")
+	static let addTask		= NSToolbarItem.Identifier(rawValue: "newTask")
 	static let searchField	= NSToolbarItem.Identifier(rawValue: "searchField")
+}
+
+extension NSNotification.Name {
+	static let newTask		= NSNotification.Name("newTask")
 }
 
 extension AppDelegate : NSToolbarDelegate {
@@ -101,7 +105,7 @@ extension AppDelegate : NSToolbarDelegate {
 		} else if itemIdentifier == .addTask {
 			toolbarItem = NSToolbarItem(itemIdentifier: .addTask)
 			if let image = NSImage(systemSymbolName: "plus", accessibilityDescription: nil) {
-				let button = NSButton(image: image, target: nil, action: #selector(addTask(_:)))
+				let button = NSButton(image: image, target: nil, action: #selector(newTask(_:)))
 				button.bezelStyle = .recessed
 				button.showsBorderOnlyWhileMouseInside = true
 				button.isBordered = true
@@ -112,8 +116,8 @@ extension AppDelegate : NSToolbarDelegate {
 		return toolbarItem
 	}
 	
-	@objc func addTask(_ sender: Any?) {
-		
+	@objc func newTask(_ sender: Any?) {
+		NotificationCenter.default.post(name: .newTask, object: nil)
 	}
 	
 }

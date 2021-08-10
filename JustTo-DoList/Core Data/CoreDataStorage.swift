@@ -30,8 +30,7 @@ class CoreDataStorage {
 		*/
 		let container = NSPersistentCloudKitContainer(name: "JustTo_DoList")
 		container.persistentStoreDescriptions.first?.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
-		container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-		container.viewContext.automaticallyMergesChangesFromParent = true
+		
 		container.loadPersistentStores(completionHandler: { (storeDescription, error) in
 			if let error = error {
 				// Replace this implementation with code to handle the error appropriately.
@@ -48,6 +47,8 @@ class CoreDataStorage {
 				fatalError("Unresolved error \(error)")
 			}
 		})
+		container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+		container.viewContext.automaticallyMergesChangesFromParent = true
 		return container
 	}()
 	

@@ -72,12 +72,10 @@ class ContentViewController: NSViewController {
 	}
 	
 	func setupScrollView() {
-		
 		let scrollView = NSScrollView()
 		scrollView.backgroundColor = NSColor.clear
 		scrollView.hasHorizontalScroller = false
 		scrollView.hasVerticalScroller = true
-		
 		scrollView.translatesAutoresizingMaskIntoConstraints = false
 		self.view.addSubview(scrollView)
 		self.view.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor).isActive = true
@@ -89,7 +87,22 @@ class ContentViewController: NSViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		
+		tableView.dataSource = self
+		tableView.delegate = self
+		
+		initData()
+		addObservers()
+		
 		store.delegate = self
+		tableView.sizeLastColumnToFit()
+	}
+	
+	private func addObservers() {
+		NotificationCenter.default.addObserver(self, selector: #selector(newTask(_:)), name: .newTask, object: nil)
+	}
+	
+	private func initData() {
 		store.performFetch(with: nil, sortDescriptors: [
 			NSSortDescriptor(keyPath: \Task.isDone, ascending: true),
 			NSSortDescriptor(keyPath: \Task.completionDate, ascending: true),
@@ -98,11 +111,6 @@ class ContentViewController: NSViewController {
 			NSSortDescriptor(keyPath: \Task.text, ascending: true),
 			NSSortDescriptor(keyPath: \Task.typeMask, ascending: true)
 		])
-		tableView.sizeLastColumnToFit()
-	}
-	
-	func initData() {
-		
 	}
 	
 	override func viewDidAppear() {
@@ -112,4 +120,3 @@ class ContentViewController: NSViewController {
 	}
 	
 }
-
