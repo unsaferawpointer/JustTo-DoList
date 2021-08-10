@@ -11,5 +11,6 @@ extension ContentViewController {
 	@objc
 	func newTask(_ sender: Any?) {
 		print(#function)
+		factory.newObject()
 	}
 }

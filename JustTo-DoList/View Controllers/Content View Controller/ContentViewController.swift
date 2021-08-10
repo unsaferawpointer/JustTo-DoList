@@ -24,6 +24,21 @@ extension NSUserInterfaceItemIdentifier {
 
 class ContentViewController: NSViewController {
 	
+	var viewContext: NSManagedObjectContext {
+		return CoreDataStorage.shared.mainContext
+	}
+	
+	let store = Store<Task>.init(viewContext: CoreDataStorage.shared.mainContext, sortBy: [
+		NSSortDescriptor(keyPath: \Task.isDone, ascending: true),
+		NSSortDescriptor(keyPath: \Task.completionDate, ascending: true),
+		NSSortDescriptor(keyPath: \Task.isFavorite, ascending: true),
+		NSSortDescriptor(keyPath: \Task.creationDate, ascending: true),
+		NSSortDescriptor(keyPath: \Task.text, ascending: true),
+		NSSortDescriptor(keyPath: \Task.typeMask, ascending: true)
+	])
+	
+	let factory = ObjectFactory<Task>.init(context: CoreDataStorage.shared.mainContext)
+	
 	lazy var tableView : NSTableView = {
 		let builder = TableViewBuilder()
 		builder.addColumn("􀆅",
@@ -74,7 +89,20 @@ class ContentViewController: NSViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		store.delegate = self
+		store.performFetch(with: nil, sortDescriptors: [
+			NSSortDescriptor(keyPath: \Task.isDone, ascending: true),
+			NSSortDescriptor(keyPath: \Task.completionDate, ascending: true),
+			NSSortDescriptor(keyPath: \Task.isFavorite, ascending: true),
+			NSSortDescriptor(keyPath: \Task.creationDate, ascending: true),
+			NSSortDescriptor(keyPath: \Task.text, ascending: true),
+			NSSortDescriptor(keyPath: \Task.typeMask, ascending: true)
+		])
 		tableView.sizeLastColumnToFit()
+	}
+	
+	func initData() {
+		
 	}
 	
 	override func viewDidAppear() {
