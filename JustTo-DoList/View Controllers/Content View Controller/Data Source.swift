@@ -14,6 +14,22 @@ extension ContentViewController : NSTableViewDataSource {
 	}
 }
 
+extension ContentViewController {
+	
+	func configureDataSource() {
+		let dataSource : NSTableViewDiffableDataSource<String, NSManagedObjectID> = .init(tableView: tableView) { table, column, index, objectID in
+			guard let task = try? self.viewContext.existingObject(with: objectID) as? Task else {
+				return NSView()
+			}
+			let cell = self.create(viewFor: column, task: task)
+			return cell
+		}
+		
+		self.dataSource = dataSource
+	}
+	
+}
+
 extension ContentViewController : StoreDelegate {
 	
 	func storeWillChangeContent() {
@@ -29,24 +45,24 @@ extension ContentViewController : StoreDelegate {
 	}
 	
 	func storeDidDelete(object: NSManagedObject, at index: Int) {
-		tableView.removeRows(at: IndexSet(integer: index), withAnimation: .effectFade)
+//		tableView.removeRows(at: IndexSet(integer: index), withAnimation: .effectFade)
 	}
 	
 	func storeDidInsert(object: NSManagedObject, at index: Int) {
-		tableView.insertRows(at: IndexSet(integer: index), withAnimation: .effectFade)
+//		tableView.insertRows(at: IndexSet(integer: index), withAnimation: .effectFade)
 	}
 	
 	func storeDidUpdate(object: NSManagedObject, at index: Int) {
-		let columnIndexes = IndexSet(integersIn: 0..<tableView.numberOfColumns)
-		tableView.reloadData(forRowIndexes: IndexSet(integer: index), columnIndexes: columnIndexes)
+//		let columnIndexes = IndexSet(integersIn: 0..<tableView.numberOfColumns)
+//		tableView.reloadData(forRowIndexes: IndexSet(integer: index), columnIndexes: columnIndexes)
 	}
 	
 	func storeDidMove(object: NSManagedObject, from oldIndex: Int, to newIndex: Int) {
-		tableView.moveRow(at: oldIndex, to: newIndex)
+//		tableView.moveRow(at: oldIndex, to: newIndex)
 	}
 	
 	func storeDidChangeContent() {
-		tableView.endUpdates()
+//		tableView.endUpdates()
 	}
 	
 	func storeDidReloadContent() {
@@ -54,7 +70,7 @@ extension ContentViewController : StoreDelegate {
 	}
 	
 	func storeDidChangeContent(with snapshot: NSDiffableDataSourceSnapshotReference) {
-		
+		dataSource.apply(snapshot as NSDiffableDataSourceSnapshot<String, NSManagedObjectID>, animatingDifferences: true)
 	}
 	
 }

@@ -8,6 +8,31 @@
 import AppKit
 
 extension ContentViewController {
+	
+	func create(viewFor tableColumn: NSTableColumn?, task: Task) -> NSView {
+		
+		guard let columnId = tableColumn?.identifier else {
+			return NSView()
+		}
+		
+		switch columnId {
+		case .checkboxColumn:
+			let cell = checkboxCell(in: tableView, for: task)
+			return cell
+		case .textColumn:
+			let cell = textCell(in: tableView, for: task)
+			return cell
+		case .listColumn:
+			let cell = listCell(in: tableView, for: task)
+			return cell
+		case .isFavoriteColumn:
+			let cell = favoriteCell(in: tableView, for: task)
+			return cell
+		default:
+			return NSView()
+		}
+	}
+	
 	func textCell(in tableView: NSTableView,
 				  for task: Task) -> TextCellView {
 		let id = NSUserInterfaceItemIdentifier("text_cell")

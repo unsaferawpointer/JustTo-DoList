@@ -39,6 +39,8 @@ class ContentViewController: NSViewController {
 	
 	let factory = ObjectFactory<Task>.init(context: CoreDataStorage.shared.mainContext)
 	
+	var dataSource: NSTableViewDiffableDataSource<String, NSManagedObjectID>!
+	
 	lazy var tableView : NSTableView = {
 		let builder = TableViewBuilder()
 		builder.addColumn("􀆅",
@@ -88,10 +90,11 @@ class ContentViewController: NSViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		tableView.dataSource = self
-		tableView.delegate = self
+		//tableView.dataSource = self
+		//tableView.delegate = self
 		
 		initData()
+		configureDataSource()
 		addObservers()
 		
 		store.delegate = self
@@ -101,6 +104,8 @@ class ContentViewController: NSViewController {
 	private func addObservers() {
 		NotificationCenter.default.addObserver(self, selector: #selector(newTask(_:)), name: .newTask, object: nil)
 	}
+	
+	
 	
 	private func initData() {
 		store.performFetch(with: nil, sortDescriptors: [

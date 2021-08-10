@@ -34,8 +34,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		window?.isRestorable = true
 		window?.identifier = NSUserInterfaceItemIdentifier("main_window")
 		window?.toolbarStyle = .unified
+		window?.appearance = NSAppearance(named: .vibrantLight)
 		window?.titlebarSeparatorStyle = .automatic
-		window?.titleVisibility = .visible
+		window?.titleVisibility = .hidden
 		window?.contentViewController = MainSplitViewController()
 		windowController = MainWindowController(window: window)
 		windowController?.shouldCascadeWindows = false
