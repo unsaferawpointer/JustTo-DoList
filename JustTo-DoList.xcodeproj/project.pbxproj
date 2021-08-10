@@ -17,6 +17,7 @@
 		4C48B66826C295E4001DCA1E /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C48B66526C295E4001DCA1E /* CheckBox.swift */; };
 		4C48B66926C295E4001DCA1E /* CGMutablePath Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C48B66626C295E4001DCA1E /* CGMutablePath Extension.swift */; };
 		4C48B66B26C29621001DCA1E /* TableView Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C48B66A26C29621001DCA1E /* TableView Delegate.swift */; };
+		4C48B66D26C2EE39001DCA1E /* Content Menu Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C48B66C26C2EE39001DCA1E /* Content Menu Extension.swift */; };
 		4CD00B7326BFBD8A00AC491E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD00B7226BFBD8A00AC491E /* AppDelegate.swift */; };
 		4CD00B7526BFBD8A00AC491E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD00B7426BFBD8A00AC491E /* ViewController.swift */; };
 		4CD00B7826BFBD8A00AC491E /* JustTo_DoList.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4CD00B7626BFBD8A00AC491E /* JustTo_DoList.xcdatamodeld */; };
@@ -46,6 +47,7 @@
 		4C48B66526C295E4001DCA1E /* CheckBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
 		4C48B66626C295E4001DCA1E /* CGMutablePath Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGMutablePath Extension.swift"; sourceTree = "<group>"; };
 		4C48B66A26C29621001DCA1E /* TableView Delegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TableView Delegate.swift"; sourceTree = "<group>"; };
+		4C48B66C26C2EE39001DCA1E /* Content Menu Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Content Menu Extension.swift"; sourceTree = "<group>"; };
 		4CD00B6F26BFBD8A00AC491E /* JustTo-DoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "JustTo-DoList.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CD00B7226BFBD8A00AC491E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4CD00B7426BFBD8A00AC491E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 		4CD00B9726C0540000AC491E /* Content View Controller */ = {
 			isa = PBXGroup;
 			children = (
+				4C48B66C26C2EE39001DCA1E /* Content Menu Extension.swift */,
 				4CD00B9226BFF17500AC491E /* ContentViewController.swift */,
 				4CD00B9826C0542A00AC491E /* Actions Extension.swift */,
 				4C48B65526C2570B001DCA1E /* Data Source.swift */,
@@ -304,6 +307,7 @@
 				4CD00B9126BFDC6500AC491E /* Core Data Model.swift in Sources */,
 				4CD00B8D26BFCB9800AC491E /* MainWindowController.swift in Sources */,
 				4CD00B7326BFBD8A00AC491E /* AppDelegate.swift in Sources */,
+				4C48B66D26C2EE39001DCA1E /* Content Menu Extension.swift in Sources */,
 				4C48B66826C295E4001DCA1E /* CheckBox.swift in Sources */,
 				4CD00B9C26C05E2700AC491E /* CoreDataStorage.swift in Sources */,
 				4CD00B9626BFF1BA00AC491E /* TableBuilder.swift in Sources */,

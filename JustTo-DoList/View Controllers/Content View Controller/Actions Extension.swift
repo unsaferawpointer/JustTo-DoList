@@ -13,4 +13,8 @@ extension ContentViewController {
 		print(#function)
 		factory.newObject()
 	}
+	@objc
+	func duplicate(_ sender: Any?) {
+		factory.duplicate(object: <#T##Task#>)
+	}
 }
