@@ -34,7 +34,6 @@ extension MainSplitViewController {
 	
 	private func setupUI() {
 		splitView.dividerStyle = .thin
-		
 		setupSidebarItem()
 		setupContentItem()
 	}
@@ -43,15 +42,18 @@ extension MainSplitViewController {
 		let sidebarVC = ViewController()
 		let sidebarItem = NSSplitViewItem(sidebarWithViewController: sidebarVC)
 		sidebarItem.canCollapse = true
-		sidebarItem.minimumThickness = 160.0
+		sidebarItem.minimumThickness = 120.0
 		sidebarItem.maximumThickness = 220.0
-		sidebarItem.holdingPriority = .defaultHigh
+		let rawHoldingPriority = NSLayoutConstraint.Priority.defaultLow.rawValue + 1
+		sidebarItem.holdingPriority = NSLayoutConstraint.Priority.init(rawValue: rawHoldingPriority)
 		addSplitViewItem(sidebarItem)
 	}
 	
 	private func setupContentItem() {
 		let contentVC = ContentViewController()
 		let contentItem = NSSplitViewItem(contentListWithViewController: contentVC)
+		contentItem.allowsFullHeightLayout = true
+		contentItem.titlebarSeparatorStyle = .none
 		contentItem.minimumThickness = 400.0
 		contentItem.holdingPriority = .defaultLow
 		addSplitViewItem(contentItem)

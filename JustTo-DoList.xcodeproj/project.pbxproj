@@ -17,6 +17,12 @@
 		4CD00B9126BFDC6500AC491E /* Core Data Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD00B9026BFDC6500AC491E /* Core Data Model.swift */; };
 		4CD00B9326BFF17500AC491E /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD00B9226BFF17500AC491E /* ContentViewController.swift */; };
 		4CD00B9626BFF1BA00AC491E /* TableBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD00B9526BFF1BA00AC491E /* TableBuilder.swift */; };
+		4CD00B9926C0542A00AC491E /* Actions Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD00B9826C0542A00AC491E /* Actions Extension.swift */; };
+		4CD00B9C26C05E2700AC491E /* CoreDataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD00B9B26C05E2700AC491E /* CoreDataStorage.swift */; };
+		4CD00BA026C066F700AC491E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4CD00BA226C066F700AC491E /* Localizable.strings */; };
+		4CD00BA526C170DA00AC491E /* ObjectFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD00BA426C170DA00AC491E /* ObjectFactory.swift */; };
+		4CD00BA826C1820100AC491E /* Task+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD00BA626C1820100AC491E /* Task+CoreDataClass.swift */; };
+		4CD00BA926C1820100AC491E /* Task+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD00BA726C1820100AC491E /* Task+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +39,13 @@
 		4CD00B9026BFDC6500AC491E /* Core Data Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Core Data Model.swift"; sourceTree = "<group>"; };
 		4CD00B9226BFF17500AC491E /* ContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
 		4CD00B9526BFF1BA00AC491E /* TableBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableBuilder.swift; sourceTree = "<group>"; };
+		4CD00B9826C0542A00AC491E /* Actions Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Actions Extension.swift"; sourceTree = "<group>"; };
+		4CD00B9B26C05E2700AC491E /* CoreDataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStorage.swift; sourceTree = "<group>"; };
+		4CD00BA126C066F700AC491E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		4CD00BA326C066FD00AC491E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		4CD00BA426C170DA00AC491E /* ObjectFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectFactory.swift; sourceTree = "<group>"; };
+		4CD00BA626C1820100AC491E /* Task+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+CoreDataClass.swift"; sourceTree = "<group>"; };
+		4CD00BA726C1820100AC491E /* Task+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +62,8 @@
 		4CD00B6626BFBD8A00AC491E = {
 			isa = PBXGroup;
 			children = (
+				4CD00BA626C1820100AC491E /* Task+CoreDataClass.swift */,
+				4CD00BA726C1820100AC491E /* Task+CoreDataProperties.swift */,
 				4CD00B7126BFBD8A00AC491E /* JustTo-DoList */,
 				4CD00B7026BFBD8A00AC491E /* Products */,
 			);
@@ -65,15 +80,17 @@
 		4CD00B7126BFBD8A00AC491E /* JustTo-DoList */ = {
 			isa = PBXGroup;
 			children = (
+				4CD00BA226C066F700AC491E /* Localizable.strings */,
+				4CD00B7226BFBD8A00AC491E /* AppDelegate.swift */,
 				4CD00B8F26BFDC4E00AC491E /* Core Data */,
 				4CD00B8E26BFCBA400AC491E /* Window Controllers */,
 				4CD00B8726BFC14500AC491E /* View Controllers */,
-				4CD00B7226BFBD8A00AC491E /* AppDelegate.swift */,
 				4CD00B7926BFBD8B00AC491E /* Assets.xcassets */,
 				4CD00B7E26BFBD8B00AC491E /* Info.plist */,
 				4CD00B7F26BFBD8B00AC491E /* JustTo_DoList.entitlements */,
 				4CD00B7626BFBD8A00AC491E /* JustTo_DoList.xcdatamodeld */,
 				4CD00B8526BFC00300AC491E /* main.swift */,
+				4CD00B9D26C05E8000AC491E /* Temp */,
 			);
 			path = "JustTo-DoList";
 			sourceTree = "<group>";
@@ -81,10 +98,10 @@
 		4CD00B8726BFC14500AC491E /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				4CD00B7426BFBD8A00AC491E /* ViewController.swift */,
+				4CD00B9726C0540000AC491E /* Content View Controller */,
 				4CD00B9426BFF1BA00AC491E /* Builders */,
+				4CD00B7426BFBD8A00AC491E /* ViewController.swift */,
 				4CD00B8826BFC16B00AC491E /* MainSplitViewController.swift */,
-				4CD00B9226BFF17500AC491E /* ContentViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -100,7 +117,8 @@
 		4CD00B8F26BFDC4E00AC491E /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
-				4CD00B9026BFDC6500AC491E /* Core Data Model.swift */,
+				4CD00B9B26C05E2700AC491E /* CoreDataStorage.swift */,
+				4CD00BA426C170DA00AC491E /* ObjectFactory.swift */,
 			);
 			path = "Core Data";
 			sourceTree = "<group>";
@@ -111,6 +129,23 @@
 				4CD00B9526BFF1BA00AC491E /* TableBuilder.swift */,
 			);
 			path = Builders;
+			sourceTree = "<group>";
+		};
+		4CD00B9726C0540000AC491E /* Content View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				4CD00B9226BFF17500AC491E /* ContentViewController.swift */,
+				4CD00B9826C0542A00AC491E /* Actions Extension.swift */,
+			);
+			path = "Content View Controller";
+			sourceTree = "<group>";
+		};
+		4CD00B9D26C05E8000AC491E /* Temp */ = {
+			isa = PBXGroup;
+			children = (
+				4CD00B9026BFDC6500AC491E /* Core Data Model.swift */,
+			);
+			path = Temp;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -154,6 +189,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = 4CD00B6626BFBD8A00AC491E;
 			productRefGroup = 4CD00B7026BFBD8A00AC491E /* Products */;
@@ -171,6 +207,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4CD00B7A26BFBD8B00AC491E /* Assets.xcassets in Resources */,
+				4CD00BA026C066F700AC491E /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -181,12 +218,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CD00B9926C0542A00AC491E /* Actions Extension.swift in Sources */,
+				4CD00BA526C170DA00AC491E /* ObjectFactory.swift in Sources */,
+				4CD00BA826C1820100AC491E /* Task+CoreDataClass.swift in Sources */,
 				4CD00B9326BFF17500AC491E /* ContentViewController.swift in Sources */,
+				4CD00BA926C1820100AC491E /* Task+CoreDataProperties.swift in Sources */,
 				4CD00B8926BFC16B00AC491E /* MainSplitViewController.swift in Sources */,
 				4CD00B7526BFBD8A00AC491E /* ViewController.swift in Sources */,
 				4CD00B9126BFDC6500AC491E /* Core Data Model.swift in Sources */,
 				4CD00B8D26BFCB9800AC491E /* MainWindowController.swift in Sources */,
 				4CD00B7326BFBD8A00AC491E /* AppDelegate.swift in Sources */,
+				4CD00B9C26C05E2700AC491E /* CoreDataStorage.swift in Sources */,
 				4CD00B9626BFF1BA00AC491E /* TableBuilder.swift in Sources */,
 				4CD00B8626BFC00300AC491E /* main.swift in Sources */,
 				4CD00B7826BFBD8A00AC491E /* JustTo_DoList.xcdatamodeld in Sources */,
@@ -194,6 +236,18 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		4CD00BA226C066F700AC491E /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4CD00BA126C066F700AC491E /* ru */,
+				4CD00BA326C066FD00AC491E /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		4CD00B8026BFBD8B00AC491E /* Debug */ = {

@@ -1,0 +1,15 @@
+/* 
+  Localizable.strings
+  JustTo-DoList
+
+  Created by Anton Cherkasov on 08.08.2021.
+  
+*/
+
+// Toolbar
+
+"toolbar_searchfield_placeholder" = "Поиск";
+
+// Content View
+
+"tableview_column_task" = "Задание";

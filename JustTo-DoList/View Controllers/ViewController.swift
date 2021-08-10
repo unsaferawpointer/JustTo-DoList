@@ -11,6 +11,7 @@ class ViewController: NSViewController {
 	
 	override func loadView() {
 		self.view = NSView()
+		view.autoresizingMask = [.height, .width]
 		
 //		self.view.wantsLayer = true
 //		self.view.layer?.backgroundColor = NSColor.yellow.cgColor

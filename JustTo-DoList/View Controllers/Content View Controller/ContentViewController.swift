@@ -24,22 +24,13 @@ extension NSUserInterfaceItemIdentifier {
 
 class ContentViewController: NSViewController {
 	
-	lazy var scrollView : NSScrollView = {
-		let _scrollView = NSScrollView()
-		_scrollView.translatesAutoresizingMaskIntoConstraints = false
-		_scrollView.backgroundColor = NSColor.clear
-		_scrollView.hasHorizontalScroller = false
-		_scrollView.hasVerticalScroller = true
-		return _scrollView
-	}()
-	
 	lazy var tableView : NSTableView = {
 		let builder = TableViewBuilder()
 		builder.addColumn("􀆅",
 						  identifier: .checkboxColumn,
 						  style: .fixed(size: .oneSymbol),
 						  sortDescriptor: NSSortDescriptor(keyPath: \Task.isDone, ascending: true))
-		builder.addColumn("Задание",
+		builder.addColumn(NSLocalizedString("tableview_column_task", comment: ""),
 						  identifier: .textColumn,
 						  style: .flexible(size: .primary),
 						  sortDescriptor: NSSortDescriptor(keyPath: \Task.text, ascending: true))
@@ -66,6 +57,13 @@ class ContentViewController: NSViewController {
 	}
 	
 	func setupScrollView() {
+		
+		let scrollView = NSScrollView()
+		scrollView.backgroundColor = NSColor.clear
+		scrollView.hasHorizontalScroller = false
+		scrollView.hasVerticalScroller = true
+		
+		scrollView.translatesAutoresizingMaskIntoConstraints = false
 		self.view.addSubview(scrollView)
 		self.view.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor).isActive = true
 		self.view.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
@@ -76,16 +74,13 @@ class ContentViewController: NSViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
-//		tableView.delegate = self
-//		tableView.dataSource = self
-		
 		tableView.sizeLastColumnToFit()
-		
 	}
 	
 	override func viewDidAppear() {
 		super.viewDidAppear()
+		self.view.window?.title = "Inbox"
+		self.view.window?.subtitle = "12 Tasks, 5 completed"
 	}
 	
 }
