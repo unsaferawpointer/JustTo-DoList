@@ -69,10 +69,15 @@ extension ObjectFactory {
 	}
 	
 	@discardableResult
-	public func newObject() -> T {
-		let newObject = T(context: viewContext)
-		save()
-		return newObject
+	public func newObject() -> T? {
+//		let newObject = T(context: viewContext)
+//		try? viewContext.obtainPermanentIDs(for: [newObject])
+//		save()
+		CoreDataStorage.shared.performBackground { privateContext in
+			let newObject = T(context: privateContext)
+			try? privateContext.save()
+		}
+		return nil
 	}
 	
 	public func newObject<Value>(with value: Value, for keyPath: ReferenceWritableKeyPath<T, Value>) -> T {
@@ -82,58 +87,65 @@ extension ObjectFactory {
 		return newObject
 	}
 	
-	public func newObject(configurationBlock: (T) -> ()) {
-		viewContext.performAndWait {
-			let newObject = self.newObject()
-			configurationBlock(newObject)
-			save()
-		}
-	}
+//	public func newObject(configurationBlock: (T) -> ()) {
+//		let newObject = self.newObject()
+//		configurationBlock(newObject)
+//		save()
+//	}
 	
 	public func set<Value>(value: Value,
 						   for keyPath: ReferenceWritableKeyPath<T, Value>,
 						   in object: T,
 						   updateRelationships: Bool = false) {
-		viewContext.performAndWait {
 		object[keyPath: keyPath] = value
 		save()
-		}
 //		if updateRelationships {
 //			updateRelations(of: object)
 //		}
 	}
 	
 	public func delete(object: T) {
-		viewContext.performAndWait {
 		viewContext.delete(object)
 		save()
-		}
 	}
 	
 	// Batch operation
 	
 	public func delete(objects: [T]) {
-		viewContext.performAndWait {
-		objects.forEach{
-			viewContext.delete($0)
+		
+		let objectIDs = objects.compactMap{ $0.objectID }
+		
+		CoreDataStorage.shared.performBackground { privateContext in
+			objectIDs.forEach{
+				let object = privateContext.object(with: $0)
+				privateContext.delete(object)
+			}
+			try? privateContext.save()
 		}
-		save()
-		}
+		
 	}
 	
 	public func set<Value>(value: Value, for keyPath: ReferenceWritableKeyPath<T, Value>, to objects: [T]) {
-		viewContext.performAndWait {
-			objects.forEach {
-				$0[keyPath: keyPath] = value
-			}
-			save()
+		objects.forEach {
+			$0[keyPath: keyPath] = value
 		}
+		save()
 	}
 }
 
 extension ObjectFactory where T : Duplicatable {
 	@discardableResult
 	func duplicate(object: T) -> T {
-		return object.duplicate()
+		let duplicatedObject = object.duplicate()
+		try? viewContext.obtainPermanentIDs(for: [duplicatedObject])
+		save()
+		return duplicatedObject
+	}
+	@discardableResult
+	func duplicate(objects: [T]) -> [T] {
+		let duplicatedObjects = objects.compactMap { $0.duplicate() }
+		try? viewContext.obtainPermanentIDs(for: duplicatedObjects)
+		save()
+		return duplicatedObjects
 	}
 }

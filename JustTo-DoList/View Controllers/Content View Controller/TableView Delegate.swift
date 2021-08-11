@@ -11,6 +11,7 @@ extension ContentViewController {
 	
 	func create(viewFor tableColumn: NSTableColumn?, task: Task) -> NSView {
 		
+		
 		guard let columnId = tableColumn?.identifier else {
 			return NSView()
 		}
@@ -55,9 +56,10 @@ extension ContentViewController {
 			let attrString = NSAttributedString(string: task.text, attributes: attributes)
 			cell?.textField.attributedStringValue = attrString
 		} else {
-			cell?.textField?.stringValue = task.text
+			cell?.textField?.stringValue = "\(task.text) \(task.id)"
 			cell?.textField?.textColor = .controlTextColor
 		}
+		
 		return cell!
 	}
 	
@@ -71,12 +73,10 @@ extension ContentViewController {
 			cell?.identifier = id
 		}
 		cell?.completionHandler = { [weak self] isOn in
-			CoreDataStorage.shared.mainContext.performAndWait {
-				task.setCompletion(isOn)
-				try! CoreDataStorage.shared.mainContext.save()
-			}
+			self?.factory.set(value: isOn, for: \.transientIsDone, in: task)
 		}
-		cell?.set(isOn: task.isDone)
+		cell?.set(isOn: task.transientIsDone)
+		//cell?.observe(keyPath: \Task.isFavorite, in: task)
 		return cell!
 	}
 	
@@ -104,12 +104,12 @@ extension ContentViewController {
 			cell?.identifier = .checkboxCell
 		}
 		
-		let objectID = task.objectID
 		cell?.completionHandler = { newValue in
 			task.isFavorite = newValue
 			try! CoreDataStorage.shared.mainContext.save()
 		}
 		cell?.set(isOn: task.isFavorite)
+		//cell?.observe(keyPath: \Task.isFavorite, in: task)
 		return cell!
 	}
 }

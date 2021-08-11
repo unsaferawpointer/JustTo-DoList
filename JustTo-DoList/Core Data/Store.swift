@@ -15,11 +15,20 @@ import UIKit
 import CoreData
 
 public protocol StoreDataSource {
-	associatedtype T
+	associatedtype T: NSManagedObject
 	var objects: [T] { get }
 	var numberOfObjects: Int { get }
 	var numberOfSections: Int { get }
 	func performFetch(with predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]) throws 
+}
+
+extension StoreDataSource {
+	func objects(for indexSet: IndexSet) -> [T] {
+		return indexSet.compactMap{ objects[$0]}
+	}
+	var objectsIDs: [NSManagedObjectID] {
+		return objects.compactMap { $0.objectID }
+	}
 }
 
 public protocol StoreDelegate : AnyObject {
@@ -61,9 +70,9 @@ public class Store<T: NSManagedObject>: NSObject, NSFetchedResultsControllerDele
 		print(#function)
 	}
 	
-	public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChangeContentWith snapshot: NSDiffableDataSourceSnapshotReference) {
-		delegate?.storeDidChangeContent(with: snapshot)
-	}
+//	public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChangeContentWith snapshot: NSDiffableDataSourceSnapshotReference) {
+//		delegate?.storeDidChangeContent(with: snapshot)
+//	}
 	
 	public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
 		switch type {

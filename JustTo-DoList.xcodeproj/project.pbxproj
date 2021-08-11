@@ -17,7 +17,9 @@
 		4C48B66826C295E4001DCA1E /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C48B66526C295E4001DCA1E /* CheckBox.swift */; };
 		4C48B66926C295E4001DCA1E /* CGMutablePath Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C48B66626C295E4001DCA1E /* CGMutablePath Extension.swift */; };
 		4C48B66B26C29621001DCA1E /* TableView Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C48B66A26C29621001DCA1E /* TableView Delegate.swift */; };
-		4C48B66D26C2EE39001DCA1E /* Content Menu Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C48B66C26C2EE39001DCA1E /* Content Menu Extension.swift */; };
+		4C48B66D26C2EE39001DCA1E /* Menu Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C48B66C26C2EE39001DCA1E /* Menu Extension.swift */; };
+		4C48B66F26C2EE78001DCA1E /* String Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C48B66E26C2EE78001DCA1E /* String Extension.swift */; };
+		4C48B67226C2EEF4001DCA1E /* NSTableView Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C48B67126C2EEF4001DCA1E /* NSTableView Extension.swift */; };
 		4CD00B7326BFBD8A00AC491E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD00B7226BFBD8A00AC491E /* AppDelegate.swift */; };
 		4CD00B7526BFBD8A00AC491E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD00B7426BFBD8A00AC491E /* ViewController.swift */; };
 		4CD00B7826BFBD8A00AC491E /* JustTo_DoList.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4CD00B7626BFBD8A00AC491E /* JustTo_DoList.xcdatamodeld */; };
@@ -47,7 +49,9 @@
 		4C48B66526C295E4001DCA1E /* CheckBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
 		4C48B66626C295E4001DCA1E /* CGMutablePath Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGMutablePath Extension.swift"; sourceTree = "<group>"; };
 		4C48B66A26C29621001DCA1E /* TableView Delegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TableView Delegate.swift"; sourceTree = "<group>"; };
-		4C48B66C26C2EE39001DCA1E /* Content Menu Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Content Menu Extension.swift"; sourceTree = "<group>"; };
+		4C48B66C26C2EE39001DCA1E /* Menu Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Menu Extension.swift"; sourceTree = "<group>"; };
+		4C48B66E26C2EE78001DCA1E /* String Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String Extension.swift"; sourceTree = "<group>"; };
+		4C48B67126C2EEF4001DCA1E /* NSTableView Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSTableView Extension.swift"; sourceTree = "<group>"; };
 		4CD00B6F26BFBD8A00AC491E /* JustTo-DoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "JustTo-DoList.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CD00B7226BFBD8A00AC491E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4CD00B7426BFBD8A00AC491E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -93,6 +97,7 @@
 		4C48B65826C295A6001DCA1E /* TableView Cells */ = {
 			isa = PBXGroup;
 			children = (
+				4C48B66E26C2EE78001DCA1E /* String Extension.swift */,
 				4C48B65E26C295C4001DCA1E /* Sidebar Cells */,
 				4C48B65926C295BC001DCA1E /* Content Cells */,
 			);
@@ -127,6 +132,14 @@
 			path = "Custom Views";
 			sourceTree = "<group>";
 		};
+		4C48B67026C2EE98001DCA1E /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				4C48B67126C2EEF4001DCA1E /* NSTableView Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		4CD00B6626BFBD8A00AC491E = {
 			isa = PBXGroup;
 			children = (
@@ -146,6 +159,7 @@
 		4CD00B7126BFBD8A00AC491E /* JustTo-DoList */ = {
 			isa = PBXGroup;
 			children = (
+				4C48B67026C2EE98001DCA1E /* Extensions */,
 				4C48B66326C295CF001DCA1E /* Custom Views */,
 				4C48B65826C295A6001DCA1E /* TableView Cells */,
 				4CD00BA226C066F700AC491E /* Localizable.strings */,
@@ -204,8 +218,8 @@
 		4CD00B9726C0540000AC491E /* Content View Controller */ = {
 			isa = PBXGroup;
 			children = (
-				4C48B66C26C2EE39001DCA1E /* Content Menu Extension.swift */,
 				4CD00B9226BFF17500AC491E /* ContentViewController.swift */,
+				4C48B66C26C2EE39001DCA1E /* Menu Extension.swift */,
 				4CD00B9826C0542A00AC491E /* Actions Extension.swift */,
 				4C48B65526C2570B001DCA1E /* Data Source.swift */,
 				4C48B66A26C29621001DCA1E /* TableView Delegate.swift */,
@@ -306,8 +320,9 @@
 				4CD00B7526BFBD8A00AC491E /* ViewController.swift in Sources */,
 				4CD00B9126BFDC6500AC491E /* Core Data Model.swift in Sources */,
 				4CD00B8D26BFCB9800AC491E /* MainWindowController.swift in Sources */,
+				4C48B66F26C2EE78001DCA1E /* String Extension.swift in Sources */,
 				4CD00B7326BFBD8A00AC491E /* AppDelegate.swift in Sources */,
-				4C48B66D26C2EE39001DCA1E /* Content Menu Extension.swift in Sources */,
+				4C48B66D26C2EE39001DCA1E /* Menu Extension.swift in Sources */,
 				4C48B66826C295E4001DCA1E /* CheckBox.swift in Sources */,
 				4CD00B9C26C05E2700AC491E /* CoreDataStorage.swift in Sources */,
 				4CD00B9626BFF1BA00AC491E /* TableBuilder.swift in Sources */,
@@ -316,6 +331,7 @@
 				4CD00B8626BFC00300AC491E /* main.swift in Sources */,
 				4CD00B7826BFBD8A00AC491E /* JustTo_DoList.xcdatamodeld in Sources */,
 				4C48B65C26C295BC001DCA1E /* SwitchCellView.swift in Sources */,
+				4C48B67226C2EEF4001DCA1E /* NSTableView Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

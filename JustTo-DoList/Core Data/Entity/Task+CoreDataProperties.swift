@@ -35,11 +35,16 @@ extension Task {
 		self.typeMask = 0
 	}
 	
-	func setCompletion(_ isDone: Bool) {
-		if self.isDone != isDone {
-			self.completionDate = isDone ? Date() : nil
+	var transientIsDone: Bool {
+		get {
+			return isDone
 		}
-		self.isDone = isDone
+		set {
+			if self.isDone != newValue {
+				self.completionDate = newValue ? Date() : nil
+				self.isDone = newValue
+			}
+		}
 	}
 
 }

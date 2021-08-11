@@ -22,7 +22,7 @@ class SwitchCellView: NSTableCellView {
 		}
 	}
 	
-	func subsribe<T: NSManagedObject>(keyPath: KeyPath<T, Bool>, in object: T) {
+	func observe<T: NSManagedObject>(keyPath: KeyPath<T, Bool>, in object: T) {
 		subsription = object.publisher(for: keyPath)
 			.sink { [weak self] isOn in
 				self?.set(isOn: isOn)

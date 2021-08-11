@@ -91,21 +91,34 @@ class ContentViewController: NSViewController {
 		super.viewDidLoad()
 		
 		//tableView.dataSource = self
-		//tableView.delegate = self
+		tableView.delegate = self
 		
-		initData()
-		configureDataSource()
+		
+		initContextMenu()
+		
 		addObservers()
 		
+		configureDataSource()
 		store.delegate = self
+		
+		
+		
 		tableView.sizeLastColumnToFit()
+	}
+	
+	override func viewWillAppear() {
+		super.viewWillAppear()
+		initData()
 	}
 	
 	private func addObservers() {
 		NotificationCenter.default.addObserver(self, selector: #selector(newTask(_:)), name: .newTask, object: nil)
 	}
 	
-	
+	private func initContextMenu() {
+		tableView.menu = createContextMenu()
+		tableView.target = self
+	}
 	
 	private func initData() {
 		store.performFetch(with: nil, sortDescriptors: [

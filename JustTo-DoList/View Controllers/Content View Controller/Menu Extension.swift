@@ -13,7 +13,7 @@ extension NSUserInterfaceItemIdentifier {
 
 extension ContentViewController {
 	
-	var contextMenu: NSMenu {
+	func createContextMenu() -> NSMenu {
 		// ******** Keys ********
 		let carriageReturnKey = String(utf16CodeUnits: [unichar(NSCarriageReturnCharacter)], count: 1)
 		let backspaceKey = String(utf16CodeUnits: [unichar(NSBackspaceCharacter)], count: 1)
@@ -58,23 +58,23 @@ extension ContentViewController {
 		// ******** Separator ********
 		menu.addItem(NSMenuItem.separator())
 		
-		// ******** My Day ********
-		let moveToMyDay = NSMenuItem()
-		moveToMyDay.title = NSLocalizedString(.menuMoveToMyDay, comment: "")
-		moveToMyDay.action = #selector(moveToMyDay(_:))
-		moveToMyDay.keyEquivalent = carriageReturnKey
-		moveToMyDay.keyEquivalentModifierMask = [.command, .shift]
-		menu.addItem(moveToMyDay)
-		
-		let removeFromMyDay = NSMenuItem()
-		removeFromMyDay.title = NSLocalizedString(.menuRemoveFromMyDay, comment: "")
-		removeFromMyDay.action = #selector(removeFromMyDay(_:))
-		removeFromMyDay.keyEquivalent = carriageReturnKey
-		removeFromMyDay.keyEquivalentModifierMask = [.command, .shift]
-		menu.addItem(removeFromMyDay)
-		
-		// ******** Separator ********
-		menu.addItem(NSMenuItem.separator())
+//		// ******** My Day ********
+//		let moveToMyDay = NSMenuItem()
+//		moveToMyDay.title = NSLocalizedString(.menuMoveToMyDay, comment: "")
+//		moveToMyDay.action = #selector(moveToMyDay(_:))
+//		moveToMyDay.keyEquivalent = carriageReturnKey
+//		moveToMyDay.keyEquivalentModifierMask = [.command, .shift]
+//		menu.addItem(moveToMyDay)
+//		
+//		let removeFromMyDay = NSMenuItem()
+//		removeFromMyDay.title = NSLocalizedString(.menuRemoveFromMyDay, comment: "")
+//		removeFromMyDay.action = #selector(removeFromMyDay(_:))
+//		removeFromMyDay.keyEquivalent = carriageReturnKey
+//		removeFromMyDay.keyEquivalentModifierMask = [.command, .shift]
+//		menu.addItem(removeFromMyDay)
+//		
+//		// ******** Separator ********
+//		menu.addItem(NSMenuItem.separator())
 		
 		// ******** Favorites ********
 		let toFavorites = NSMenuItem()
@@ -171,63 +171,5 @@ extension ContentViewController : NSMenuItemValidation {
 			return true
 		}
 		return tableView.clickedOrSelectedIntersection.isEmpty == false
-	}
-}
-
-// ******** Context Menu ********
-
-extension ContentViewController {
-	
-	@IBAction
-	func newTask(_ sender: Any?) {
-		presenter.newObject()
-	}
-	
-	@IBAction
-	func duplicate(_ sender: Any?) {
-		let indexSet = tableView.clickedOrSelectedIntersection
-		presenter.duplicateTasks(for: indexSet)
-	}
-	
-	@IBAction
-	func markCompleted(_ sender: Any?) {
-		let indexSet = tableView.clickedOrSelectedIntersection
-		presenter.set(value: true, for: \.isDone, indexSet: indexSet)
-	}
-	
-	@IBAction
-	func markIncomplete(_ sender: Any?) {
-		let indexSet = tableView.clickedOrSelectedIntersection
-		presenter.set(value: false, for: \.isDone, indexSet: indexSet)
-	}
-	
-	@IBAction
-	func moveToMyDay(_ sender: Any?) {
-		let indexSet = tableView.clickedOrSelectedIntersection
-		presenter.set(value: true, for: \.isMyDay, indexSet: indexSet)
-	}
-	
-	@IBAction
-	func removeFromMyDay(_ sender: Any?) {
-		let indexSet = tableView.clickedOrSelectedIntersection
-		presenter.set(value: false, for: \.isMyDay, indexSet: indexSet)
-	}
-	
-	@IBAction
-	func toFavorites(_ sender: Any?) {
-		let indexSet = tableView.clickedOrSelectedIntersection
-		presenter.set(value: true, for: \.isFavorite, indexSet: indexSet)
-	}
-	
-	@IBAction
-	func fromFavorites(_ sender: Any?) {
-		let indexSet = tableView.clickedOrSelectedIntersection
-		presenter.set(value: false, for: \.isFavorite, indexSet: indexSet)
-	}
-	
-	@IBAction
-	func delete(_ sender: Any?) {
-		let indexSet = tableView.clickedOrSelectedIntersection
-		presenter.deleteTasks(for: indexSet)
 	}
 }
