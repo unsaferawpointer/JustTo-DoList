@@ -11,7 +11,6 @@ extension ContentViewController {
 	
 	func create(viewFor tableColumn: NSTableColumn?, task: Task) -> NSView {
 		
-		
 		guard let columnId = tableColumn?.identifier else {
 			return NSView()
 		}
@@ -34,8 +33,21 @@ extension ContentViewController {
 		}
 	}
 	
-	func textCell(in tableView: NSTableView,
-				  for task: Task) -> TextCellView {
+	private func makeCell<T>(in tableView: NSTableView, withRawID rawID: String) -> T where T : NSTableCellView {
+		let id = NSUserInterfaceItemIdentifier(rawID)
+		var cell = tableView.makeView(withIdentifier: id, owner: nil) as? T
+		if cell == nil {
+			cell = T()
+			cell?.identifier = id
+		}
+		return cell!
+	}
+	
+	func textCell(in tableView: NSTableView, for task: Task) -> TextCellView {
+		
+		//let cell = makeCell(in: tableView, withRawID: "text_cell") as? TextCellView
+		
+		
 		let id = NSUserInterfaceItemIdentifier("text_cell")
 		var cell = tableView.makeView(withIdentifier: id, owner: nil) as? TextCellView
 		if cell == nil {
@@ -56,27 +68,25 @@ extension ContentViewController {
 			let attrString = NSAttributedString(string: task.text, attributes: attributes)
 			cell?.textField.attributedStringValue = attrString
 		} else {
-			cell?.textField?.stringValue = "\(task.text) \(task.id)"
+			cell?.textField?.stringValue = task.text
 			cell?.textField?.textColor = .controlTextColor
 		}
 		
 		return cell!
 	}
 	
-	func checkboxCell(in tableView: NSTableView,
-					  for task: Task) -> SwitchCellView {
+	func checkboxCell(in tableView: NSTableView, for task: Task) -> ToggleCellView {
 		let id = NSUserInterfaceItemIdentifier("checkbox_cell")
-		var cell = tableView.makeView(withIdentifier: id, owner: nil) as? SwitchCellView
+		var cell = tableView.makeView(withIdentifier: id, owner: nil) as? ToggleCellView
 		if cell == nil {
-			let button = CheckBox()
-			cell = SwitchCellView(button: button)
+			let button = TickButton()
+			cell = ToggleCellView(button: button)
 			cell?.identifier = id
 		}
 		cell?.completionHandler = { [weak self] isOn in
 			self?.factory.set(value: isOn, for: \.transientIsDone, in: task)
 		}
 		cell?.set(isOn: task.transientIsDone)
-		//cell?.observe(keyPath: \Task.isFavorite, in: task)
 		return cell!
 	}
 	
@@ -95,26 +105,29 @@ extension ContentViewController {
 	}
 	
 	func favoriteCell(in tableView: NSTableView,
-					  for task: Task) -> SwitchCellView {
+					  for task: Task) -> ToggleCellView {
 		let id = NSUserInterfaceItemIdentifier("favorite_cell")
-		var cell = tableView.makeView(withIdentifier: id, owner: nil) as? SwitchCellView
+		var cell = tableView.makeView(withIdentifier: id, owner: nil) as? ToggleCellView
 		if cell == nil {
-			let starButton = StarButton()
-			cell = SwitchCellView(button: starButton)
-			cell?.identifier = .checkboxCell
+			let starButton = AnimationButton(frame: CGRect(x: 0, y: 0, width: 18.0, height: 18.0))
+			cell = ToggleCellView(button: starButton)
+			cell?.identifier = id
+			print("favoriteCell")
 		}
 		
-		cell?.completionHandler = { newValue in
-			task.isFavorite = newValue
-			try! CoreDataStorage.shared.mainContext.save()
+		cell?.completionHandler = { [weak self] newValue in
+			self?.factory.set(value: newValue, for: \.isFavorite, in: task)
 		}
 		cell?.set(isOn: task.isFavorite)
-		//cell?.observe(keyPath: \Task.isFavorite, in: task)
 		return cell!
 	}
 }
 
 extension ContentViewController : NSTableViewDelegate {
+	
+	func tableViewSelectionDidChange(_ notification: Notification) {
+		presenter.selectionDidChanged(newSelection: tableView.selectedRowIndexes)
+	}
 	
 	func tableView(_ tableView: NSTableView, shouldEdit tableColumn: NSTableColumn?, row: Int) -> Bool {
 		if let id = tableColumn?.identifier, id == .textColumn {
@@ -128,18 +141,16 @@ extension ContentViewController : NSTableViewDelegate {
 	}
 	
 	func tableView(_ tableView: NSTableView, shouldSelect tableColumn: NSTableColumn?) -> Bool {
-		return true
+		return false
 	}
 	
 	func tableView(_ tableView: NSTableView, shouldShowCellExpansionFor tableColumn: NSTableColumn?, row: Int) -> Bool {
-		return true
+		return false
 	}
-	
-	
 	
 	func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
 		guard let id = tableColumn?.identifier else { return nil }
-		let task = store.objects[row]
+		let task = presenter.store.objects[row]
 		switch id {
 		case .checkboxColumn:
 			let cell = checkboxCell(in: tableView, for: task)

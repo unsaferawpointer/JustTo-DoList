@@ -16,31 +16,31 @@ extension ContentViewController {
 	
 	@objc
 	func duplicate(_ sender: Any?) {
-		factory.duplicate(objects: selectedTasks)
+		presenter.duplicate()
 	}
 	
 	@objc
 	func markCompleted(_ sender: Any?) {
-		factory.set(value: true, for: \.transientIsDone, to: selectedTasks)
+		presenter.markCompleted()
 	}
 	
 	@objc
 	func markIncomplete(_ sender: Any?) {
-		factory.set(value: false, for: \.transientIsDone, to: selectedTasks)
+		presenter.markIncomplete()
 	}
 	
 	@objc
 	func toFavorites(_ sender: Any?) {
-		factory.set(value: true, for: \.isFavorite, to: selectedTasks)
+		presenter.toFavorites()
 	}
 	
 	@objc
 	func fromFavorites(_ sender: Any?) {
-		factory.set(value: false, for: \.isFavorite, to: selectedTasks)
+		presenter.fromFavorites()
 	}
 	
 	@objc
 	func delete(_ sender: Any?) {
-		factory.delete(objects: selectedTasks)
+		presenter.delete()
 	}
 }

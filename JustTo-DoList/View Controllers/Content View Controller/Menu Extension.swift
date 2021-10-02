@@ -58,24 +58,6 @@ extension ContentViewController {
 		// ******** Separator ********
 		menu.addItem(NSMenuItem.separator())
 		
-//		// ******** My Day ********
-//		let moveToMyDay = NSMenuItem()
-//		moveToMyDay.title = NSLocalizedString(.menuMoveToMyDay, comment: "")
-//		moveToMyDay.action = #selector(moveToMyDay(_:))
-//		moveToMyDay.keyEquivalent = carriageReturnKey
-//		moveToMyDay.keyEquivalentModifierMask = [.command, .shift]
-//		menu.addItem(moveToMyDay)
-//		
-//		let removeFromMyDay = NSMenuItem()
-//		removeFromMyDay.title = NSLocalizedString(.menuRemoveFromMyDay, comment: "")
-//		removeFromMyDay.action = #selector(removeFromMyDay(_:))
-//		removeFromMyDay.keyEquivalent = carriageReturnKey
-//		removeFromMyDay.keyEquivalentModifierMask = [.command, .shift]
-//		menu.addItem(removeFromMyDay)
-//		
-//		// ******** Separator ********
-//		menu.addItem(NSMenuItem.separator())
-		
 		// ******** Favorites ********
 		let toFavorites = NSMenuItem()
 		toFavorites.title = NSLocalizedString(.menuMoveTaskToFavorites, comment: "")

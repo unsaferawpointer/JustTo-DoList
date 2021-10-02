@@ -8,17 +8,23 @@
 import AppKit
 import Combine
 
-class SwitchCellView: NSTableCellView {
+protocol ToggleableButton : NSView {
+	func set(isOn: Bool)
+	var backgroundStyle: NSView.BackgroundStyle { get set }
+	var handler: ((Bool) -> ())? { get set }
+	func forceStopAnimation()
+}
+
+class ToggleCellView: NSTableCellView {
 	
-	var button: SwitchButtonProtocol?
+	var button: ToggleableButton?
 	var completionHandler: ((Bool) -> ())?
 	
 	var subsription: AnyCancellable?
 	
 	override var backgroundStyle: NSView.BackgroundStyle {
 		didSet {
-			let selected = backgroundStyle == .emphasized
-			button?.set(selected: selected)
+			button?.backgroundStyle = backgroundStyle
 		}
 	}
 	
@@ -31,7 +37,7 @@ class SwitchCellView: NSTableCellView {
 	
 	// #START	******** Init Block ********
 	
-	init(button: SwitchButtonProtocol) {
+	init(button: ToggleableButton) {
 		self.button = button
 		super.init(frame: .zero)
 		self.addSubview(button)
@@ -63,7 +69,7 @@ class SwitchCellView: NSTableCellView {
 	
 	override func prepareForReuse() {
 		super.prepareForReuse()
-		button?.removeAllAnimations()
+		button?.forceStopAnimation()
 		subsription?.cancel()
 	}
 	

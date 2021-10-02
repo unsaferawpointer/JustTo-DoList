@@ -9,14 +9,19 @@ import Cocoa
 
 class MainSplitViewController: NSSplitViewController {
 	
+	let SIDEBAR_MIN_WIDTH: CGFloat = 120.0
+	let SIDEBAR_MAX_WIDTH: CGFloat = 220.0
+	
+	let CONTENT_MIN_WIDTH: CGFloat = 400.0
+	
 	init() {
 		super.init(nibName: nil, bundle: nil)
-		setupUI()
+		
 	}
 	
 	override init(nibName nibNameOrNil: NSNib.Name?, bundle nibBundleOrNil: Bundle?) {
 		super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-		setupUI()
+		
 	}
 	
 	required init?(coder: NSCoder) {
@@ -25,25 +30,26 @@ class MainSplitViewController: NSSplitViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		// Do view setup here.
+		setupSplitView()
 	}
 	
 }
 
 extension MainSplitViewController {
 	
-	private func setupUI() {
+	private func setupSplitView() {
 		splitView.dividerStyle = .thin
 		setupSidebarItem()
 		setupContentItem()
 	}
 	
 	private func setupSidebarItem() {
-		let sidebarVC = ViewController()
+		let sidebarVC = DefaultViewController()
 		let sidebarItem = NSSplitViewItem(sidebarWithViewController: sidebarVC)
 		sidebarItem.canCollapse = true
-		sidebarItem.minimumThickness = 120.0
-		sidebarItem.maximumThickness = 220.0
+		sidebarItem.titlebarSeparatorStyle = .none
+		sidebarItem.minimumThickness = SIDEBAR_MIN_WIDTH
+		sidebarItem.maximumThickness = SIDEBAR_MAX_WIDTH
 		let rawHoldingPriority = NSLayoutConstraint.Priority.defaultLow.rawValue + 1
 		sidebarItem.holdingPriority = NSLayoutConstraint.Priority.init(rawValue: rawHoldingPriority)
 		addSplitViewItem(sidebarItem)
@@ -52,9 +58,10 @@ extension MainSplitViewController {
 	private func setupContentItem() {
 		let contentVC = ContentViewController()
 		let contentItem = NSSplitViewItem(contentListWithViewController: contentVC)
+		contentItem.titlebarSeparatorStyle = .shadow
 		contentItem.allowsFullHeightLayout = true
 		contentItem.titlebarSeparatorStyle = .none
-		contentItem.minimumThickness = 400.0
+		contentItem.minimumThickness = CONTENT_MIN_WIDTH
 		contentItem.holdingPriority = .defaultLow
 		addSplitViewItem(contentItem)
 	}

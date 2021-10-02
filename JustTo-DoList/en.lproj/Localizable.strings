@@ -7,9 +7,17 @@
 */
 
 // Toolbar
-
 "toolbar_searchfield_placeholder" = "Search";
 
 // Content View
-
 "tableview_column_task" = "Task";
+"tableview_column_list" = "List";
+
+// Content Context Menu
+"menu_new_task" = "New Task";
+"menu_duplicate_task" = "Duplicate";
+"menu_mark_task_completed" = "Mark Completed";
+"menu_mark_task_incomplete" = "Mark Incomplete";
+"menu_move_task_to_favorites" = "To Favorites";
+"menu_move_task_from_favorites" = "From Favorites";
+"menu_delete_task" = "Delete";

@@ -14,39 +14,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
 		// Insert code here to initialize your application
-		
-		let size = CGSize(width: 600, height: 600)
-		let rect = NSRect(origin: .zero, size: size)
-		
-		var styleMask: NSWindow.StyleMask = []
-		styleMask.insert(.miniaturizable)
-		styleMask.insert(.closable)
-		styleMask.insert(.resizable)
-		styleMask.insert(.titled)
-		styleMask.insert(.fullSizeContentView)
-
-		window = NSWindow(contentRect: rect,
-						  styleMask: styleMask,
-						  backing: .buffered,
-						  defer: false)
-		window?.center()
-		window?.setFrameAutosaveName("main_window")
-		window?.isRestorable = true
-		window?.identifier = NSUserInterfaceItemIdentifier("main_window")
-		window?.toolbarStyle = .unified
-		window?.appearance = NSAppearance(named: .vibrantLight)
-		window?.titlebarSeparatorStyle = .automatic
-		window?.titleVisibility = .hidden
-		window?.contentViewController = MainSplitViewController()
+		createWindow()
 		windowController = MainWindowController(window: window)
 		windowController?.shouldCascadeWindows = false
 		windowController?.showWindow(nil)
-		
-		let toolbar = NSToolbar()
-		toolbar.sizeMode = .regular
-		toolbar.displayMode = .iconOnly
-		toolbar.delegate = self
-		window?.toolbar = toolbar
 	}
 
 	func applicationWillTerminate(_ aNotification: Notification) {
@@ -60,7 +31,36 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		NSApp.menu = menu
 	}
 	
-
+	private func createWindow() {
+		let size = CGSize(width: 600, height: 600)
+		let rect = NSRect(origin: .zero, size: size)
+		var styleMask: NSWindow.StyleMask = []
+		styleMask.insert(.miniaturizable)
+		styleMask.insert(.closable)
+		styleMask.insert(.resizable)
+		styleMask.insert(.titled)
+		styleMask.insert(.fullSizeContentView)
+		styleMask.insert(.unifiedTitleAndToolbar)
+		window = NSWindow(contentRect: rect,
+						  styleMask: styleMask,
+						  backing: .buffered,
+						  defer: false)
+		window?.center()
+		window?.titleVisibility = .visible
+		window?.titlebarAppearsTransparent = false
+		window?.setFrameAutosaveName("main_window")
+		window?.isRestorable = true
+		window?.identifier = NSUserInterfaceItemIdentifier("main_window")
+		window?.toolbarStyle = .unified
+		window?.titlebarSeparatorStyle = .automatic
+		window?.contentViewController = MainSplitViewController()
+		let toolbar = NSToolbar()
+		toolbar.sizeMode = .regular
+		toolbar.displayMode = .iconOnly
+		toolbar.delegate = self
+		window?.toolbar = toolbar
+	}
+	
 //	func windowWillReturnUndoManager(window: NSWindow) -> UndoManager? {
 //	    // Returns the NSUndoManager for the application. In this case, the manager returned is that of the managed object context for the application.
 //	    return persistentContainer.viewContext.undoManager
@@ -86,11 +86,11 @@ extension NSNotification.Name {
 extension AppDelegate : NSToolbarDelegate {
 	
 	func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-		return [.toggleSidebar, .flexibleSpace, .searchField, .addTask]
+		return [.toggleSidebar, .flexibleSpace, .addTask]
 	}
 	
 	func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-		return [.toggleSidebar, .flexibleSpace, .searchField, .addTask]
+		return [.toggleSidebar, .flexibleSpace, .addTask]
 	}
 	
 	func toolbar(_ toolbar: NSToolbar,

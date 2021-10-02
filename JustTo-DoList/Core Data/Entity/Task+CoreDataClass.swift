@@ -15,7 +15,7 @@ public class Task: NSManagedObject {
 }
 
 extension Task : Duplicatable {
-	func duplicate() -> Self {
+	func duplicate() -> Task {
 		guard let context = managedObjectContext else {
 			fatalError("managedObjectContext don't exist")
 		}
@@ -24,6 +24,6 @@ extension Task : Duplicatable {
 		duplicated.transientIsDone = isDone
 		duplicated.isFavorite = isFavorite
 		duplicated.typeMask = typeMask
-		return self
+		return duplicated
 	}
 }

@@ -28,33 +28,31 @@ class ContentViewController: NSViewController {
 		return CoreDataStorage.shared.mainContext
 	}
 	
-	let store = Store<Task>.init(viewContext: CoreDataStorage.shared.mainContext, sortBy: [
-		NSSortDescriptor(keyPath: \Task.isDone, ascending: true),
-		NSSortDescriptor(keyPath: \Task.completionDate, ascending: true),
-		NSSortDescriptor(keyPath: \Task.isFavorite, ascending: true),
-		NSSortDescriptor(keyPath: \Task.creationDate, ascending: true),
-		NSSortDescriptor(keyPath: \Task.text, ascending: true),
-		NSSortDescriptor(keyPath: \Task.typeMask, ascending: true)
-	])
+	let presenter = ContentPresenter<Task>.init(sortDescriptors:
+														[NSSortDescriptor(keyPath: \Task.isDone, ascending: true),
+														 NSSortDescriptor(keyPath: \Task.completionDate, ascending: true),
+														 NSSortDescriptor(keyPath: \Task.isFavorite, ascending: false),
+														 NSSortDescriptor(keyPath: \Task.creationDate, ascending: true),
+														 NSSortDescriptor(keyPath: \Task.text, ascending: true),
+														 NSSortDescriptor(keyPath: \Task.typeMask, ascending: true)]
+	)
 	
-	let factory = ObjectFactory<Task>.init(context: CoreDataStorage.shared.mainContext)
-	
-	var dataSource: NSTableViewDiffableDataSource<String, NSManagedObjectID>!
+	let factory = ObjectFactory<Task>.init(persistentContainer: CoreDataStorage.shared.persistentContainer)
 	
 	lazy var tableView : NSTableView = {
-		let builder = TableViewBuilder()
+		let builder = TableViewBuilder(style: .content)
 		builder.addColumn("􀆅",
 						  identifier: .checkboxColumn,
 						  style: .fixed(size: .oneSymbol),
 						  sortDescriptor: NSSortDescriptor(keyPath: \Task.isDone, ascending: true))
-		builder.addColumn(NSLocalizedString("tableview_column_task", comment: ""),
+		builder.addColumn(localizedString: "tableview_column_task",
 						  identifier: .textColumn,
 						  style: .flexible(size: .primary),
 						  sortDescriptor: NSSortDescriptor(keyPath: \Task.text, ascending: true))
-//		builder.addColumn("Список",
+//		builder.addColumn(localizedString: "tableview_column_list",
 //						  identifier: .listColumn,
 //						  style: .flexible(size: .secondary),
-//						  sortDescriptor: NSSortDescriptor(keyPath: \Task.list?.name, ascending: true))
+//						  sortDescriptor: NSSortDescriptor(keyPath: \Task.typeMask, ascending: true))
 		builder.addColumn("􀋂",
 						  identifier: .isFavoriteColumn,
 						  style: .fixed(size: .oneSymbol),
@@ -66,16 +64,21 @@ class ContentViewController: NSViewController {
 	override func loadView() {
 		setupRootView()
 		setupScrollView()
+		
 	}
 	
 	func setupRootView() {
-		self.view = NSView()
-		self.view.translatesAutoresizingMaskIntoConstraints = false
+		let backgroundView = NSView()
+//		backgroundView.blendingMode = .behindWindow
+//		backgroundView.material = .dark
+		self.view = backgroundView
+		//self.view.translatesAutoresizingMaskIntoConstraints = false
 	}
 	
 	func setupScrollView() {
 		let scrollView = NSScrollView()
 		scrollView.backgroundColor = NSColor.clear
+		scrollView.drawsBackground = true
 		scrollView.hasHorizontalScroller = false
 		scrollView.hasVerticalScroller = true
 		scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -89,26 +92,18 @@ class ContentViewController: NSViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
-		//tableView.dataSource = self
+		tableView.dataSource = self
 		tableView.delegate = self
-		
-		
 		initContextMenu()
-		
 		addObservers()
-		
-		configureDataSource()
-		store.delegate = self
-		
-		
-		
+		presenter.delegate = self
+		presenter.reloadData()
 		tableView.sizeLastColumnToFit()
 	}
 	
 	override func viewWillAppear() {
 		super.viewWillAppear()
-		initData()
+		
 	}
 	
 	private func addObservers() {
@@ -120,19 +115,12 @@ class ContentViewController: NSViewController {
 		tableView.target = self
 	}
 	
-	private func initData() {
-		store.performFetch(with: nil, sortDescriptors: [
-			NSSortDescriptor(keyPath: \Task.isDone, ascending: true),
-			NSSortDescriptor(keyPath: \Task.completionDate, ascending: true),
-			NSSortDescriptor(keyPath: \Task.isFavorite, ascending: true),
-			NSSortDescriptor(keyPath: \Task.creationDate, ascending: true),
-			NSSortDescriptor(keyPath: \Task.text, ascending: true),
-			NSSortDescriptor(keyPath: \Task.typeMask, ascending: true)
-		])
-	}
-	
 	override func viewDidAppear() {
 		super.viewDidAppear()
+		configureTitles()
+	}
+	
+	private func configureTitles() {
 		self.view.window?.title = "Inbox"
 		self.view.window?.subtitle = "12 Tasks, 5 completed"
 	}

@@ -19,7 +19,7 @@ public protocol StoreDataSource {
 	var objects: [T] { get }
 	var numberOfObjects: Int { get }
 	var numberOfSections: Int { get }
-	func performFetch(with predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]) throws 
+	func performFetch(with predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]) throws
 }
 
 extension StoreDataSource {
@@ -33,18 +33,24 @@ extension StoreDataSource {
 
 public protocol StoreDelegate : AnyObject {
 	func storeWillChangeContent()
-	func storeDidInsert(section: NSFetchedResultsSectionInfo, at index: Int)
-	func storeDidDelete(section: NSFetchedResultsSectionInfo, at index: Int)
-	func storeDidDelete(object: NSManagedObject, at index: Int)
+	func storeDidRemove(object: NSManagedObject, at index: Int)
 	func storeDidInsert(object: NSManagedObject, at index: Int)
 	func storeDidUpdate(object: NSManagedObject, at index: Int)
 	func storeDidMove(object: NSManagedObject, from oldIndex: Int, to newIndex: Int)
 	func storeDidChangeContent()
 	func storeDidReloadContent()
-	func storeDidChangeContent(with snapshot: NSDiffableDataSourceSnapshotReference)
 }
 
 public class Store<T: NSManagedObject>: NSObject, NSFetchedResultsControllerDelegate {
+	
+	struct SortDescriptor<Value> {
+		var keyPath: ReferenceWritableKeyPath<T, Value>
+		var asceding: Bool = true
+		init(keyPath: ReferenceWritableKeyPath<T, Value>, asceding: Bool) {
+			self.keyPath = keyPath
+			self.asceding = asceding
+		}
+	}
 	
 	public weak var delegate: StoreDelegate?
 	
@@ -70,21 +76,6 @@ public class Store<T: NSManagedObject>: NSObject, NSFetchedResultsControllerDele
 		print(#function)
 	}
 	
-//	public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChangeContentWith snapshot: NSDiffableDataSourceSnapshotReference) {
-//		delegate?.storeDidChangeContent(with: snapshot)
-//	}
-	
-	public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-		switch type {
-		case .insert:
-			delegate?.storeDidInsert(section: sectionInfo, at: sectionIndex)
-		case .delete:
-			delegate?.storeDidDelete(section: sectionInfo, at: sectionIndex)
-		default:
-			fatalError("other types are not supported ")
-		}
-	}
-	
 	//#if os(macOS)
 	public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
 		print(#function)
@@ -101,7 +92,7 @@ public class Store<T: NSManagedObject>: NSObject, NSFetchedResultsControllerDele
 		case .delete:
 			print(".delete")
 			if let oldIndex = indexPath?.item {
-				delegate?.storeDidDelete(object: object, at: oldIndex)
+				delegate?.storeDidRemove(object: object, at: oldIndex)
 			}
 		case .move:
 			print(".move")
@@ -140,9 +131,11 @@ extension Store : StoreDataSource {
 	}
 	
 	/// Perform fetch and call 'storeDidReloadContent' of the delegate
-	public func performFetch(with predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]) {
+	public func performFetch(with predicate: NSPredicate? = nil, sortDescriptors: [NSSortDescriptor] = []) {
 		fetchedResultController.fetchRequest.predicate = predicate
-		fetchedResultController.fetchRequest.sortDescriptors = sortDescriptors
+		if !sortDescriptors.isEmpty {
+			fetchedResultController.fetchRequest.sortDescriptors = sortDescriptors
+		}
 		do {
 			try fetchedResultController.performFetch()
 		} catch {
