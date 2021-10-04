@@ -97,13 +97,12 @@ class ContentViewController: NSViewController {
 		initContextMenu()
 		addObservers()
 		presenter.delegate = self
-		presenter.reloadData()
+		presenter.reloadData(with: tableView.sortDescriptors)
 		tableView.sizeLastColumnToFit()
 	}
 	
 	override func viewWillAppear() {
 		super.viewWillAppear()
-		
 	}
 	
 	private func addObservers() {

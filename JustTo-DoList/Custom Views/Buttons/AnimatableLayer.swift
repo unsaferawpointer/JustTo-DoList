@@ -7,6 +7,13 @@
 
 import AppKit
 
+struct AnimationTheme {
+	var selectedColor: NSColor
+	var unselectedColor: NSColor
+	var lightColor: NSColor
+	var darkColor: NSColor
+}
+
 /// Don`t use this struct directly`
 struct UnsafeAnimationProperty {
 	let keyPath: String
@@ -48,8 +55,8 @@ struct ShapeState : Animatable {
 	
 	var properties: [UnsafeAnimationProperty] {
 		var _properties = [UnsafeAnimationProperty]()
-		_properties.append(UnsafeAnimationProperty(keyPath: "fillColor", value: fillColor?.cgColor))
-		_properties.append(UnsafeAnimationProperty(keyPath: "strokeColor", value: strokeColor?.cgColor))
+		_properties.append(UnsafeAnimationProperty(keyPath: "fillColor", value: fillColor))
+		_properties.append(UnsafeAnimationProperty(keyPath: "strokeColor", value: strokeColor))
 		_properties.append(UnsafeAnimationProperty(keyPath: "strokeStart", value: strokeStart))
 		_properties.append(UnsafeAnimationProperty(keyPath: "strokeEnd", value: strokeEnd))
 		_properties.append(UnsafeAnimationProperty(keyPath: "lineWidth", value: lineWidth))
@@ -76,22 +83,6 @@ struct AnimationState : Animatable {
 		return _properties
 	}
 }
-
-//struct State {
-//	var properties: [UnsafeAnimationProperty] = []
-//}
-//
-//extension State {
-//	mutating func add<T>(keyPath: ReferenceWritableKeyPath<CAShapeLayer, T>, value: T) {
-//		let strKeyPath = NSExpression(forKeyPath: keyPath).keyPath
-//		let unsafeAnimationProperty = UnsafeAnimationProperty(keyPath: strKeyPath, value: value)
-//		properties.append(unsafeAnimationProperty)
-//	}
-//	mutating func add(keyPath: String, value: Any?) {
-//		let unsafeAnimationProperty = UnsafeAnimationProperty(keyPath: keyPath, value: value)
-//		properties.append(unsafeAnimationProperty)
-//	}
-//}
 
 class AnimationLayer : CAShapeLayer {
 	
@@ -125,35 +116,41 @@ class AnimationLayer : CAShapeLayer {
 		animationGroup.duration = 0.25
 	
 		for (keyPath, properties) in dictionary {
-			var values = properties.map { $0.value }
-			if let colors = values as? [CGColor?], isSelected && isColor(keyPath: keyPath){
-				values = converted(colors: colors)
-			}
+			let values = properties.map { $0.value }
 			let animation = CAKeyframeAnimation(keyPath: keyPath)
-			animation.values = values
 			animation.keyTimes = keyTimes
 			animationGroup.animations?.append(animation)
-			if let lastValue = values.last {
-				setValue(lastValue, forKeyPath: keyPath)
+			if let colors = values as? [NSColor?] {
+				let convertedColors = converted(colors: colors)
+				animation.values = isSelected ? convertedColors.map{ $0?.cgColor } : colors.map{ $0?.cgColor }
+				if let lastColor = (isSelected ? convertedColors.map{ $0?.cgColor } : colors.map{ $0?.cgColor }).last  {
+					setValue(lastColor, forKeyPath: keyPath)
+				}
+			} else {
+				animation.values = values
+				if let lastValue = values.last {
+					setValue(lastValue, forKeyPath: keyPath)
+				}
 			}
 		}
 		
 		return animationGroup
 	}
 	
-	func isColor(keyPath: String) -> Bool {
-		return keyPath == "fillColor" || keyPath == "strokeColor"
-	}
+//	func isColor(keyPath: String) -> Bool {
+//		return keyPath == "fillColor" || keyPath == "strokeColor"
+//	}
 	
-	func converted(colors: [CGColor?]) -> [CGColor?] {
+	func converted(colors: [NSColor?]) -> [NSColor?] {
 		return colors.map { color in
 			return self.converted(color: color)
 		}
 	}
 	
-	func converted(color: CGColor?) -> CGColor? {
+	func converted(color: NSColor?) -> NSColor? {
 		#warning("Dont implemented")
-		return NSColor.controlColor.cgColor
+		
+		return color != nil ? NSColor.white : nil
 	}
 	
 	func invalidate() {
@@ -164,13 +161,9 @@ class AnimationLayer : CAShapeLayer {
 		}
 		perform(withAnimation: false) {
 			for property in first.properties {
-				if isColor(keyPath: property.keyPath) && isSelected {
-					if property.value != nil {
-						let convertedColor = converted(color: property.value as! CGColor)
-						setValue(convertedColor, forKeyPath: property.keyPath)
-					} else {
-						setValue(nil, forKeyPath: property.keyPath)
-					}
+				if let color = property.value as? NSColor {
+					let currentColor = isSelected ? converted(color: color)?.cgColor : color.cgColor
+					setValue(currentColor, forKeyPath: property.keyPath)
 				} else {
 					setValue(property.value, forKeyPath: property.keyPath)
 				}
@@ -192,7 +185,7 @@ class AnimationLayer : CAShapeLayer {
 		removeAllAnimations()
 	}
 	
-	private func perform(withAnimation: Bool, block: () -> ()) {
+	private func perform(withAnimation: Bool, block: () -> Void) {
 		CATransaction.begin()
 		CATransaction.setDisableActions(!withAnimation)
 		block()
@@ -212,220 +205,8 @@ extension AnimationLayer : CAAnimationDelegate {
 	}
 }
 
-
-
 protocol AnimationLayerDelegate: AnyObject {
 	func animationDidFinished()
 }
 
-//class AnimatableLayersGroup {
-//	var animatableLayers: [AnimatableLayer] = []
-//
-//	func start() {
-//		for animatableLayer in animatableLayers {
-//			animatableLayer.startAnimation()
-//		}
-//	}
-//
-//	func stop() {
-//
-//	}
-//
-//	func animationGroupStarted() {
-//
-//	}
-//
-//	func animationGroupFinished() {
-//
-//	}
-//}
 
-//class AnimatableLayer : CAShapeLayer {
-//
-//	weak var frameAnimationDelegate : AnimationLayerDelegate?
-//
-//	var frames: [State] = [] {
-//		didSet {
-//			invalidate()
-//		}
-//	}
-//	var frameIndex = 0
-//
-//	var isAnimating: Bool = false
-//	var animationIsInverted: Bool = false
-//
-//	var isSelected: Bool = false {
-//		didSet {
-//			invalidate()
-//		}
-//	}
-//
-//	init(firstState: State) {
-//		super.init()
-//		frames.append(firstState)
-//	}
-//
-//	required init?(coder: NSCoder) {
-//		fatalError("init(coder:) has not been implemented")
-//	}
-//
-//	// Use first frame to init state of the layer
-//	func startAnimation() {
-//		guard !isAnimating else {
-//			return
-//		}
-//
-//		if animationIsInverted {
-//			frameIndex = frames.count - 1
-//			previousFrame()
-//		} else {
-//			frameIndex = 0
-//			nextFrame()
-//		}
-//	}
-//
-//	func invalidate() {
-//		if animationIsInverted {
-//			guard let lastState = frames.last else {
-//				return
-//			}
-//			invalidate(lastState)
-//		} else {
-//			guard let firstState = frames.first else {
-//				return
-//			}
-//			invalidate(firstState)
-//		}
-//	}
-//
-//	private func invalidate(_ state: State) {
-//
-//		for property in frames.first!.properties {
-//			setValue(property.value, forKeyPath: property.keyPath)
-//		}
-//
-//		perform(withAnimation: false) {
-//			for property in state.properties {
-//				if property.keyPath == "fillColor" ||
-//					property.keyPath == "strokeColor", property.value != nil {
-//					if isSelected {
-//						setValue(NSColor.controlColor.cgColor, forKeyPath: property.keyPath)
-//					} else {
-//						setValue(property.value, forKeyPath: property.keyPath)
-//					}
-//				} else {
-//					setValue(property.value, forKeyPath: property.keyPath)
-//				}
-//
-//			}
-//		}
-//	}
-//
-//	func previousFrame() {
-//		if hasPreviousFrame() {
-//			frameIndex -= 1
-//		} else {
-//			return
-//		}
-//		createAnimation(for: frameIndex)
-//	}
-//
-//	func nextFrame() {
-//		if hasNextFrame() {
-//			frameIndex += 1
-//		} else {
-//			return
-//		}
-//		createAnimation(for: frameIndex)
-//	}
-//
-//	func hasPreviousFrame() -> Bool {
-//		return frameIndex > 0
-//	}
-//
-//	func hasNextFrame() -> Bool {
-//		return frameIndex + 1 < frames.count
-//	}
-//
-//	func stopAnimation() {
-//		isAnimating = false
-//
-//		#if DEBUG
-//		if let _ = animation(forKey: "basic") {
-//			fatalError("Error. Animation must be nil")
-//		}
-//		#endif
-//
-//		removeAllAnimations()
-//	}
-//
-//	private func perform(withAnimation: Bool, block: () -> ()) {
-//		CATransaction.begin()
-//		CATransaction.setDisableActions(!withAnimation)
-//		block()
-//		CATransaction.commit()
-//	}
-//
-//	private func createAnimation(for index: Int) {
-//
-//		let frame = frames[index]
-//
-//			let animationGroup = CAAnimationGroup()
-//			animationGroup.timingFunction = CAMediaTimingFunction(name: .easeOut)
-//			animationGroup.fillMode = .forwards
-//			var animations = [CAAnimation]()
-//			animationGroup.animations = []
-//			animationGroup.isRemovedOnCompletion = true
-//			for property in frame.properties {
-//				let animation = CABasicAnimation(keyPath: property.keyPath)
-//				let fromValue = self.value(forKeyPath: property.keyPath)
-//				animation.fromValue = fromValue
-//				if property.keyPath == "fillColor" ||
-//					property.keyPath == "strokeColor", property.value != nil {
-//					if isSelected {
-//						animation.toValue = NSColor.controlColor.cgColor
-//						self.setValue(NSColor.controlColor.cgColor, forKeyPath: property.keyPath)
-//					} else {
-//						animation.toValue = property.value
-//						self.setValue(property.value, forKeyPath: property.keyPath)
-//					}
-//				} else {
-//					animation.toValue = property.value
-//					self.setValue(property.value, forKeyPath: property.keyPath)
-//				}
-//
-//				animations.append(animation)
-//
-//			}
-//			animationGroup.animations = animations
-//			animationGroup.duration = frame.duration
-//			animationGroup.delegate = self
-//
-//			perform(withAnimation: true) {
-//				add(animationGroup, forKey: "basic")
-//			}
-//	}
-//
-//}
-
-//extension AnimatableLayer: CAAnimationDelegate {
-//
-//	func animationDidStart(_ anim: CAAnimation) {
-//		isAnimating = true
-//	}
-//
-//	func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
-//		if flag {
-//			if !hasNextFrame() {
-//				isAnimating = false
-//				frameIndex = animationIsInverted ? frames.count - 1 : 0
-//				frameAnimationDelegate?.animationDidFinished()
-//			} else {
-//				nextFrame()
-//			}
-//		} else {
-//			isAnimating = false
-//			frameAnimationDelegate?.animationDidStop(frameAtIndex: frameIndex)
-//		}
-//	}
-//}

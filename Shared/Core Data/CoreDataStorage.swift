@@ -5,7 +5,9 @@
 //  Created by Anton Cherkasov on 08.08.2021.
 //
 
+#if os(macOS)
 import AppKit
+#endif
 import CloudKit
 import CoreData
 
@@ -58,27 +60,34 @@ class CoreDataStorage {
 		// Performs the save action for the application, which is to send the save: message to the application's managed object context. Any encountered errors are presented to the user.
 		let context = persistentContainer.viewContext
 		
+		#if os(macOS)
 		if !context.commitEditing() {
 			NSLog("\(NSStringFromClass(type(of: self))) unable to commit editing before saving")
 		}
+		#endif
 		if context.hasChanges {
 			do {
 				try context.save()
 			} catch {
 				// Customize this code block to include application-specific recovery steps.
 				let nserror = error as NSError
+				#if os(macOS)
 				NSApplication.shared.presentError(nserror)
+				#endif
 			}
 		}
 	}
 	
+	#if os(macOS)
 	func canTerminate(_ sender: NSApplication) -> Bool {
 		let context = persistentContainer.viewContext
 		
+		#if os(macOS)
 		if !context.commitEditing() {
 			NSLog("\(NSStringFromClass(type(of: self))) unable to commit editing to terminate")
 			return false
 		}
+		#endif
 		
 		if !context.hasChanges {
 			return true
@@ -95,6 +104,7 @@ class CoreDataStorage {
 				return false
 			}
 			
+			
 			let question = NSLocalizedString("Could not save changes while quitting. Quit anyway?", comment: "Quit without saves error question message")
 			let info = NSLocalizedString("Quitting now will lose any changes you have made since the last successful save", comment: "Quit without saves error question info");
 			let quitButton = NSLocalizedString("Quit anyway", comment: "Quit anyway button title")
@@ -109,10 +119,12 @@ class CoreDataStorage {
 			if answer == .alertSecondButtonReturn {
 				return false
 			}
+			
 		}
 		// If we got here, it is time to quit.
 		return true
 	}
+	#endif
 	
 }
 

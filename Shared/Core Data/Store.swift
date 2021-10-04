@@ -43,15 +43,6 @@ public protocol StoreDelegate : AnyObject {
 
 public class Store<T: NSManagedObject>: NSObject, NSFetchedResultsControllerDelegate {
 	
-	struct SortDescriptor<Value> {
-		var keyPath: ReferenceWritableKeyPath<T, Value>
-		var asceding: Bool = true
-		init(keyPath: ReferenceWritableKeyPath<T, Value>, asceding: Bool) {
-			self.keyPath = keyPath
-			self.asceding = asceding
-		}
-	}
-	
 	public weak var delegate: StoreDelegate?
 	
 	private var fetchedResultController: NSFetchedResultsController<T>
@@ -59,17 +50,24 @@ public class Store<T: NSManagedObject>: NSObject, NSFetchedResultsControllerDele
 	
 	public var errorHandler: ((Error) -> ())?
 	
-	public init(viewContext: NSManagedObjectContext, sortBy sortDescriptors: [NSSortDescriptor]) {
+	
+	/// Use this initializer if the class name is not the same as the entity name
+	public init(viewContext: NSManagedObjectContext, sortBy sortDescriptors: [NSSortDescriptor], entityName: String) {
+		assert(!sortDescriptors.isEmpty, "Store must have at least one sort descriptor")
 		self.viewContext = viewContext
-		let fetchRequest: NSFetchRequest<T> = NSFetchRequest<T>.init(entityName: T.className())
+		let fetchRequest: NSFetchRequest<T> = NSFetchRequest<T>.init(entityName: entityName)
 		fetchRequest.sortDescriptors = sortDescriptors
-		
 		self.fetchedResultController = NSFetchedResultsController.init(fetchRequest: fetchRequest, managedObjectContext: viewContext, sectionNameKeyPath: nil, cacheName: nil)
-		
 		super.init()
-		
 		self.fetchedResultController.delegate = self
 	}
+	
+	#if os(macOS)
+	public convenience init(viewContext: NSManagedObjectContext, sortBy sortDescriptors: [NSSortDescriptor]) {
+		let entityName = T.className()
+		self.init(viewContext: viewContext, sortBy: sortDescriptors, entityName: entityName)
+	}
+	#endif
 	
 	public func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
 		delegate?.storeWillChangeContent()
@@ -78,10 +76,9 @@ public class Store<T: NSManagedObject>: NSObject, NSFetchedResultsControllerDele
 	
 	//#if os(macOS)
 	public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-		print(#function)
-		print("oldPath = \(indexPath) newPath = \(newIndexPath)")
+		print("oldPath = \(String(describing: indexPath)) newPath = \(String(describing: T.self))")
 		guard let object = anObject as? T else {
-			fatalError("\(anObject) is not \(T.className())")
+			fatalError("\(anObject) is not \(T.description())")
 		}
 		switch type {
 		case .insert:

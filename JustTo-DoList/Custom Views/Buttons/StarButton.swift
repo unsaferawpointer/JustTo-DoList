@@ -11,7 +11,6 @@ class AnimationButton: NSView, ToggleableButton {
 	
 	//
 	func set(isOn: Bool) {
-		print(#function)
 		self.isOn = isOn
 	}
 	
@@ -35,7 +34,7 @@ class AnimationButton: NSView, ToggleableButton {
 	
 	var isOn: Bool = false {
 		didSet {
-			configureFrames()
+			animatableLayer.animationIsInverted = isOn
 		}
 	}
 	
@@ -51,10 +50,7 @@ class AnimationButton: NSView, ToggleableButton {
 		let animationLayer = AnimationLayer()
 		self.animatableLayer = animationLayer
 		self.wantsLayer = true
-		let lay = CAShapeLayer()
-		lay.backgroundColor = .white
-		lay.mask = animationLayer
-		self.layer?.addSublayer(lay)
+		self.layer?.addSublayer(animationLayer)
 	}
 	
 	required init?(coder: NSCoder) {
@@ -63,6 +59,11 @@ class AnimationButton: NSView, ToggleableButton {
 	
 	override func layout() {
 		super.layout()
+		configureFrames()
+	}
+	
+	override func viewDidChangeEffectiveAppearance() {
+		super.viewDidChangeEffectiveAppearance()
 		configureFrames()
 	}
 	
@@ -82,27 +83,33 @@ class AnimationButton: NSView, ToggleableButton {
 		let path = createStarPath(in: square, inset: square.height/10)
 		animatableLayer.path = path
 		
-		let shadow = ShadowState(shadowColor: .lightGray,
-								 shadowOpacity: 0.15,
+		let grayShadow = ShadowState(shadowColor: .lightGray,
+								 shadowOpacity: 0.1,
 								 shadowOffset: .zero,
 								 shadowRadius: 2.0,
 								 shadowPath: nil)
 		
+		let yellowShadow = ShadowState(shadowColor: .systemYellow,
+									   shadowOpacity: 0.1,
+									   shadowOffset: .zero,
+									   shadowRadius: 2.0,
+									   shadowPath: nil)
+		
 		var firstState = AnimationState()
 		firstState.shapeState.fillColor = nil
-		firstState.shadowState = shadow
+		firstState.shadowState = grayShadow
 		firstState.shapeState.strokeColor = .secondaryLabelColor
 		firstState.scale = 0.85
 		
 		var secondState = AnimationState()
 		secondState.shapeState.fillColor = nil
-		secondState.shadowState = shadow
+		secondState.shadowState = grayShadow
 		secondState.shapeState.strokeColor = .secondaryLabelColor
 		secondState.scale = 1.0
 		
 		var thirdState = AnimationState()
 		thirdState.shapeState.fillColor = .systemYellow
-		thirdState.shadowState = shadow
+		thirdState.shadowState = yellowShadow
 		thirdState.shapeState.strokeColor = .systemYellow
 		thirdState.scale = 0.85
 		
@@ -121,14 +128,12 @@ class AnimationButton: NSView, ToggleableButton {
 		let x = (rect.width - side)/2
 		let y = (rect.height - side)/2
 		let origin = CGPoint(x: x, y: y)
-		print("origin = \(origin)")
 		let size = CGSize(width: side, height: side)
 		return NSRect(origin: origin, size: size)
 	}
 	
 	func createStarPath(in normalRect: NSRect, inset: CGFloat) -> CGMutablePath {
 		let insetsRect = NSInsetRect(normalRect, 2.0/2 + inset, 2.0/2 + inset)
-		print("insetsRect = \(insetsRect)")
 		let path = CGMutablePath.star(in: insetsRect, corners: 5, smoothness: 0.5)
 		return path
 	}

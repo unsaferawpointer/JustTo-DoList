@@ -35,14 +35,17 @@ extension ContentViewController : ContentPresenterDelegate {
 	}
 	
 	func presenterDidInsert(indexSet: IndexSet) {
+		print("insert indexSet = \(indexSet.sorted(by: >))")
 		tableView.insertRows(at: indexSet, withAnimation: .slideRight)
 	}
 	
 	func presenterDidRemove(indexSet: IndexSet) {
+		print("remove indexSet = \(indexSet.sorted(by: >))")
 		tableView.removeRows(at: indexSet, withAnimation: .slideLeft)
 	}
 	
 	func presenterDidUpdate(indexSet: IndexSet) {
+		print("reload indexSet = \(indexSet.sorted(by: >))")
 		let columnIndexes = IndexSet(integersIn: 0..<tableView.numberOfColumns)
 		tableView.reloadData(forRowIndexes: indexSet, columnIndexes: columnIndexes)
 	}

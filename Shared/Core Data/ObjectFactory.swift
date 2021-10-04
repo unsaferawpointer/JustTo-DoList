@@ -34,47 +34,12 @@ extension ObjectFactory {
 //		}
 //	}
 	
-//	public func updateRelations(of object: T) {
-//
-//		var objectsIDs : Set<NSManagedObjectID> = []
-//
-//		let toOneRelationshipKeys = object.toOneRelationshipKeys
-//		let toManyRelationshipKeys = object.toManyRelationshipKeys
-//
-//		print("toOneRelationshipKeys = \(toOneRelationshipKeys)")
-//		print("toManyRelationshipKeys = \(toManyRelationshipKeys)")
-//
-//		for key in toOneRelationshipKeys {
-//			let relationshipObjectIDs = object.objectIDs(forRelationshipNamed: key)
-//			for objectID in relationshipObjectIDs {
-//				objectsIDs.insert(objectID)
-//			}
-//		}
-//
-//		for key in toManyRelationshipKeys {
-//			let relationshipObjectIDs = object.objectIDs(forRelationshipNamed: key)
-//			for objectID in relationshipObjectIDs {
-//				objectsIDs.insert(objectID)
-//			}
-//		}
-//
-//		print("objectIDs = \(objectsIDs)")
-//
-//		NSLog("objectIDs = %@", objectsIDs)
-//
-//		for objectID in objectsIDs {
-//			let objectToUpdate = viewContext.object(with: objectID)
-//			viewContext.refresh(objectToUpdate, mergeChanges: true)
-//		}
-//
-//	}
-	
 	private func performInBackground<C: Sequence>(for objects: C, block: @escaping ((NSManagedObjectContext, T) -> ())) where C.Element == T {
 		let objectIDs = objects.compactMap{ $0.objectID }
 		persistentContainer.performBackgroundTask { [weak self] privateContext in
 			for objectID in objectIDs {
 				guard let object = privateContext.object(with: objectID) as? T else {
-					fatalError("object with objectID = \(objectID) must be \(T.className())")
+					fatalError("object with objectID = \(objectID) must be \(String(describing: T.self))")
 				}
 				block(privateContext, object)
 			}

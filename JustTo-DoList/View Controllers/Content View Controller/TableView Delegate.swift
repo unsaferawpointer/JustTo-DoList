@@ -17,6 +17,7 @@ extension ContentViewController {
 		
 		switch columnId {
 		case .checkboxColumn:
+			
 			let cell = checkboxCell(in: tableView, for: task)
 			return cell
 		case .textColumn:
@@ -112,7 +113,6 @@ extension ContentViewController {
 			let starButton = AnimationButton(frame: CGRect(x: 0, y: 0, width: 18.0, height: 18.0))
 			cell = ToggleCellView(button: starButton)
 			cell?.identifier = id
-			print("favoriteCell")
 		}
 		
 		cell?.completionHandler = { [weak self] newValue in
@@ -156,6 +156,7 @@ extension ContentViewController : NSTableViewDelegate {
 			let cell = checkboxCell(in: tableView, for: task)
 			return cell
 		case .textColumn:
+			print("favoriteCell at row = \(row)")
 			let cell = textCell(in: tableView, for: task)
 			return cell
 		case .listColumn:

@@ -45,20 +45,20 @@ class ContentPresenter<T: NSManagedObject> {
 	// TableView State
 	private var selected: Set<T> = []
 	private var changes: Set<Change> = []
+	private var moved: Set<Change> = []
 	
 	var isEditing = false
 
 	func selectionDidChanged(newSelection selection: IndexSet) {
 		if isEditing == false {
 			selected = Set(selection.map{ store.objects[$0] })
-			print("selected = \(selected)")
 		}
 		
 	}
 	
 	#warning("Dont implemented")
-	func reloadData() {
-		store.performFetch(with: nil, sortDescriptors: [])
+	func reloadData(with sortDescriptors: [NSSortDescriptor]) {
+		store.performFetch(with: nil, sortDescriptors: sortDescriptors)
 	}
 	
 }
@@ -113,8 +113,8 @@ extension ContentPresenter : StoreDelegate {
 	func storeDidMove(object: NSManagedObject, from oldIndex: Int, to newIndex: Int) {
 		let insertion = Change(type: .insert, object: object as! T, index: newIndex)
 		let deletion = Change(type: .remove, object: object as! T, index: oldIndex)
-		changes.insert(insertion)
-		changes.insert(deletion)
+		moved.insert(insertion)
+		moved.insert(deletion)
 	}
 	
 	func storeDidChangeContent() {
@@ -123,26 +123,29 @@ extension ContentPresenter : StoreDelegate {
 		let insertions = changes.filter{ $0.type == .insert }
 		let update = changes.filter{ $0.type == .update }
 		
-		let removedIndexSet = IndexSet(removals.compactMap{ $0.index })
-		let insertedIndexSet = IndexSet(insertions.compactMap{ $0.index })
-		let updatedIndexSet = IndexSet(update.compactMap{ $0.index })
+		let removedIndexSet = IndexSet(removals.map{ $0.index })
+		let insertedIndexSet = IndexSet(insertions.map{ $0.index })
+		let updatedIndexSet = IndexSet(update.map{ $0.index })
 		
 		delegate?.presenterWillChangeContent()
 		delegate?.presenterDidRemove(indexSet: removedIndexSet)
 		delegate?.presenterDidInsert(indexSet: insertedIndexSet)
-		delegate?.presenterDidUpdate(indexSet: updatedIndexSet)
+		delegate?.presenterDidUpdate(indexSet: updatedIndexSet.subtracting(insertedIndexSet).subtracting(removedIndexSet))
+		delegate?.presenterDidRemove(indexSet: IndexSet(moved.filter{ $0.type == .remove }.map{ $0.index }))
+		delegate?.presenterDidInsert(indexSet: IndexSet(moved.filter{ $0.type == .insert }.map{ $0.index }))
 		delegate?.presenterDidChangeContent()
 		
-		let removedObjects = Set(removals.compactMap{ $0.object })
-		let insertedObjects = Set(insertions.compactMap{ $0.object })
+//		let removedObjects = Set(removals.compactMap{ $0.object })
+//		let insertedObjects = Set(insertions.compactMap{ $0.object })
 		
-		let movedObjects = removedObjects.intersection(insertedObjects)
+		let movedObjects = Set( moved.map{ $0.object })
 		let selectedMovedObjects = movedObjects.intersection(selected)
 		let selectedMovedIndices = selectedMovedObjects.compactMap { store.objects.firstIndex(of: $0)}
 		let selectedMovedIndexSet = IndexSet(selectedMovedIndices)
 		delegate?.presenterDidSelect(indexSet: selectedMovedIndexSet)
 		
 		changes.removeAll()
+		moved.removeAll()
 		isEditing = false
 	}
 	
@@ -181,6 +184,7 @@ extension ContentPresenter where T == Task {
 	
 	
 	func fromFavorites() {
+		print(#function)
 		factory.set(value: false, for: \.isFavorite, to: selected)
 	}
 	
