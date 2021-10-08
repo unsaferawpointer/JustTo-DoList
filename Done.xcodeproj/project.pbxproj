@@ -17,7 +17,6 @@
 		4C285DF7270B3C3A00FDC23E /* CoreDataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD00B9B26C05E2700AC491E /* CoreDataStorage.swift */; };
 		4C30A9D4270D8097000299E7 /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C30A9D3270D8097000299E7 /* ContentViewController.swift */; };
 		4C30A9D5270D83EC000299E7 /* JustTo_DoList.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4CD00B7626BFBD8A00AC491E /* JustTo_DoList.xcdatamodeld */; };
-		4C30A9D8270D9007000299E7 /* CoreDataStore in Frameworks */ = {isa = PBXBuildFile; productRef = 4C30A9D7270D9007000299E7 /* CoreDataStore */; };
 		4C30A9DB270EB9FF000299E7 /* ContentViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C30A9DA270EB9FF000299E7 /* ContentViewPresenter.swift */; };
 		4C30A9DC270EB9FF000299E7 /* ContentViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C30A9DA270EB9FF000299E7 /* ContentViewPresenter.swift */; };
 		4C30A9E0270F8215000299E7 /* String Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C30A9DF270F8215000299E7 /* String Extension.swift */; };
@@ -27,6 +26,7 @@
 		4C30A9E8271013F0000299E7 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 4C30A9E6271013F0000299E7 /* README.md */; };
 		4C30A9EE2710169F000299E7 /* screenshot.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C30A9ED2710169F000299E7 /* screenshot.png */; };
 		4C30A9EF2710169F000299E7 /* screenshot.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C30A9ED2710169F000299E7 /* screenshot.png */; };
+		4C30A9F227102631000299E7 /* CoreDataStore in Frameworks */ = {isa = PBXBuildFile; productRef = 4C30A9F127102631000299E7 /* CoreDataStore */; };
 		4C3372E326E7E1A50035E5CF /* DefaultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3372E226E7E1A50035E5CF /* DefaultViewController.swift */; };
 		4C48B65626C2570B001DCA1E /* ContentView TableView Data Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C48B65526C2570B001DCA1E /* ContentView TableView Data Source.swift */; };
 		4C48B65C26C295BC001DCA1E /* ToggleCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C48B65A26C295BC001DCA1E /* ToggleCellView.swift */; };
@@ -59,7 +59,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4C285DDC270B3AB300FDC23E /* JustTo-DoList-IOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "JustTo-DoList-IOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C285DDC270B3AB300FDC23E /* Done-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Done-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C285DDE270B3AB300FDC23E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4C285DE0270B3AB300FDC23E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		4C285DE2270B3AB300FDC23E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -87,12 +87,12 @@
 		4C48B67326C44643001DCA1E /* ContentView Touchbar Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ContentView Touchbar Extension.swift"; sourceTree = "<group>"; };
 		4C48B67526C50815001DCA1E /* sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sound.mp3; sourceTree = "<group>"; };
 		4C768C7026F7DFEA008E0EE6 /* AnimatableLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatableLayer.swift; sourceTree = "<group>"; };
-		4CD00B6F26BFBD8A00AC491E /* JustTo-DoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "JustTo-DoList.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4CD00B6F26BFBD8A00AC491E /* Done-macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Done-macOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CD00B7226BFBD8A00AC491E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4CD00B7726BFBD8A00AC491E /* JustTo_DoList.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = JustTo_DoList.xcdatamodel; sourceTree = "<group>"; };
 		4CD00B7926BFBD8B00AC491E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4CD00B7E26BFBD8B00AC491E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4CD00B7F26BFBD8B00AC491E /* JustTo_DoList.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = JustTo_DoList.entitlements; sourceTree = "<group>"; };
+		4CD00B7F26BFBD8B00AC491E /* Done.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Done.entitlements; sourceTree = "<group>"; };
 		4CD00B8526BFC00300AC491E /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		4CD00B8826BFC16B00AC491E /* MainSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSplitViewController.swift; sourceTree = "<group>"; };
 		4CD00B8C26BFCB9800AC491E /* MainWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
@@ -119,14 +119,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4C30A9D8270D9007000299E7 /* CoreDataStore in Frameworks */,
+				4C30A9F227102631000299E7 /* CoreDataStore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4C285DDD270B3AB300FDC23E /* JustTo-DoList-IOS */ = {
+		4C285DDD270B3AB300FDC23E /* IOS */ = {
 			isa = PBXGroup;
 			children = (
 				4C285DDE270B3AB300FDC23E /* AppDelegate.swift */,
@@ -136,7 +136,7 @@
 				4C285DEC270B3AB500FDC23E /* LaunchScreen.storyboard */,
 				4C285DEF270B3AB500FDC23E /* Info.plist */,
 			);
-			path = "JustTo-DoList-IOS";
+			path = IOS;
 			sourceTree = "<group>";
 		};
 		4C285DF3270B3BEB00FDC23E /* Shared */ = {
@@ -271,8 +271,8 @@
 				4C30A9E6271013F0000299E7 /* README.md */,
 				4C30A9E92710166C000299E7 /* Readme Resource */,
 				4C285DF3270B3BEB00FDC23E /* Shared */,
-				4CD00B7126BFBD8A00AC491E /* JustTo-DoList */,
-				4C285DDD270B3AB300FDC23E /* JustTo-DoList-IOS */,
+				4CD00B7126BFBD8A00AC491E /* macOS */,
+				4C285DDD270B3AB300FDC23E /* IOS */,
 				4CD00B7026BFBD8A00AC491E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -280,13 +280,13 @@
 		4CD00B7026BFBD8A00AC491E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4CD00B6F26BFBD8A00AC491E /* JustTo-DoList.app */,
-				4C285DDC270B3AB300FDC23E /* JustTo-DoList-IOS.app */,
+				4CD00B6F26BFBD8A00AC491E /* Done-macOS.app */,
+				4C285DDC270B3AB300FDC23E /* Done-iOS.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		4CD00B7126BFBD8A00AC491E /* JustTo-DoList */ = {
+		4CD00B7126BFBD8A00AC491E /* macOS */ = {
 			isa = PBXGroup;
 			children = (
 				4CD00B7226BFBD8A00AC491E /* AppDelegate.swift */,
@@ -297,11 +297,11 @@
 				4CD00B8726BFC14500AC491E /* View Controllers */,
 				4C30A9DE270F4AC6000299E7 /* Resource */,
 				4CD00B7E26BFBD8B00AC491E /* Info.plist */,
-				4CD00B7F26BFBD8B00AC491E /* JustTo_DoList.entitlements */,
+				4CD00B7F26BFBD8B00AC491E /* Done.entitlements */,
 				4CD00B8526BFC00300AC491E /* main.swift */,
 				4CD00B9D26C05E8000AC491E /* Temp */,
 			);
-			path = "JustTo-DoList";
+			path = macOS;
 			sourceTree = "<group>";
 		};
 		4CD00B8726BFC14500AC491E /* View Controllers */ = {
@@ -364,9 +364,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		4C285DDB270B3AB300FDC23E /* JustTo-DoList-IOS */ = {
+		4C285DDB270B3AB300FDC23E /* Done-iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4C285DF0270B3AB500FDC23E /* Build configuration list for PBXNativeTarget "JustTo-DoList-IOS" */;
+			buildConfigurationList = 4C285DF0270B3AB500FDC23E /* Build configuration list for PBXNativeTarget "Done-iOS" */;
 			buildPhases = (
 				4C285DD8270B3AB300FDC23E /* Sources */,
 				4C285DD9270B3AB300FDC23E /* Frameworks */,
@@ -376,14 +376,14 @@
 			);
 			dependencies = (
 			);
-			name = "JustTo-DoList-IOS";
+			name = "Done-iOS";
 			productName = "JustTo-DoList-IOS";
-			productReference = 4C285DDC270B3AB300FDC23E /* JustTo-DoList-IOS.app */;
+			productReference = 4C285DDC270B3AB300FDC23E /* Done-iOS.app */;
 			productType = "com.apple.product-type.application";
 		};
-		4CD00B6E26BFBD8A00AC491E /* JustTo-DoList */ = {
+		4CD00B6E26BFBD8A00AC491E /* Done-macOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4CD00B8226BFBD8B00AC491E /* Build configuration list for PBXNativeTarget "JustTo-DoList" */;
+			buildConfigurationList = 4CD00B8226BFBD8B00AC491E /* Build configuration list for PBXNativeTarget "Done-macOS" */;
 			buildPhases = (
 				4CD00B6B26BFBD8A00AC491E /* Sources */,
 				4CD00B6C26BFBD8A00AC491E /* Frameworks */,
@@ -393,12 +393,12 @@
 			);
 			dependencies = (
 			);
-			name = "JustTo-DoList";
+			name = "Done-macOS";
 			packageProductDependencies = (
-				4C30A9D7270D9007000299E7 /* CoreDataStore */,
+				4C30A9F127102631000299E7 /* CoreDataStore */,
 			);
 			productName = "JustTo-DoList";
-			productReference = 4CD00B6F26BFBD8A00AC491E /* JustTo-DoList.app */;
+			productReference = 4CD00B6F26BFBD8A00AC491E /* Done-macOS.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -408,7 +408,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1300;
-				LastUpgradeCheck = 1250;
+				LastUpgradeCheck = 1300;
 				TargetAttributes = {
 					4C285DDB270B3AB300FDC23E = {
 						CreatedOnToolsVersion = 13.0;
@@ -418,7 +418,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 4CD00B6A26BFBD8A00AC491E /* Build configuration list for PBXProject "JustTo-DoList" */;
+			buildConfigurationList = 4CD00B6A26BFBD8A00AC491E /* Build configuration list for PBXProject "Done" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -429,14 +429,14 @@
 			);
 			mainGroup = 4CD00B6626BFBD8A00AC491E;
 			packageReferences = (
-				4C30A9D6270D9007000299E7 /* XCRemoteSwiftPackageReference "CoreDataStore" */,
+				4C30A9F027102631000299E7 /* XCRemoteSwiftPackageReference "CoreDataStore" */,
 			);
 			productRefGroup = 4CD00B7026BFBD8A00AC491E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				4CD00B6E26BFBD8A00AC491E /* JustTo-DoList */,
-				4C285DDB270B3AB300FDC23E /* JustTo-DoList-IOS */,
+				4CD00B6E26BFBD8A00AC491E /* Done-macOS */,
+				4C285DDB270B3AB300FDC23E /* Done-iOS */,
 			);
 		};
 /* End PBXProject section */
@@ -554,7 +554,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 48KV35Y6PN;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "JustTo-DoList-IOS/Info.plist";
+				INFOPLIST_FILE = IOS/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -565,7 +565,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.antoncherkasov.JustTo-DoList-IOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.antoncherkasov.Done-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -584,7 +584,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 48KV35Y6PN;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "JustTo-DoList-IOS/Info.plist";
+				INFOPLIST_FILE = IOS/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -595,7 +595,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.antoncherkasov.JustTo-DoList-IOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.antoncherkasov.Done-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -609,6 +609,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -671,6 +672,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -727,19 +729,21 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "JustTo-DoList/JustTo_DoList.entitlements";
+				CODE_SIGN_ENTITLEMENTS = macOS/Done.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 48KV35Y6PN;
 				ENABLE_HARDENED_RUNTIME = YES;
-				INFOPLIST_FILE = "JustTo-DoList/Info.plist";
+				INFOPLIST_FILE = macOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.antoncherkasov.JustTo-DoList";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.antoncherkasov.Done-macOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -749,19 +753,21 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "JustTo-DoList/JustTo_DoList.entitlements";
+				CODE_SIGN_ENTITLEMENTS = macOS/Done.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 48KV35Y6PN;
 				ENABLE_HARDENED_RUNTIME = YES;
-				INFOPLIST_FILE = "JustTo-DoList/Info.plist";
+				INFOPLIST_FILE = macOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.antoncherkasov.JustTo-DoList";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.antoncherkasov.Done-macOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -769,37 +775,37 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4C285DF0270B3AB500FDC23E /* Build configuration list for PBXNativeTarget "JustTo-DoList-IOS" */ = {
+		4C285DF0270B3AB500FDC23E /* Build configuration list for PBXNativeTarget "Done-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4C285DF1270B3AB500FDC23E /* Debug */,
 				4C285DF2270B3AB500FDC23E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
-		4CD00B6A26BFBD8A00AC491E /* Build configuration list for PBXProject "JustTo-DoList" */ = {
+		4CD00B6A26BFBD8A00AC491E /* Build configuration list for PBXProject "Done" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4CD00B8026BFBD8B00AC491E /* Debug */,
 				4CD00B8126BFBD8B00AC491E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
-		4CD00B8226BFBD8B00AC491E /* Build configuration list for PBXNativeTarget "JustTo-DoList" */ = {
+		4CD00B8226BFBD8B00AC491E /* Build configuration list for PBXNativeTarget "Done-macOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4CD00B8326BFBD8B00AC491E /* Debug */,
 				4CD00B8426BFBD8B00AC491E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		4C30A9D6270D9007000299E7 /* XCRemoteSwiftPackageReference "CoreDataStore" */ = {
+		4C30A9F027102631000299E7 /* XCRemoteSwiftPackageReference "CoreDataStore" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/unsaferawpointer/CoreDataStore";
 			requirement = {
@@ -810,9 +816,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		4C30A9D7270D9007000299E7 /* CoreDataStore */ = {
+		4C30A9F127102631000299E7 /* CoreDataStore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 4C30A9D6270D9007000299E7 /* XCRemoteSwiftPackageReference "CoreDataStore" */;
+			package = 4C30A9F027102631000299E7 /* XCRemoteSwiftPackageReference "CoreDataStore" */;
 			productName = CoreDataStore;
 		};
 /* End XCSwiftPackageProductDependency section */

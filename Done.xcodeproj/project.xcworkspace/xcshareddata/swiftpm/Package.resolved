@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "CoreDataStore",
+        "repositoryURL": "https://github.com/unsaferawpointer/CoreDataStore",
+        "state": {
+          "branch": "main",
+          "revision": "0e62de353860b57ce3c81485f33eace0eee36f25",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}
