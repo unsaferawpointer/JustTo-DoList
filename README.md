@@ -1,5 +1,7 @@
 #  About
 
+![me](https://github.com/unsaferawpointer/JustTo-DoList/blob/main/Readme%20Resource/screenshot.png)
+
 It this simple check list miltiplatform app for iOS and macOS with CloudKit synchronization.
 
 # To Do
