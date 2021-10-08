@@ -16,41 +16,41 @@ class AnimationButton: NSView, ToggleableButton {
 	
 	var backgroundStyle: NSView.BackgroundStyle = .normal {
 		didSet {
-			if backgroundStyle == .emphasized {
-				animatableLayer.isSelected = true
-			} else {
-				animatableLayer.isSelected = false
-			}
-			
+			animationLayersGroup.set(selected: backgroundStyle == .emphasized)
 		}
 	}
 	
-	var handler: ((Bool) -> ())?
+	var handler: ((Bool) -> Void)?
 	
 	func forceStopAnimation() {
-		animatableLayer.stopAnimation()
+		animationLayersGroup.stopAnimation()
 	}
-	//
 	
 	var isOn: Bool = false {
 		didSet {
-			animatableLayer.animationIsInverted = isOn
+			animationLayersGroup.set(inverted: isOn)
 		}
 	}
 	
-	var animatableLayer : AnimationLayer!
+	var animationLayersGroup = AnimationLayersGroup()
 	
 	override init(frame frameRect: NSRect) {
 		super.init(frame: frameRect)
-		configureAnimationLayer()
+		configureAnimationLayers()
 		setupGesture()
 	}
 	
-	private func configureAnimationLayer() {
-		let animationLayer = AnimationLayer()
-		self.animatableLayer = animationLayer
+	func configureAnimationLayers() {
+		animationLayersGroup.add(layers: createAnimationLayers())
+		animationLayersGroup.delegate = self
 		self.wantsLayer = true
-		self.layer?.addSublayer(animationLayer)
+		for animationLayer in animationLayersGroup.layers {
+			self.layer?.addSublayer(animationLayer)
+		}
+	}
+	
+	func createAnimationLayers() -> [AnimationLayer] {
+		return [AnimationLayer()]
 	}
 	
 	required init?(coder: NSCoder) {
@@ -62,13 +62,8 @@ class AnimationButton: NSView, ToggleableButton {
 		configureFrames()
 	}
 	
-	override func viewDidChangeEffectiveAppearance() {
-		super.viewDidChangeEffectiveAppearance()
-		configureFrames()
-	}
-	
 	override var intrinsicContentSize: NSSize {
-		return NSSize(width: 21.0, height: 21.0)
+		return NSSize(width: 19.0, height: 19.0)
 	}
 	
 	private func setupGesture() {
@@ -81,7 +76,7 @@ class AnimationButton: NSView, ToggleableButton {
 		
 		let square = getMaxSquare(for: bounds)
 		let path = createStarPath(in: square, inset: square.height/10)
-		animatableLayer.path = path
+		animationLayersGroup.layers.first!.path = path
 		
 		let grayShadow = ShadowState(shadowColor: .lightGray,
 								 shadowOpacity: 0.1,
@@ -97,30 +92,32 @@ class AnimationButton: NSView, ToggleableButton {
 		
 		var firstState = AnimationState()
 		firstState.shapeState.fillColor = nil
+		firstState.shapeState.lineWidth = 1.5
 		firstState.shadowState = grayShadow
 		firstState.shapeState.strokeColor = .secondaryLabelColor
 		firstState.scale = 0.85
 		
 		var secondState = AnimationState()
 		secondState.shapeState.fillColor = nil
+		secondState.shapeState.lineWidth = 1.5
 		secondState.shadowState = grayShadow
-		secondState.shapeState.strokeColor = .secondaryLabelColor
-		secondState.scale = 1.0
+		secondState.shapeState.strokeColor = .systemYellow
+		secondState.scale = 1.1
 		
 		var thirdState = AnimationState()
 		thirdState.shapeState.fillColor = .systemYellow
+		thirdState.shapeState.lineWidth = 1.5
 		thirdState.shadowState = yellowShadow
 		thirdState.shapeState.strokeColor = .systemYellow
 		thirdState.scale = 0.85
 		
-		animatableLayer.add(state: firstState, withDuration: 0.1)
-		animatableLayer.add(state: secondState, withDuration: 0.5)
-		animatableLayer.add(state: thirdState, withDuration: 0.9)
+		animationLayersGroup.layers.first!.add(state: firstState, withDuration: 0.1)
+		animationLayersGroup.layers.first!.add(state: secondState, withDuration: 0.5)
+		animationLayersGroup.layers.first!.add(state: thirdState, withDuration: 0.9)
 		
-		animatableLayer.animationIsInverted = isOn
-		animatableLayer.frameAnimationDelegate = self
-		animatableLayer.frame = self.bounds
-		animatableLayer.invalidate()
+		animationLayersGroup.layers.first!.animationIsInverted = isOn
+		animationLayersGroup.layers.first!.frame = self.bounds
+		animationLayersGroup.layers.first!.invalidate()
 	}
 	
 	func getMaxSquare(for rect: NSRect) -> NSRect {
@@ -140,12 +137,14 @@ class AnimationButton: NSView, ToggleableButton {
 
 	@objc
 	func clicked(_ sender: Any?) {
-		animatableLayer.startAnimation()
+		animationLayersGroup.startAnimation()
 	}
 }
 
 extension AnimationButton : AnimationLayerDelegate {
-	
+	func animationDidStart() {
+		
+	}
 	func animationDidFinished() {
 		handler?(!isOn)
 	}

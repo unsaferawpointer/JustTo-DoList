@@ -14,13 +14,8 @@ extension NSUserInterfaceItemIdentifier {
 extension ContentViewController {
 	
 	func createContextMenu() -> NSMenu {
-		// ******** Keys ********
-		let carriageReturnKey = String(utf16CodeUnits: [unichar(NSCarriageReturnCharacter)], count: 1)
-		let backspaceKey = String(utf16CodeUnits: [unichar(NSBackspaceCharacter)], count: 1)
-		
 		let menu = NSMenu()
 		menu.delegate = self
-		
 		// ******** New Task ********
 		let newTask = NSMenuItem()
 		newTask.identifier = .contextMenuNewTask
@@ -28,57 +23,45 @@ extension ContentViewController {
 		newTask.action = #selector(newTask(_:))
 		newTask.keyEquivalent = "n"
 		menu.addItem(newTask)
-		
 		// ******** Duplicate ********
-		
 		let duplicate = NSMenuItem()
 		duplicate.title = NSLocalizedString(.menuDuplicateTask, comment: "")
 		duplicate.action = #selector(duplicate(_:))
 		duplicate.keyEquivalent = "d"
 		menu.addItem(duplicate)
-		
 		// ******** Separator ********
 		menu.addItem(NSMenuItem.separator())
-		
-		// ******** Mark completed ********
+		// ******** Mark completed / incomplete ********
 		let markCompleted = NSMenuItem()
 		markCompleted.title = NSLocalizedString(.menuMarkTaskCompleted, comment: "")
 		markCompleted.action = #selector(markCompleted(_:) as (Any?) -> ())
-		markCompleted.keyEquivalent = carriageReturnKey
+		markCompleted.keyEquivalent = .carriageReturnKey
 		menu.addItem(markCompleted)
-		
-		// ******** Mark uncompleted ********
 		let markUncompleted = NSMenuItem()
 		markUncompleted.title = NSLocalizedString(.menuMarkTaskIncomplete, comment: "")
 		markUncompleted.action = #selector(markIncomplete(_:))
-		markUncompleted.keyEquivalent = carriageReturnKey
+		markUncompleted.keyEquivalent = .carriageReturnKey
 		markUncompleted.keyEquivalentModifierMask = [.command, .shift]
 		menu.addItem(markUncompleted)
-		
 		// ******** Separator ********
 		menu.addItem(NSMenuItem.separator())
-		
 		// ******** Favorites ********
 		let toFavorites = NSMenuItem()
 		toFavorites.title = NSLocalizedString(.menuMoveTaskToFavorites, comment: "")
 		toFavorites.action = #selector(toFavorites(_:))
 		menu.addItem(toFavorites)
-		
 		let fromFavorites = NSMenuItem()
 		fromFavorites.action = #selector(fromFavorites(_:))
 		fromFavorites.title = NSLocalizedString(.menuMoveTaskFromFavorites, comment: "")
 		menu.addItem(fromFavorites)
-		
 		// ******** Separator ********
 		menu.addItem(NSMenuItem.separator())
-		
 		// ******** Delete ********
 		let delete = NSMenuItem()
 		delete.title = NSLocalizedString(.menuDeleteTask, comment: "")
-		delete.keyEquivalent = backspaceKey
+		delete.keyEquivalent = .backspaceKey
 		delete.action = #selector(delete(_:))
 		menu.addItem(delete)
-		
 		return menu
 	}
 	

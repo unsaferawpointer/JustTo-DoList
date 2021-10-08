@@ -42,6 +42,12 @@ class ToggleCellView: NSTableCellView {
 		super.init(frame: .zero)
 		self.addSubview(button)
 		configure()
+		
+	}
+	
+	override func viewDidMoveToWindow() {
+		super.viewDidMoveToWindow()
+		
 	}
 
 	required init?(coder: NSCoder) {
@@ -51,6 +57,15 @@ class ToggleCellView: NSTableCellView {
 	
 	func set(isOn: Bool) {
 		button?.set(isOn: isOn)
+	}
+	
+	override func mouseEntered(with event: NSEvent) {
+		print(#function)
+		button?.isHidden = false
+	}
+	
+	override func mouseExited(with event: NSEvent) {
+		button?.isHidden = true
 	}
 	
 	private func configure() {

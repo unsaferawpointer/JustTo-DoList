@@ -9,6 +9,18 @@ import UIKit
 
 class ViewController: UIViewController {
 	
+	init() {
+		super.init(nibName: nil, bundle: nil)
+	}
+	
+	required init?(coder: NSCoder) {
+		fatalError()
+	}
+	
+	override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+		fatalError()
+	}
+	
 	override func loadView() {
 		self.view = UIView()
 		self.view.backgroundColor = .blue

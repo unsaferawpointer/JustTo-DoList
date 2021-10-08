@@ -7,13 +7,6 @@
 
 import AppKit
 
-struct AnimationTheme {
-	var selectedColor: NSColor
-	var unselectedColor: NSColor
-	var lightColor: NSColor
-	var darkColor: NSColor
-}
-
 /// Don`t use this struct directly`
 struct UnsafeAnimationProperty {
 	let keyPath: String
@@ -27,9 +20,9 @@ protocol Animatable {
 struct ShadowState : Animatable {
 	
 	var shadowColor: NSColor?	 = nil
-	var shadowOpacity: Float	 = 0.25
+	var shadowOpacity: Float	 = 0.15
 	var shadowOffset: CGSize	 = .zero
-	var shadowRadius: CGFloat 	 = 3.0
+	var shadowRadius: CGFloat 	 = 2.0
 	var shadowPath: CGPath?		 = nil
 	
 	var properties: [UnsafeAnimationProperty] {
@@ -47,9 +40,9 @@ struct ShapeState : Animatable {
 	
 	var fillColor: NSColor?		 = nil
 	var strokeColor: NSColor?	 = .black
-	var strokeStart: CGFloat	 = 0.0
-	var strokeEnd: CGFloat		 = 1.0
-	var lineWidth: CGFloat		 = 1.5
+	var strokeStart: NSNumber	 = 0.0
+	var strokeEnd: NSNumber		 = 1.0
+	var lineWidth: CGFloat		 = 1.2
 	var miterLimit: CGFloat		 = 0.0
 	var lineDashPhase: CGFloat	 = 0.0
 	
@@ -68,7 +61,7 @@ struct ShapeState : Animatable {
 
 struct AnimationState : Animatable {
 	
-	var opacity: Float			= 1.0
+	var opacity: NSNumber		= 1.0
 	var scale: NSNumber 		= 1.0
 	
 	var shadowState: ShadowState = ShadowState()
@@ -84,6 +77,65 @@ struct AnimationState : Animatable {
 	}
 }
 
+class AnimationLayersGroup {
+	
+	var isAnimating = false
+	
+	weak var delegate: AnimationLayerDelegate?
+	
+	private(set) var layers: [AnimationLayer] = []
+	private var counter: Int = 0
+	
+	func add(layer: AnimationLayer) {
+		layers.append(layer)
+		layer.frameAnimationDelegate = self
+	}
+	
+	func add(layers: [AnimationLayer]) {
+		self.layers.append(contentsOf: layers)
+		layers.forEach{ $0.frameAnimationDelegate = self }
+	}
+	
+	func startAnimation() {
+		guard !isAnimating else {
+			return
+		}
+		counter = layers.count
+		isAnimating = true
+		layers.forEach{ $0.startAnimation() }
+	}
+	
+	func stopAnimation() {
+		layers.forEach{ $0.stopAnimation() }
+		counter = 0
+		isAnimating = false
+	}
+	
+	func set(selected: Bool) {
+		layers.forEach{ $0.isSelected = selected }
+	}
+	
+	func set(inverted: Bool) {
+		layers.forEach{ $0.animationIsInverted = inverted }
+	}
+	
+}
+
+extension AnimationLayersGroup : AnimationLayerDelegate {
+	
+	func animationDidStart() {
+		
+	}
+	
+	func animationDidFinished() {
+		counter -= 1
+		if counter == 0 {
+			isAnimating = false
+			delegate?.animationDidFinished()
+		}
+	}
+}
+
 class AnimationLayer : CAShapeLayer {
 	
 	var isAnimating: Bool 			= false
@@ -92,7 +144,12 @@ class AnimationLayer : CAShapeLayer {
 			invalidate()
 		}
 	}
-	var animationIsInverted: Bool 	= false
+	
+	var animationIsInverted: Bool 	= false {
+		didSet {
+			invalidate()
+		}
+	}
 	
 	private var states: [Animatable] = []
 	private var keyTimes: [NSNumber] = []
@@ -137,10 +194,6 @@ class AnimationLayer : CAShapeLayer {
 		return animationGroup
 	}
 	
-//	func isColor(keyPath: String) -> Bool {
-//		return keyPath == "fillColor" || keyPath == "strokeColor"
-//	}
-	
 	func converted(colors: [NSColor?]) -> [NSColor?] {
 		return colors.map { color in
 			return self.converted(color: color)
@@ -149,7 +202,6 @@ class AnimationLayer : CAShapeLayer {
 	
 	func converted(color: NSColor?) -> NSColor? {
 		#warning("Dont implemented")
-		
 		return color != nil ? NSColor.white : nil
 	}
 	
@@ -196,6 +248,7 @@ class AnimationLayer : CAShapeLayer {
 extension AnimationLayer : CAAnimationDelegate {
 	func animationDidStart(_ anim: CAAnimation) {
 		isAnimating = true
+		frameAnimationDelegate?.animationDidStart()
 	}
 	func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
 		isAnimating = false
@@ -206,6 +259,7 @@ extension AnimationLayer : CAAnimationDelegate {
 }
 
 protocol AnimationLayerDelegate: AnyObject {
+	func animationDidStart()
 	func animationDidFinished()
 }
 

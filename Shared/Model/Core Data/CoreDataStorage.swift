@@ -15,6 +15,8 @@ class CoreDataStorage {
 	
 	static let shared = CoreDataStorage()
 	
+	var errorHandler: (() -> (Error))?
+	
 	private init() { }
 	
 	var mainContext: NSManagedObjectContext {
@@ -37,7 +39,6 @@ class CoreDataStorage {
 			if let error = error {
 				// Replace this implementation with code to handle the error appropriately.
 				// fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-				
 				/*
 				Typical reasons for an error here include:
 				* The parent directory does not exist, cannot be created, or disallows writing.
@@ -82,12 +83,10 @@ class CoreDataStorage {
 	func canTerminate(_ sender: NSApplication) -> Bool {
 		let context = persistentContainer.viewContext
 		
-		#if os(macOS)
 		if !context.commitEditing() {
 			NSLog("\(NSStringFromClass(type(of: self))) unable to commit editing to terminate")
 			return false
 		}
-		#endif
 		
 		if !context.hasChanges {
 			return true
@@ -96,29 +95,32 @@ class CoreDataStorage {
 		do {
 			try context.save()
 		} catch {
-			let nserror = error as NSError
-			
-			// Customize this code block to include application-specific recovery steps.
-			let result = sender.presentError(nserror)
-			if (result) {
-				return false
-			}
 			
 			
-			let question = NSLocalizedString("Could not save changes while quitting. Quit anyway?", comment: "Quit without saves error question message")
-			let info = NSLocalizedString("Quitting now will lose any changes you have made since the last successful save", comment: "Quit without saves error question info");
-			let quitButton = NSLocalizedString("Quit anyway", comment: "Quit anyway button title")
-			let cancelButton = NSLocalizedString("Cancel", comment: "Cancel button title")
-			let alert = NSAlert()
-			alert.messageText = question
-			alert.informativeText = info
-			alert.addButton(withTitle: quitButton)
-			alert.addButton(withTitle: cancelButton)
 			
-			let answer = alert.runModal()
-			if answer == .alertSecondButtonReturn {
-				return false
-			}
+//			let nserror = error as NSError
+//
+//			// Customize this code block to include application-specific recovery steps.
+//			let result = sender.presentError(nserror)
+//			if (result) {
+//				return false
+//			}
+//
+//
+//			let question = NSLocalizedString("Could not save changes while quitting. Quit anyway?", comment: "Quit without saves error question message")
+//			let info = NSLocalizedString("Quitting now will lose any changes you have made since the last successful save", comment: "Quit without saves error question info");
+//			let quitButton = NSLocalizedString("Quit anyway", comment: "Quit anyway button title")
+//			let cancelButton = NSLocalizedString("Cancel", comment: "Cancel button title")
+//			let alert = NSAlert()
+//			alert.messageText = question
+//			alert.informativeText = info
+//			alert.addButton(withTitle: quitButton)
+//			alert.addButton(withTitle: cancelButton)
+//
+//			let answer = alert.runModal()
+//			if answer == .alertSecondButtonReturn {
+//				return false
+//			}
 			
 		}
 		// If we got here, it is time to quit.

@@ -17,7 +17,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		createWindow()
 		windowController = MainWindowController(window: window)
 		windowController?.shouldCascadeWindows = false
-		windowController?.showWindow(nil)
+		windowController?.showWindow(self)
+		setupMainMenu()
 	}
 
 	func applicationWillTerminate(_ aNotification: Notification) {
@@ -52,6 +53,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		window?.isRestorable = true
 		window?.identifier = NSUserInterfaceItemIdentifier("main_window")
 		window?.toolbarStyle = .unified
+		window?.tabbingMode = .disallowed
 		window?.titlebarSeparatorStyle = .automatic
 		window?.contentViewController = MainSplitViewController()
 		let toolbar = NSToolbar()
@@ -118,7 +120,7 @@ extension AppDelegate : NSToolbarDelegate {
 	}
 	
 	@objc func newTask(_ sender: Any?) {
-		NotificationCenter.default.post(name: .newTask, object: nil)
+		NSApp.sendAction(#selector(newTask(_:)), to: nil, from: self)
 	}
 	
 }

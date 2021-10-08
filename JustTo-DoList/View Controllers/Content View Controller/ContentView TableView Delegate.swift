@@ -45,10 +45,6 @@ extension ContentViewController {
 	}
 	
 	func textCell(in tableView: NSTableView, for task: Task) -> TextCellView {
-		
-		//let cell = makeCell(in: tableView, withRawID: "text_cell") as? TextCellView
-		
-		
 		let id = NSUserInterfaceItemIdentifier("text_cell")
 		var cell = tableView.makeView(withIdentifier: id, owner: nil) as? TextCellView
 		if cell == nil {
@@ -57,7 +53,7 @@ extension ContentViewController {
 			cell?.identifier = id
 		}
 		cell?.handler = { [weak self] newText in
-			self?.factory.set(value: newText, for: \.text, in: task)
+			self?.presenter.factory.set(value: newText, for: \.text, in: task)
 		}
 		if task.isDone {
 			var attributes: [NSAttributedString.Key : Any?] = [:]
@@ -85,7 +81,7 @@ extension ContentViewController {
 			cell?.identifier = id
 		}
 		cell?.completionHandler = { [weak self] isOn in
-			self?.factory.set(value: isOn, for: \.transientIsDone, in: task)
+			self?.presenter.factory.set(value: isOn, for: \.transientIsDone, in: task)
 		}
 		cell?.set(isOn: task.transientIsDone)
 		return cell!
@@ -116,7 +112,7 @@ extension ContentViewController {
 		}
 		
 		cell?.completionHandler = { [weak self] newValue in
-			self?.factory.set(value: newValue, for: \.isFavorite, in: task)
+			self?.presenter.factory.set(value: newValue, for: \.isFavorite, in: task)
 		}
 		cell?.set(isOn: task.isFavorite)
 		return cell!
@@ -124,10 +120,6 @@ extension ContentViewController {
 }
 
 extension ContentViewController : NSTableViewDelegate {
-	
-	func tableViewSelectionDidChange(_ notification: Notification) {
-		presenter.selectionDidChanged(newSelection: tableView.selectedRowIndexes)
-	}
 	
 	func tableView(_ tableView: NSTableView, shouldEdit tableColumn: NSTableColumn?, row: Int) -> Bool {
 		if let id = tableColumn?.identifier, id == .textColumn {
@@ -150,13 +142,12 @@ extension ContentViewController : NSTableViewDelegate {
 	
 	func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
 		guard let id = tableColumn?.identifier else { return nil }
-		let task = presenter.store.objects[row]
+		let task = presenter.objects[row]
 		switch id {
 		case .checkboxColumn:
 			let cell = checkboxCell(in: tableView, for: task)
 			return cell
 		case .textColumn:
-			print("favoriteCell at row = \(row)")
 			let cell = textCell(in: tableView, for: task)
 			return cell
 		case .listColumn:

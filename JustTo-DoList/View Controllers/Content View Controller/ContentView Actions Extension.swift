@@ -10,13 +10,12 @@ import Foundation
 extension ContentViewController {
 	@objc
 	func newTask(_ sender: Any?) {
-		print(#function)
-		factory.newObject()
+		presenter.newTask()
 	}
 	
 	@objc
 	func duplicate(_ sender: Any?) {
-		presenter.duplicate()
+		presenter.duplicateTasks()
 	}
 	
 	@objc
@@ -31,16 +30,16 @@ extension ContentViewController {
 	
 	@objc
 	func toFavorites(_ sender: Any?) {
-		presenter.toFavorites()
+		presenter.moveToFavorites()
 	}
 	
 	@objc
 	func fromFavorites(_ sender: Any?) {
-		presenter.fromFavorites()
+		presenter.moveFromFavorites()
 	}
 	
 	@objc
 	func delete(_ sender: Any?) {
-		presenter.delete()
+		presenter.deleteTasks()
 	}
 }

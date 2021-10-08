@@ -1,14 +1,16 @@
 //
 //  String Extension.swift
-//  CompactToDo
+//  JustTo-DoList
 //
-//  Created by Anton Cherkasov on 06.08.2021.
+//  Created by Anton Cherkasov on 07.10.2021.
 //
 
-import Foundation
-
+import AppKit
 
 extension String {
+	static let carriageReturnKey = String(utf16CodeUnits: [unichar(NSCarriageReturnCharacter)], count: 1)
+	static let backspaceKey = String(utf16CodeUnits: [unichar(NSBackspaceCharacter)], count: 1)
+	
 	static var navigationItemMyDay = "navigation_item_my_day"
 	static var navigationItemFavorites = "navigation_item_favorites"
 	static var navigationItemCompleted = "navigation_item_completed"

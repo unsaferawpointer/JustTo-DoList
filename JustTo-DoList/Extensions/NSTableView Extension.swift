@@ -8,7 +8,6 @@
 import AppKit
 
 extension NSTableView {
-	
 	var clickedOrSelectedIntersection: IndexSet {
 		if clickedRow >= 0 {
 			if selectedRowIndexes.contains(clickedRow) {

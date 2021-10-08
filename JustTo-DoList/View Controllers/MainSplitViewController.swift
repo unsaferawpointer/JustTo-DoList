@@ -56,11 +56,11 @@ extension MainSplitViewController {
 	}
 	
 	private func setupContentItem() {
-		let contentVC = ContentViewController()
+		let presenter = ContentViewPresenter()
+		let contentVC = ContentViewController(presenter: presenter)
 		let contentItem = NSSplitViewItem(contentListWithViewController: contentVC)
-		contentItem.titlebarSeparatorStyle = .shadow
 		contentItem.allowsFullHeightLayout = true
-		contentItem.titlebarSeparatorStyle = .none
+		contentItem.titlebarSeparatorStyle = .line
 		contentItem.minimumThickness = CONTENT_MIN_WIDTH
 		contentItem.holdingPriority = .defaultLow
 		addSplitViewItem(contentItem)

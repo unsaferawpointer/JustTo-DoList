@@ -7,6 +7,8 @@
 
 import AppKit
 
+
+
 extension NSAppearance {
 	static func withAppAppearance<T>(_ closure: () throws -> T) rethrows -> T {
 		let previousAppearance = NSAppearance.current
@@ -20,58 +22,72 @@ extension NSAppearance {
 
 class TickButton: AnimationButton {
 	
-	var backgroundLayer = AnimationLayer()
+	override func createAnimationLayers() -> [AnimationLayer] {
+		return [AnimationLayer(), AnimationLayer()]
+	}
 	
 	override func configureFrames() {
-		configureBackgroundLayer()
-		configureTickLayer()
+		setupEllipse()
+		setupTick()
 	}
 	
-	private func configureBackgroundLayer() {
+	private func setupEllipse() {
 		let square = getMaxSquare(for: bounds)
-		backgroundLayer.path = createSuperEllipse(in: square)
+		animationLayersGroup.layers[1].path = createSuperEllipse(in: square)
+		
 		
 		var firstState = AnimationState()
 		firstState.shapeState.fillColor = nil
-		firstState.shapeState.strokeEnd = 0.0
-		firstState.shapeState.strokeColor = .secondaryLabelColor
-		firstState.scale = 1.0
+		firstState.shapeState.strokeColor = .tertiaryLabelColor
+		firstState.opacity = 0.0
 		
 		var thirdState = AnimationState()
 		thirdState.shapeState.fillColor = nil
-		thirdState.shapeState.strokeEnd = 1.0
-		thirdState.shapeState.strokeColor = .secondaryLabelColor
-		thirdState.scale = 1.0
+		thirdState.shapeState.strokeColor = .tertiaryLabelColor
+		thirdState.opacity = 1.0
 		
-		backgroundLayer.add(state: firstState, withDuration: 0.5)
-		backgroundLayer.add(state: thirdState, withDuration: 0.5)
+		animationLayersGroup.layers[1].add(state: thirdState, withDuration: 0.1)
+		animationLayersGroup.layers[1].add(state: firstState, withDuration: 0.2)
 		
-		backgroundLayer.animationIsInverted = isOn
-		backgroundLayer.frame = self.bounds
+		animationLayersGroup.layers[1].animationIsInverted = isOn
+		animationLayersGroup.layers[1].frame = self.bounds
+		animationLayersGroup.layers[1].invalidate()
 	}
 	
-	private func configureTickLayer() {
+	private func setupTick() {
 		let square = getMaxSquare(for: bounds)
-		animatableLayer.path = createTick(in: square)
+		animationLayersGroup.layers.first!.path = createTick(in: square)
+		
 		
 		var firstState = AnimationState()
 		firstState.shapeState.fillColor = nil
+		firstState.opacity = 0.0
+		firstState.shapeState.lineWidth = 1.0
 		firstState.shapeState.strokeEnd = 0.0
-		firstState.shapeState.strokeColor = .secondaryLabelColor
-		firstState.scale = 1.0
+		firstState.shapeState.strokeColor = .tertiaryLabelColor
+		
+		var secondState = AnimationState()
+		secondState.shapeState.fillColor = nil
+		secondState.opacity = 0.0
+		secondState.scale = 2.0
+		secondState.shapeState.lineWidth = 1.0
+		secondState.shapeState.strokeEnd = 0.0
+		secondState.shapeState.strokeColor = .tertiaryLabelColor
 		
 		var thirdState = AnimationState()
 		thirdState.shapeState.fillColor = nil
+		thirdState.shapeState.lineWidth = 1.5
+		thirdState.opacity = 1.0
 		thirdState.shapeState.strokeEnd = 1.0
 		thirdState.shapeState.strokeColor = .secondaryLabelColor
-		thirdState.scale = 1.0
 		
-		animatableLayer.add(state: firstState, withDuration: 0.5)
-		animatableLayer.add(state: thirdState, withDuration: 0.5)
-		
-		animatableLayer.animationIsInverted = isOn
-		animatableLayer.frameAnimationDelegate = self
-		animatableLayer.frame = self.bounds
+		animationLayersGroup.layers.first!.add(state: firstState, withDuration: 0.3)
+		animationLayersGroup.layers.first!.add(state: secondState, withDuration: 0.5)
+		animationLayersGroup.layers.first!.add(state: thirdState, withDuration: 0.8)
+		animationLayersGroup.layers.first!.animationIsInverted = isOn
+		animationLayersGroup.layers.first!.frameAnimationDelegate = self
+		animationLayersGroup.layers.first!.frame = self.bounds
+		animationLayersGroup.layers.first!.invalidate()
 	}
 	
 	func createSuperEllipse(in normalRect: NSRect) -> CGMutablePath {
