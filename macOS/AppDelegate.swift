@@ -56,6 +56,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		window?.tabbingMode = .disallowed
 		window?.titlebarSeparatorStyle = .automatic
 		window?.contentViewController = MainSplitViewController()
+		window?.appearance = NSAppearance.init(named: .vibrantLight)
 		let toolbar = NSToolbar()
 		toolbar.sizeMode = .regular
 		toolbar.displayMode = .iconOnly
@@ -72,6 +73,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	    // Save changes in the application's managed object context before the application terminates.
 		let canTerminate = CoreDataStorage.shared.canTerminate(sender)
 		return canTerminate ? .terminateNow : .terminateCancel
+	}
+	
+	func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+		return true
 	}
 
 }

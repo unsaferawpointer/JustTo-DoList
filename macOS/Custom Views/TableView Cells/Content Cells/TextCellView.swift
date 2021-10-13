@@ -9,15 +9,7 @@ import Cocoa
 import Combine
 
 
-class TextCellView: NSView {
-	
-	var textField: NSTextField!
-	
-	var subscription: AnyCancellable?
-	
-	func bind(name: NSBindingName, to object: Any, withkeyPath keyPath: String) {
-		//textField.bind(name, to: object, withKeyPath: keyPath, options: nil)
-	}
+class TextCellView: NSTableCellView {
 	
 	var handler: ((String) -> ())?
 	
@@ -36,21 +28,16 @@ class TextCellView: NSView {
 	
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
-		configureViews()
-		configureConstraints()
+		fatalError("Dont implemented")
 	}
 	
 	override func prepareForReuse() {
 		super.prepareForReuse()
-		subscription?.cancel()
-		textField.unbind(.value)
-		textField.unbind(.attributedString)
 	}
 	
 	private func configureViews() {
-		self.translatesAutoresizingMaskIntoConstraints = false
-		
-		self.textField = NSTextField()
+		let textField = NSTextField()
+		self.textField = textField
 		self.addSubview(textField)
 		// Configure NSTextField
 		textField.target = self
@@ -64,18 +51,19 @@ class TextCellView: NSView {
 	}
 	
 	private func configureConstraints() {
-		textField.translatesAutoresizingMaskIntoConstraints = false
-		textField.setContentHuggingPriority(.defaultLow, for: .horizontal)
-		textField.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-		self.centerYAnchor.constraint(equalTo: textField.centerYAnchor).isActive = true
-		self.leadingAnchor.constraint(equalTo: textField.leadingAnchor).isActive = true
-		self.trailingAnchor.constraint(equalTo: textField.trailingAnchor).isActive = true
+		textField!.translatesAutoresizingMaskIntoConstraints = false
+		textField!.setContentHuggingPriority(.defaultLow, for: .horizontal)
+		textField!.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+		self.translatesAutoresizingMaskIntoConstraints = false
+		self.centerYAnchor.constraint(equalTo: textField!.centerYAnchor).isActive = true
+		self.leadingAnchor.constraint(equalTo: textField!.leadingAnchor).isActive = true
+		self.trailingAnchor.constraint(equalTo: textField!.trailingAnchor).isActive = true
 	}
 	
 	// #END		******** Init Block ********
 	
 	func set(textStyle style: NSFont.TextStyle) {
-		textField.font = NSFont.preferredFont(forTextStyle: style, options: [:])
+		textField!.font = NSFont.preferredFont(forTextStyle: style, options: [:])
 	}
 	
 }
@@ -87,3 +75,11 @@ extension TextCellView : NSTextFieldDelegate {
 		handler?(text)
 	}
 }
+
+//extension TextCellView : ContentCellRepresentable {
+//
+//	func configureCell(with task: Task) {
+//
+//	}
+//
+//}

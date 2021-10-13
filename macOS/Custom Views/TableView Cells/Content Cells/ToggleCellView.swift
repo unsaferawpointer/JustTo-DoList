@@ -22,6 +22,14 @@ class ToggleCellView: NSTableCellView {
 	
 	var subsription: AnyCancellable?
 	
+	override func accessibilityValue() -> Any? {
+		return true
+	}
+	
+	override func accessibilityLabel() -> String? {
+		return "Чекбокс \(true ? "выполнено" : "не выполнено")"
+	}
+	
 	override var backgroundStyle: NSView.BackgroundStyle {
 		didSet {
 			button?.backgroundStyle = backgroundStyle

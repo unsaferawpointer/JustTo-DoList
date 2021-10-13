@@ -28,7 +28,6 @@ class SidebarCellView: NSTableCellView {
 	}
 	
 	private func setup() {
-		
 		let _textField = NSTextField()
 		self.textField = _textField
 		_textField.stringValue = "Programming"
@@ -60,7 +59,6 @@ class SidebarCellView: NSTableCellView {
 		guard let _textField = textField, let _imageView = imageView else {
 			fatalError("textField or imageView dont exist")
 		}
-		
 		_textField.translatesAutoresizingMaskIntoConstraints = false
 		_textField.setContentHuggingPriority(.defaultLow, for: .horizontal)
 		_textField.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
@@ -79,7 +77,6 @@ class SidebarCellView: NSTableCellView {
 		budge.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
 		budge.leadingAnchor.constraint(equalTo: _textField.trailingAnchor).isActive = true
 		budge.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-		
 	}
 	
 	func bindText(to object: Any, withKeyPath keyPath: String, options: [NSBindingOption : Any]?) {

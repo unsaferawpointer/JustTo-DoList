@@ -32,7 +32,7 @@ class CoreDataStorage {
 		application to it. This property is optional since there are legitimate
 		error conditions that could cause the creation of the store to fail.
 		*/
-		let container = NSPersistentCloudKitContainer(name: "JustTo_DoList")
+		let container = NSPersistentCloudKitContainer(name: "Done")
 		container.persistentStoreDescriptions.first?.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
 		
 		container.loadPersistentStores(completionHandler: { (storeDescription, error) in
@@ -82,22 +82,16 @@ class CoreDataStorage {
 	#if os(macOS)
 	func canTerminate(_ sender: NSApplication) -> Bool {
 		let context = persistentContainer.viewContext
-		
 		if !context.commitEditing() {
 			NSLog("\(NSStringFromClass(type(of: self))) unable to commit editing to terminate")
 			return false
 		}
-		
 		if !context.hasChanges {
 			return true
 		}
-		
 		do {
 			try context.save()
 		} catch {
-			
-			
-			
 //			let nserror = error as NSError
 //
 //			// Customize this code block to include application-specific recovery steps.

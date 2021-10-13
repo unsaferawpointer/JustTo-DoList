@@ -20,7 +20,6 @@ extension Task : Duplicatable {
 		guard let context = managedObjectContext else {
 			fatalError("managedObjectContext don't exist")
 		}
-		
 		if let duplicated = Task(context: context) as? Self {
 			duplicated.text = text
 			duplicated.transientIsDone = isDone

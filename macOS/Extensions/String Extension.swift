@@ -16,12 +16,10 @@ extension String {
 	static var navigationItemCompleted = "navigation_item_completed"
 	static var navigationItemAll = "navigation_item_all"
 	
-	
 	static var headerFavorites = "header_favorites"
 	static var headerLists = "header_lists"
 	
 	// Menu
-	
 	static var menuNewList = "menu_new_list"
 	static var menuDeleteList = "menu_delete_list"
 	static var menuRenameList = "menu_rename_list"

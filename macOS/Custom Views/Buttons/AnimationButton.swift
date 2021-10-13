@@ -20,6 +20,8 @@ class AnimationButton: NSView, ToggleableButton {
 		}
 	}
 	
+
+	
 	var handler: ((Bool) -> Void)?
 	
 	func forceStopAnimation() {

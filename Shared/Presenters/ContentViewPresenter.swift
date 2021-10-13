@@ -10,6 +10,10 @@ import CoreData
 import CoreDataStore
 import AppKit
 
+protocol ContentCellRepresentable : AnyObject {
+	func configureCell(with task: Task)
+}
+
 protocol ContentView : AnyObject {
 	func willReloadContent()
 	func didReloadContent()
@@ -19,7 +23,7 @@ protocol ContentView : AnyObject {
 	func didInsertItems(at indexSet: IndexSet)
 	func didUpdateItems(at indexSet: IndexSet)
 	func didSelectItems(at indexSet: IndexSet)
-	func didChangeIncompletedTasksCount(newCount: Int)
+	func didChangeTasksCounts(incomplete: Int, all: Int)
 	func showWarningAllert(with text: String)
 	func scrollTo(row: Int)
 	func getSelectedRows() -> IndexSet
@@ -44,8 +48,7 @@ class ContentViewPresenter {
 	
 	private var selectedTasks: Set<Task> {
 		var expandedIndexSet = view?.getSelectedRows() ?? IndexSet()
-		let clickedRow = view?.getClickedRow() ?? (-1)
-		if clickedRow >= 0 {
+		if let clickedRow = view?.getClickedRow(), clickedRow >= 0 {
 			if !expandedIndexSet.contains(clickedRow) {
 				expandedIndexSet = IndexSet(integer: clickedRow)
 			}
@@ -53,7 +56,9 @@ class ContentViewPresenter {
 		return Set(expandedIndexSet.map{ store[$0] })
 	}
 	
-	//private var newestTask: Task? // Last added task
+	var incompleteCount: Int {
+		return store.objects.filter{ $0.isDone == false }.count
+	}
 	
 	init() {
 		let viewContext = CoreDataStorage.shared.mainContext
@@ -71,6 +76,10 @@ class ContentViewPresenter {
 		} catch {
 			view?.showWarningAllert(with: error.localizedDescription)
 		}
+	}
+	
+	private func updateTasksCounts() {
+		view?.didChangeTasksCounts(incomplete: incompleteCount, all: store.numberOfObjects)
 	}
 }
 
@@ -119,6 +128,7 @@ extension ContentViewPresenter : AccumulateChangesStoreDelegate {
 	
 	func accumulateChangesStoreDidChangeContent() {
 		view?.didChangeContent()
+		updateTasksCounts()
 	}
 	
 	func accumulateChangesStoreDidInsert(indexSet: IndexSet) {
@@ -143,10 +153,28 @@ extension ContentViewPresenter : AccumulateChangesStoreDelegate {
 }
 
 extension ContentViewPresenter {
-	func pasterboardPresentationForTask(at row: Int) -> NSPasteboardWriting? {
-		let task = store.objects[row]
-		let pasterboardItem = NSPasteboardItem()
-		pasterboardItem.setString(task.text, forType: .string)
-		return pasterboardItem
+	func configure(cell: ContentCellRepresentable, at row: Int) {
+		let task = store[row]
+		cell.configureCell(with: task)
 	}
 }
+
+// Drop And Drop Support
+extension ContentViewPresenter {
+	func pasterboardPresentationForTask(at row: Int) -> NSPasteboardWriting? {
+		let task = store.objects[row]
+		let text = "\(task.text)\n"
+		let pasterboardItem = NSPasteboardItem()
+		pasterboardItem.setString(text, forType: .string)
+		return pasterboardItem
+	}
+	
+	func registeredDraggedTypes() -> [NSPasteboard.PasteboardType] {
+		return [.string]
+	}
+	
+	func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
+		return true
+	}
+}
+

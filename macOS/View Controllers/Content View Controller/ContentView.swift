@@ -69,7 +69,9 @@ class ContentViewController: NSViewController {
 	}
 	
 	override func loadView() {
-		view = NSView()
+		let dropView = DestinationView(draggedTypes: presenter.registeredDraggedTypes())
+		dropView.dropDelegate = self
+		view = dropView
 		configureConstraints()
 	}
 	
@@ -94,9 +96,20 @@ class ContentViewController: NSViewController {
 		tableView.sizeLastColumnToFit()
 	}
 	
+	override func viewDidAppear() {
+		super.viewDidAppear()
+		updateTitleAndSubtitle()
+	}
+	
 	private func initContextMenu() {
 		tableView.menu = createContextMenu()
 		tableView.target = self
+	}
+	
+	private func updateTitleAndSubtitle() {
+		#warning("Dont localized")
+		view.window?.title = "Inbox"
+		view.window?.subtitle = "\(presenter.numberOfObjects) tasks, \(presenter.incompleteCount) incomplete"
 	}
 }
 
@@ -142,9 +155,9 @@ extension ContentViewController : ContentView {
 	func didSelectItems(at indexSet: IndexSet) {
 		tableView.selectRowIndexes(indexSet, byExtendingSelection: true)
 	}
-	
-	func didChangeIncompletedTasksCount(newCount: Int) {
-		view.window?.subtitle = "\(newCount)"
+	//TODO: localize title and subtitle
+	func didChangeTasksCounts(incomplete: Int, all: Int) {
+		updateTitleAndSubtitle()
 	}
 	
 	func showWarningAllert(with text: String) {
@@ -153,6 +166,30 @@ extension ContentViewController : ContentView {
 	
 	func scrollTo(row: Int) {
 		tableView.scrollRowToVisible(row)
+	}
+	
+}
+
+extension ContentViewController : DestinationViewDelegate {
+	
+	func placeholderTitleFor(draggedType: NSPasteboard.PasteboardType) -> String {
+		return "Drag and Drop here..."
+	}
+	
+	func placeholderImageFor(draggedType: NSPasteboard.PasteboardType) -> NSImage? {
+		return NSImage(systemSymbolName: "arrow.down.app", accessibilityDescription: nil)
+	}
+	
+	func destinationViewPerformDragOperation(destinationView: DestinationView, sender: NSDraggingInfo) -> Bool {
+		print(#function)
+		destinationView.isExecuting = true
+		let importer = TasksImporter { progress in
+			destinationView.set(progress: progress * 100)
+		} completionBlock: {
+			destinationView.isExecuting = false
+		}
+		importer.importItems(from: sender.draggingPasteboard.string(forType: .string) ?? "")
+		return true
 	}
 	
 }

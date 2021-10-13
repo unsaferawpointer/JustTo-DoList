@@ -10,14 +10,11 @@ import AppKit
 extension ContentViewController {
 	
 	func create(viewFor tableColumn: NSTableColumn?, task: Task) -> NSView {
-		
 		guard let columnId = tableColumn?.identifier else {
 			return NSView()
 		}
-		
 		switch columnId {
 		case .checkboxColumn:
-			
 			let cell = checkboxCell(in: tableView, for: task)
 			return cell
 		case .textColumn:
@@ -34,25 +31,24 @@ extension ContentViewController {
 		}
 	}
 	
-	private func makeCell<T>(in tableView: NSTableView, withRawID rawID: String) -> T where T : NSTableCellView {
+	private func makeCell<T: NSTableCellView>(ofType: T.Type, in tableView: NSTableView, withRawID rawID: String, initBlock: (() -> T)? = nil) -> T {
 		let id = NSUserInterfaceItemIdentifier(rawID)
 		var cell = tableView.makeView(withIdentifier: id, owner: nil) as? T
 		if cell == nil {
-			cell = T()
+			if let initBlock = initBlock {
+				cell = initBlock()
+			} else {
+				cell = T()
+			}
 			cell?.identifier = id
 		}
 		return cell!
 	}
 	
 	func textCell(in tableView: NSTableView, for task: Task) -> TextCellView {
-		let id = NSUserInterfaceItemIdentifier("text_cell")
-		var cell = tableView.makeView(withIdentifier: id, owner: nil) as? TextCellView
-		if cell == nil {
-			cell = TextCellView()
-			cell?.set(textStyle: .headline)
-			cell?.identifier = id
-		}
-		cell?.handler = { [weak self] newText in
+		let cell = makeCell(ofType: TextCellView.self, in: tableView, withRawID: "textCell")
+		cell.set(textStyle: .headline)
+		cell.handler = { [weak self] newText in
 			self?.presenter.factory.set(value: newText, for: \.text, in: task)
 		}
 		if task.isDone {
@@ -63,46 +59,36 @@ extension ContentViewController {
 			attributes[.strikethroughStyle] = 1
 			attributes[.paragraphStyle] = paragraphStyle
 			let attrString = NSAttributedString(string: task.text, attributes: attributes)
-			cell?.textField.attributedStringValue = attrString
+			cell.textField?.attributedStringValue = attrString
 		} else {
-			cell?.textField?.stringValue = task.text
-			cell?.textField?.textColor = .controlTextColor
+			cell.textField?.stringValue = task.text
+			cell.textField?.textColor = .controlTextColor
 		}
-		
-		return cell!
+		return cell
 	}
 	
 	func checkboxCell(in tableView: NSTableView, for task: Task) -> ToggleCellView {
-		let id = NSUserInterfaceItemIdentifier("checkbox_cell")
-		var cell = tableView.makeView(withIdentifier: id, owner: nil) as? ToggleCellView
-		if cell == nil {
+		let cell = makeCell(ofType: ToggleCellView.self, in: tableView, withRawID: "checkboxCell") {
 			let button = TickButton()
-			cell = ToggleCellView(button: button)
-			cell?.identifier = id
+			return ToggleCellView(button: button)
 		}
-		cell?.completionHandler = { [weak self] isOn in
+		cell.completionHandler = { [weak self] isOn in
 			self?.presenter.factory.set(value: isOn, for: \.transientIsDone, in: task)
 		}
-		cell?.set(isOn: task.transientIsDone)
-		return cell!
+		cell.set(isOn: task.transientIsDone)
+		return cell
 	}
 	
 	func listCell(in tableView: NSTableView,
 				  for task: Task) -> TextCellView {
-		let id = NSUserInterfaceItemIdentifier("list_cell")
-		var cell = tableView.makeView(withIdentifier: id, owner: nil) as? TextCellView
-		if cell == nil {
-			cell = TextCellView()
-			cell?.set(textStyle: .subheadline)
-			cell?.identifier = id
-		}
-		
-		cell?.textField?.textColor = .secondaryLabelColor
-		return cell!
+
+		let cell = makeCell(ofType: TextCellView.self, in: tableView, withRawID: "listCell")
+		cell.set(textStyle: .subheadline)
+		cell.textField?.textColor = .secondaryLabelColor
+		return cell
 	}
 	
-	func favoriteCell(in tableView: NSTableView,
-					  for task: Task) -> ToggleCellView {
+	func favoriteCell(in tableView: NSTableView, for task: Task) -> ToggleCellView {
 		let id = NSUserInterfaceItemIdentifier("favorite_cell")
 		var cell = tableView.makeView(withIdentifier: id, owner: nil) as? ToggleCellView
 		if cell == nil {
@@ -110,7 +96,6 @@ extension ContentViewController {
 			cell = ToggleCellView(button: starButton)
 			cell?.identifier = id
 		}
-		
 		cell?.completionHandler = { [weak self] newValue in
 			self?.presenter.factory.set(value: newValue, for: \.isFavorite, in: task)
 		}

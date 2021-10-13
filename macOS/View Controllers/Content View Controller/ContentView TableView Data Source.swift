@@ -17,7 +17,7 @@ extension ContentViewController : NSTableViewDataSource {
 	
 	func tableView(_ tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [NSSortDescriptor]) {
 		let sortDescriptors = tableView.sortDescriptors
-		try? presenter.performFetch(with: nil, andSortDescriptors: sortDescriptors)
+		presenter.performFetch(with: nil, andSortDescriptors: sortDescriptors)
 	}
 	
 	func tableView(_ tableView: NSTableView, draggingSession session: NSDraggingSession, willBeginAt screenPoint: NSPoint, forRowIndexes rowIndexes: IndexSet) {
