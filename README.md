@@ -12,6 +12,7 @@ Mac OS version:
 - [x] Pretty animatable buttons.
 - [x] Reordering.
 - [ ] Drag and Drop Support.
-- [ ] Import tasks from the string.
+- [x] Import tasks from the string.
+- [x] Touchbar Support
 - [ ] Add sidebar with basic categories and lists.
 
