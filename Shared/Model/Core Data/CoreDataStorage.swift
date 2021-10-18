@@ -23,6 +23,10 @@ class CoreDataStorage {
 		return persistentContainer.viewContext
 	}
 	
+	func createPrivateContext() -> NSManagedObjectContext {
+		return persistentContainer.newBackgroundContext()
+	}
+	
 	// MARK: - Core Data stack
 	
 	lazy var persistentContainer: NSPersistentCloudKitContainer = {

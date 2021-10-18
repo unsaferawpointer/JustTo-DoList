@@ -21,3 +21,8 @@
 "menu_move_task_to_favorites" = "To Favorites";
 "menu_move_task_from_favorites" = "From Favorites";
 "menu_delete_task" = "Delete";
+
+// Main Menu
+"main_menu_item_about" = "About";
+"main_menu_item_preferences" = "Preferences...";
+"main_menu_item_quit" = "Quit";

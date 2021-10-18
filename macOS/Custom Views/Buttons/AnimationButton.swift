@@ -16,11 +16,12 @@ class AnimationButton: NSView, ToggleableButton {
 	
 	var backgroundStyle: NSView.BackgroundStyle = .normal {
 		didSet {
+			let oldAppearance = NSAppearance.currentDrawing()
+			NSAppearance.current = effectiveAppearance
 			animationLayersGroup.set(selected: backgroundStyle == .emphasized)
+			NSAppearance.current = oldAppearance
 		}
 	}
-	
-
 	
 	var handler: ((Bool) -> Void)?
 	
@@ -51,6 +52,12 @@ class AnimationButton: NSView, ToggleableButton {
 		}
 	}
 	
+	override func updateLayer() {
+		super.updateLayer()
+		print(#function)
+		animationLayersGroup.invalidate()
+	}
+	
 	func createAnimationLayers() -> [AnimationLayer] {
 		return [AnimationLayer()]
 	}
@@ -72,6 +79,17 @@ class AnimationButton: NSView, ToggleableButton {
 		let gesture = NSClickGestureRecognizer(target: self, action: #selector(clicked(_:)))
 		gesture.numberOfClicksRequired = 1
 		self.addGestureRecognizer(gesture)
+	}
+	
+	override func viewDidMoveToWindow() {
+		super.viewDidMoveToWindow()
+		let trackingArea = NSTrackingArea(rect: bounds, options: [.activeAlways, .inVisibleRect, .mouseEnteredAndExited], owner: self, userInfo: nil)
+		addTrackingArea(trackingArea)
+	}
+	
+	override func mouseEntered(with event: NSEvent) {
+		super.mouseEntered(with: event)
+//		print(#function)
 	}
 	
 	func configureFrames() {
@@ -102,7 +120,7 @@ class AnimationButton: NSView, ToggleableButton {
 		var secondState = AnimationState()
 		secondState.shapeState.fillColor = nil
 		secondState.shapeState.lineWidth = 1.5
-		secondState.shadowState = grayShadow
+		secondState.shadowState = yellowShadow
 		secondState.shapeState.strokeColor = .systemYellow
 		secondState.scale = 1.1
 		
@@ -151,3 +169,5 @@ extension AnimationButton : AnimationLayerDelegate {
 		handler?(!isOn)
 	}
 }
+
+

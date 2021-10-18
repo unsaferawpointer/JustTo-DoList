@@ -12,32 +12,32 @@ extension ContentViewController {
 	func newTask(_ sender: Any?) {
 		presenter.newTask()
 	}
-	
+
 	@objc
 	func duplicate(_ sender: Any?) {
 		presenter.duplicateTasks()
 	}
-	
+
 	@objc
 	func markCompleted(_ sender: Any?) {
 		presenter.markCompleted()
 	}
-	
+
 	@objc
 	func markIncomplete(_ sender: Any?) {
 		presenter.markIncomplete()
 	}
-	
+
 	@objc
 	func toFavorites(_ sender: Any?) {
 		presenter.moveToFavorites()
 	}
-	
+
 	@objc
 	func fromFavorites(_ sender: Any?) {
 		presenter.moveFromFavorites()
 	}
-	
+
 	@objc
 	func delete(_ sender: Any?) {
 		presenter.deleteTasks()

@@ -17,14 +17,18 @@ class TasksImporter {
 	var progressBlock: (Double) -> Void
 	var completionBlock: () -> Void
 	
+	var operationQueue = OperationQueue()
+	
 	init(progressBlock: @escaping (Double) -> Void, completionBlock: @escaping () -> Void) {
 		self.progressBlock = progressBlock
 		self.completionBlock = completionBlock
+		
+		operationQueue.maxConcurrentOperationCount = 1
 	}
 	
 	func importItems(from text: String) {
-		
-		CoreDataStorage.shared.persistentContainer.performBackgroundTask { privateContext in
+		let privateContext = CoreDataStorage.shared.createPrivateContext()
+		let operationBlock = BlockOperation {
 			let factory = ObjectFactory<Task>(viewContext: privateContext)
 			var lines = [String]()
 			text.enumerateLines { line, _ in
@@ -32,11 +36,12 @@ class TasksImporter {
 			}
 			var numberOfCurrentLine = 0
 			lines.forEach {
+			#warning("Remove sleep")
+				sleep(4)
 				factory.newObject(with: $0, for: \.text)
 				DispatchQueue.main.async {
 					if lines.count > 0 {
 						let progress = Double(numberOfCurrentLine) / Double(lines.count)
-						print("progress = \(progress)")
 						self.progressBlock(progress)
 					}
 				}
@@ -47,5 +52,6 @@ class TasksImporter {
 				self.completionBlock()
 			}
 		}
+		operationQueue.addOperation(operationBlock)
 	}
 }

@@ -71,7 +71,7 @@ extension ContentViewController : NSTouchBarDelegate {
 			let toFavoriteItem = NSCustomTouchBarItem(identifier: identifier)
 			toFavoriteItem.customizationLabel = NSLocalizedString("Font Style", comment: "")
 			
-			let button = NSButton(image: NSImage(systemSymbolName: "star.fill", accessibilityDescription: nil)!, target: self, action: #selector(newTask(_:)))
+			let button = NSButton(image: NSImage(systemSymbolName: "star.fill", accessibilityDescription: nil)!, target: self, action: #selector(toFavorites(_:)))
 			button.contentTintColor = .systemYellow
 			
 			toFavoriteItem.view = button
@@ -83,7 +83,7 @@ extension ContentViewController : NSTouchBarDelegate {
 			let fromFavoriteItem = NSCustomTouchBarItem(identifier: identifier)
 			fromFavoriteItem.customizationLabel = NSLocalizedString("Font Style", comment: "")
 			
-			let button = NSButton(image: NSImage(systemSymbolName: "star", accessibilityDescription: nil)!, target: self, action: #selector(newTask(_:)))
+			let button = NSButton(image: NSImage(systemSymbolName: "star", accessibilityDescription: nil)!, target: self, action: #selector(fromFavorites(_:)))
 			button.contentTintColor = .systemYellow
 			
 			fromFavoriteItem.view = button
@@ -95,7 +95,7 @@ extension ContentViewController : NSTouchBarDelegate {
 			let fromFavoriteItem = NSCustomTouchBarItem(identifier: identifier)
 			fromFavoriteItem.customizationLabel = NSLocalizedString("Font Style", comment: "")
 			
-			let button = NSButton(image: NSImage(systemSymbolName: "trash", accessibilityDescription: nil)!, target: self, action: #selector(newTask(_:)))
+			let button = NSButton(image: NSImage(systemSymbolName: "trash", accessibilityDescription: nil)!, target: self, action: #selector(delete(_:)))
 			button.contentTintColor = .systemYellow
 			
 			fromFavoriteItem.view = button

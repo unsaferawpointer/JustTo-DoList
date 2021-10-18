@@ -38,4 +38,9 @@ extension String {
 	static var menuMoveTaskFromFavorites = "menu_move_task_from_favorites"
 	
 	static var menuMoveTo = "menu_move_to"
+	
+	// Main Menu
+	static var mainMenuItemAbout = "main_menu_item_about"
+	static var mainMenuItemPreferences = "main_menu_item_preferences"
+	static var mainMenuItemQuit = "main_menu_item_quit"
 }

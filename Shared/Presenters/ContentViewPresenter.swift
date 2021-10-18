@@ -8,13 +8,12 @@
 import Foundation
 import CoreData
 import CoreDataStore
-import AppKit
 
 protocol ContentCellRepresentable : AnyObject {
 	func configureCell(with task: Task)
 }
 
-protocol ContentView : AnyObject {
+protocol TableView : AnyObject {
 	func willReloadContent()
 	func didReloadContent()
 	func willChangeContent()
@@ -24,12 +23,21 @@ protocol ContentView : AnyObject {
 	func didUpdateItems(at indexSet: IndexSet)
 	func didSelectItems(at indexSet: IndexSet)
 	func didChangeTasksCounts(incomplete: Int, all: Int)
-	func showWarningAllert(with text: String)
 	func scrollTo(row: Int)
 	func getSelectedRows() -> IndexSet
 	#if os(macOS)
 	func getClickedRow() -> Int
 	#endif
+}
+
+protocol DragAndDropView: AnyObject {
+	func showDragAndDropPlaceholder()
+	func hideDragAndDropPlaceHolder()
+	func update(progress: Double)
+}
+
+protocol ContentView: TableView, DragAndDropView {
+	func showWarningAllert(with text: String)
 }
 
 class ContentViewPresenter {
@@ -43,8 +51,8 @@ class ContentViewPresenter {
 						   NSSortDescriptor(keyPath: \Task.text, ascending: true),
 						   NSSortDescriptor(keyPath: \Task.typeMask, ascending: true)]
 	
-	private var store: AccumulateChangesStore<Task>
-	var factory: ObjectFactory<Task>
+	private (set) var store: AccumulateChangesStore<Task>
+	private (set) var factory: ObjectFactory<Task>
 	
 	private var selectedTasks: Set<Task> {
 		var expandedIndexSet = view?.getSelectedRows() ?? IndexSet()
@@ -54,10 +62,6 @@ class ContentViewPresenter {
 			}
 		}
 		return Set(expandedIndexSet.map{ store[$0] })
-	}
-	
-	var incompleteCount: Int {
-		return store.objects.filter{ $0.isDone == false }.count
 	}
 	
 	init() {
@@ -70,6 +74,17 @@ class ContentViewPresenter {
 		}
 	}
 	
+}
+
+extension ContentViewPresenter {
+	
+	var numberOfObjects: Int {
+		return store.numberOfObjects
+	}
+	var objects: [Task] {
+		return store.objects
+	}
+	
 	func performFetch(with predicate: NSPredicate?, andSortDescriptors sortDescriptors: [NSSortDescriptor]) {
 		do {
 			try store.performFetch(with: predicate, sortDescriptors: sortDescriptors)
@@ -78,17 +93,13 @@ class ContentViewPresenter {
 		}
 	}
 	
-	private func updateTasksCounts() {
-		view?.didChangeTasksCounts(incomplete: incompleteCount, all: store.numberOfObjects)
+	var incompleteCount : Int {
+		return store.objects.filter{ $0.isDone == false }.count
 	}
-}
 
-extension ContentViewPresenter {
-	var numberOfObjects: Int {
-		return store.numberOfObjects
-	}
-	var objects: [Task] {
-		return store.objects
+	private func updateTasksCounts() {
+		
+		view?.didChangeTasksCounts(incomplete: incompleteCount, all: store.numberOfObjects)
 	}
 }
 
@@ -159,6 +170,7 @@ extension ContentViewPresenter {
 	}
 }
 
+import AppKit
 // Drop And Drop Support
 extension ContentViewPresenter {
 	func pasterboardPresentationForTask(at row: Int) -> NSPasteboardWriting? {
@@ -174,6 +186,15 @@ extension ContentViewPresenter {
 	}
 	
 	func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
+		view?.showDragAndDropPlaceholder()
+		let importer = TasksImporter { [weak self] progress in
+			self?.view?.update(progress: progress)
+		} completionBlock: { [weak self] in
+			self?.view?.hideDragAndDropPlaceHolder()
+		}
+		if let text = sender.draggingPasteboard.string(forType: .string) {
+			importer.importItems(from: text)
+		}
 		return true
 	}
 }

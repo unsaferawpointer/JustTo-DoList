@@ -7,6 +7,15 @@
 
 import AppKit
 
+extension NSColor {
+	func tintedColor() -> NSColor {
+		var h = CGFloat(), s = CGFloat(), b = CGFloat(), a = CGFloat()
+		let rgbColor = usingColorSpace(.deviceRGB)
+		rgbColor?.getHue(&h, saturation: &s, brightness: &b, alpha: &a)
+		return NSColor(hue: h, saturation: s, brightness: b == 0 ? 0.2 : b * 0.8, alpha: a)
+	}
+}
+
 /// Don`t use this struct directly`
 struct UnsafeAnimationProperty {
 	let keyPath: String
@@ -96,6 +105,10 @@ class AnimationLayersGroup {
 		layers.forEach{ $0.frameAnimationDelegate = self }
 	}
 	
+	func invalidate() {
+		layers.forEach{ $0.invalidate() }
+	}
+	
 	func startAnimation() {
 		guard !isAnimating else {
 			return
@@ -170,7 +183,7 @@ class AnimationLayer : CAShapeLayer {
 		let animationGroup = CAAnimationGroup()
 		animationGroup.animations = []
 		animationGroup.delegate = self
-		animationGroup.duration = 0.25
+		animationGroup.duration = 4.25
 	
 		for (keyPath, properties) in dictionary {
 			let values = properties.map { $0.value }
@@ -179,7 +192,7 @@ class AnimationLayer : CAShapeLayer {
 			animationGroup.animations?.append(animation)
 			if let colors = values as? [NSColor?] {
 				let convertedColors = converted(colors: colors)
-				animation.values = isSelected ? convertedColors.map{ $0?.cgColor } : colors.map{ $0?.cgColor }
+				animation.values = isSelected ? convertedColors.map{ $0?.cgColor } : colors.map { $0?.cgColor }
 				if let lastColor = (isSelected ? convertedColors.map{ $0?.cgColor } : colors.map{ $0?.cgColor }).last  {
 					setValue(lastColor, forKeyPath: keyPath)
 				}
@@ -202,7 +215,7 @@ class AnimationLayer : CAShapeLayer {
 	
 	func converted(color: NSColor?) -> NSColor? {
 		#warning("Dont implemented")
-		return color != nil ? NSColor.white : nil
+		return color != nil ? NSColor.alternateSelectedControlTextColor : nil
 	}
 	
 	func invalidate() {
@@ -224,12 +237,12 @@ class AnimationLayer : CAShapeLayer {
 	}
 	
 	func startAnimation() {
-		guard !isAnimating else {
+		guard animation(forKey: "animation") == nil else {
 			return
 		}
 		let animation = createAnimation()
 		perform(withAnimation: true) {
-			add(animation, forKey: nil)
+			add(animation, forKey: "animation")
 		}
 	}
 	

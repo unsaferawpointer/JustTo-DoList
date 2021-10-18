@@ -9,6 +9,7 @@ import Cocoa
 
 class AppDelegate: NSObject, NSApplicationDelegate {
 
+	private var mainMenu: NSMenu!
 	private var window: NSWindow?
 	private var windowController: NSWindowController?
 
@@ -26,10 +27,38 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	}
 	
 	func setupMainMenu() {
-		let menu = NSMenu()
-		menu.addItem(NSMenuItem(title: "Задания", action: nil, keyEquivalent: ""))
-		//NSApplication.shared.mainMenu = menu
-		NSApp.menu = menu
+		NSApp.menu = {
+//			let menu = NSMenu()
+//			menu.addItem({
+//				let iconfontPreviewItem = NSMenuItem()
+//				iconfontPreviewItem.submenu = {
+//					let submenu = NSMenu()
+//					submenu.addItem(NSMenuItem(title: "About \(ProcessInfo.processInfo.processName)", action: nil, keyEquivalent: ""))
+//					submenu.addItem(NSMenuItem.separator())
+//					submenu.addItem(NSMenuItem(title: "Quit", action: nil, keyEquivalent: "q"))
+//					return submenu
+//				}()
+//				return iconfontPreviewItem
+//			}())
+			
+			let menu = NSMenu()
+			menu.addItem({
+				let iconfontPreviewItem = NSMenuItem()
+				iconfontPreviewItem.submenu = {
+					return MenuBuilder().createMainMenu()
+				}()
+				return iconfontPreviewItem
+			}())
+			menu.addItem({
+				let iconfontPreviewItem = NSMenuItem()
+				iconfontPreviewItem.submenu = {
+					return MenuBuilder().createEditMenu()
+				}()
+				return iconfontPreviewItem
+			}())
+			
+			return menu
+		}()
 	}
 	
 	private func createWindow() {
@@ -56,7 +85,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		window?.tabbingMode = .disallowed
 		window?.titlebarSeparatorStyle = .automatic
 		window?.contentViewController = MainSplitViewController()
-		window?.appearance = NSAppearance.init(named: .vibrantLight)
 		let toolbar = NSToolbar()
 		toolbar.sizeMode = .regular
 		toolbar.displayMode = .iconOnly
@@ -113,7 +141,7 @@ extension AppDelegate : NSToolbarDelegate {
 		} else if itemIdentifier == .addTask {
 			toolbarItem = NSToolbarItem(itemIdentifier: .addTask)
 			if let image = NSImage(systemSymbolName: "plus", accessibilityDescription: nil) {
-				let button = NSButton(image: image, target: nil, action: #selector(newTask(_:)))
+				let button = NSButton(image: image, target: nil, action: #selector(ContentViewController.newTask(_:)))
 				button.bezelStyle = .recessed
 				button.showsBorderOnlyWhileMouseInside = true
 				button.isBordered = true
@@ -122,10 +150,6 @@ extension AppDelegate : NSToolbarDelegate {
 			}
 		}
 		return toolbarItem
-	}
-	
-	@objc func newTask(_ sender: Any?) {
-		NSApp.sendAction(#selector(newTask(_:)), to: nil, from: self)
 	}
 	
 }

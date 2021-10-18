@@ -77,7 +77,6 @@ class DestinationView: NSView {
 		let label = NSTextField(labelWithString: "")
 		self.label = label
 		label.font = NSFont.systemFont(ofSize: 17.0, weight: .light)
-		
 		label.textColor = .secondaryLabelColor
 		
 		let indicator = NSProgressIndicator()
@@ -85,13 +84,15 @@ class DestinationView: NSView {
 		indicator.translatesAutoresizingMaskIntoConstraints = false
 		indicator.style = .bar
 		indicator.minValue = 0.0
-		indicator.maxValue = 100.0
+		indicator.maxValue = 1.0
 		indicator.isIndeterminate = false
 		indicator.doubleValue = 0.0
 
-		imageView.wantsLayer = true
-
-		let stackView = NSStackView(views: [imageView, label, indicator])
+		let cancelButton = NSButton(title: "Cancel", target: nil, action: nil)
+		cancelButton.translatesAutoresizingMaskIntoConstraints = false
+		cancelButton.keyEquivalent = .carriageReturnKey
+		
+		let stackView = NSStackView(views: [imageView, label, indicator, cancelButton])
 		stackView.orientation = .vertical
 		stackView.spacing = 12.0
 		stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -154,9 +155,18 @@ class DestinationView: NSView {
 	
 }
 
-extension DestinationView {
-	func set(progress: Double) {
-		print("progress = \(progress)")
+extension DestinationView : DragAndDropView {
+	
+	func showDragAndDropPlaceholder() {
+		isExecuting = true
+	}
+	
+	func hideDragAndDropPlaceHolder() {
+		isExecuting = false
+	}
+	
+	func update(progress: Double) {
 		progressIndicator?.doubleValue = progress
 	}
+	
 }

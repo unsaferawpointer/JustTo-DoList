@@ -44,7 +44,7 @@ extension ContentViewController {
 		}
 		return cell!
 	}
-	
+		
 	func textCell(in tableView: NSTableView, for task: Task) -> TextCellView {
 		let cell = makeCell(ofType: TextCellView.self, in: tableView, withRawID: "textCell")
 		cell.set(textStyle: .headline)
@@ -75,7 +75,7 @@ extension ContentViewController {
 		cell.completionHandler = { [weak self] isOn in
 			self?.presenter.factory.set(value: isOn, for: \.transientIsDone, in: task)
 		}
-		cell.set(isOn: task.transientIsDone)
+		cell.isOn = task.transientIsDone
 		return cell
 	}
 	
@@ -92,14 +92,14 @@ extension ContentViewController {
 		let id = NSUserInterfaceItemIdentifier("favorite_cell")
 		var cell = tableView.makeView(withIdentifier: id, owner: nil) as? ToggleCellView
 		if cell == nil {
-			let starButton = AnimationButton(frame: CGRect(x: 0, y: 0, width: 18.0, height: 18.0))
+			let starButton = StarButton()
 			cell = ToggleCellView(button: starButton)
 			cell?.identifier = id
 		}
 		cell?.completionHandler = { [weak self] newValue in
 			self?.presenter.factory.set(value: newValue, for: \.isFavorite, in: task)
 		}
-		cell?.set(isOn: task.isFavorite)
+		cell?.isOn = task.isFavorite
 		return cell!
 	}
 }

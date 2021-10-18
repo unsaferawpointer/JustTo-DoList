@@ -9,7 +9,7 @@ import AppKit
 import Combine
 
 protocol ToggleableButton : NSView {
-	func set(isOn: Bool)
+	var isOn: Bool { get set }
 	var backgroundStyle: NSView.BackgroundStyle { get set }
 	var handler: ((Bool) -> ())? { get set }
 	func forceStopAnimation()
@@ -19,6 +19,12 @@ class ToggleCellView: NSTableCellView {
 	
 	var button: ToggleableButton?
 	var completionHandler: ((Bool) -> ())?
+	
+	var isOn: Bool = false {
+		didSet {
+			button?.isOn = isOn
+		}
+	}
 	
 	var subsription: AnyCancellable?
 	
@@ -36,12 +42,12 @@ class ToggleCellView: NSTableCellView {
 		}
 	}
 	
-	func observe<T: NSManagedObject>(keyPath: KeyPath<T, Bool>, in object: T) {
-		subsription = object.publisher(for: keyPath)
-			.sink { [weak self] isOn in
-				self?.set(isOn: isOn)
-			}
-	}
+//	func observe<T: NSManagedObject>(keyPath: KeyPath<T, Bool>, in object: T) {
+//		subsription = object.publisher(for: keyPath)
+//			.sink { [weak self] isOn in
+//				self?.set(isOn: isOn)
+//			}
+//	}
 	
 	// #START	******** Init Block ********
 	
@@ -62,20 +68,7 @@ class ToggleCellView: NSTableCellView {
 		super.init(coder: coder)
 		configure()
 	}
-	
-	func set(isOn: Bool) {
-		button?.set(isOn: isOn)
-	}
-	
-	override func mouseEntered(with event: NSEvent) {
-		print(#function)
-		button?.isHidden = false
-	}
-	
-	override func mouseExited(with event: NSEvent) {
-		button?.isHidden = true
-	}
-	
+
 	private func configure() {
 		
 		guard let button = button else {

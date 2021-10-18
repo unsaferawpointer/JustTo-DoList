@@ -20,6 +20,10 @@
 		4C2DDDE4271062930038B41E /* DestinationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2DDDE3271062930038B41E /* DestinationView.swift */; };
 		4C2DDDFF271478190038B41E /* TestXib.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C2DDDFE271478190038B41E /* TestXib.xib */; };
 		4C2DDE012714E8790038B41E /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2DDE002714E8790038B41E /* BackgroundView.swift */; };
+		4C2DDE0A271785130038B41E /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2DDE09271785130038B41E /* Parser.swift */; };
+		4C2DDE0B271785130038B41E /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2DDE09271785130038B41E /* Parser.swift */; };
+		4C2DDE0D27181AF60038B41E /* AnimationStateParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2DDE0C27181AF60038B41E /* AnimationStateParser.swift */; };
+		4C2DDE0E27181AF60038B41E /* AnimationStateParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2DDE0C27181AF60038B41E /* AnimationStateParser.swift */; };
 		4C30A9D4270D8097000299E7 /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C30A9D3270D8097000299E7 /* ContentViewController.swift */; };
 		4C30A9D5270D83EC000299E7 /* Done.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4CD00B7626BFBD8A00AC491E /* Done.xcdatamodeld */; };
 		4C30A9DB270EB9FF000299E7 /* ContentViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C30A9DA270EB9FF000299E7 /* ContentViewPresenter.swift */; };
@@ -31,7 +35,6 @@
 		4C30A9E8271013F0000299E7 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 4C30A9E6271013F0000299E7 /* README.md */; };
 		4C30A9EE2710169F000299E7 /* screenshot.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C30A9ED2710169F000299E7 /* screenshot.png */; };
 		4C30A9EF2710169F000299E7 /* screenshot.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C30A9ED2710169F000299E7 /* screenshot.png */; };
-		4C30A9F227102631000299E7 /* CoreDataStore in Frameworks */ = {isa = PBXBuildFile; productRef = 4C30A9F127102631000299E7 /* CoreDataStore */; };
 		4C3372E326E7E1A50035E5CF /* DefaultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3372E226E7E1A50035E5CF /* DefaultViewController.swift */; };
 		4C48B65626C2570B001DCA1E /* ContentView TableView Data Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C48B65526C2570B001DCA1E /* ContentView TableView Data Source.swift */; };
 		4C48B65C26C295BC001DCA1E /* ToggleCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C48B65A26C295BC001DCA1E /* ToggleCellView.swift */; };
@@ -46,6 +49,11 @@
 		4C48B67226C2EEF4001DCA1E /* NSTableView Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C48B67126C2EEF4001DCA1E /* NSTableView Extension.swift */; };
 		4C48B67426C44643001DCA1E /* ContentView Touchbar Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C48B67326C44643001DCA1E /* ContentView Touchbar Extension.swift */; };
 		4C48B67626C50815001DCA1E /* sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4C48B67526C50815001DCA1E /* sound.mp3 */; };
+		4C5D68A2271A1CE0008B73D3 /* CoreDataStore in Frameworks */ = {isa = PBXBuildFile; productRef = 4C5D68A1271A1CE0008B73D3 /* CoreDataStore */; };
+		4C5D68A4271AA539008B73D3 /* MenuBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5D68A3271AA539008B73D3 /* MenuBuilder.swift */; };
+		4C5D68A8271AF07E008B73D3 /* AnimatableLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C768C7026F7DFEA008E0EE6 /* AnimatableLayer.swift */; };
+		4C5D68AB271B388A008B73D3 /* TableAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5D68AA271B388A008B73D3 /* TableAdapter.swift */; };
+		4C5D68B0271D3298008B73D3 /* StarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5D68AF271D3298008B73D3 /* StarButton.swift */; };
 		4C768C7126F7DFEA008E0EE6 /* AnimatableLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C768C7026F7DFEA008E0EE6 /* AnimatableLayer.swift */; };
 		4CD00B7326BFBD8A00AC491E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD00B7226BFBD8A00AC491E /* AppDelegate.swift */; };
 		4CD00B7826BFBD8A00AC491E /* Done.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4CD00B7626BFBD8A00AC491E /* Done.xcdatamodeld */; };
@@ -54,7 +62,7 @@
 		4CD00B8926BFC16B00AC491E /* MainSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD00B8826BFC16B00AC491E /* MainSplitViewController.swift */; };
 		4CD00B8D26BFCB9800AC491E /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD00B8C26BFCB9800AC491E /* MainWindowController.swift */; };
 		4CD00B9126BFDC6500AC491E /* Core Data Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD00B9026BFDC6500AC491E /* Core Data Model.swift */; };
-		4CD00B9326BFF17500AC491E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD00B9226BFF17500AC491E /* ContentView.swift */; };
+		4CD00B9326BFF17500AC491E /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD00B9226BFF17500AC491E /* ContentViewController.swift */; };
 		4CD00B9626BFF1BA00AC491E /* TableBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD00B9526BFF1BA00AC491E /* TableBuilder.swift */; };
 		4CD00B9926C0542A00AC491E /* ContentView Actions Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD00B9826C0542A00AC491E /* ContentView Actions Extension.swift */; };
 		4CD00B9C26C05E2700AC491E /* CoreDataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD00B9B26C05E2700AC491E /* CoreDataStorage.swift */; };
@@ -75,6 +83,8 @@
 		4C2DDDE3271062930038B41E /* DestinationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DestinationView.swift; sourceTree = "<group>"; };
 		4C2DDDFE271478190038B41E /* TestXib.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TestXib.xib; sourceTree = "<group>"; };
 		4C2DDE002714E8790038B41E /* BackgroundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
+		4C2DDE09271785130038B41E /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
+		4C2DDE0C27181AF60038B41E /* AnimationStateParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationStateParser.swift; sourceTree = "<group>"; };
 		4C30A9D3270D8097000299E7 /* ContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
 		4C30A9DA270EB9FF000299E7 /* ContentViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewPresenter.swift; sourceTree = "<group>"; };
 		4C30A9DF270F8215000299E7 /* String Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String Extension.swift"; sourceTree = "<group>"; };
@@ -95,6 +105,9 @@
 		4C48B67126C2EEF4001DCA1E /* NSTableView Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSTableView Extension.swift"; sourceTree = "<group>"; };
 		4C48B67326C44643001DCA1E /* ContentView Touchbar Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ContentView Touchbar Extension.swift"; sourceTree = "<group>"; };
 		4C48B67526C50815001DCA1E /* sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sound.mp3; sourceTree = "<group>"; };
+		4C5D68A3271AA539008B73D3 /* MenuBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBuilder.swift; sourceTree = "<group>"; };
+		4C5D68AA271B388A008B73D3 /* TableAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableAdapter.swift; sourceTree = "<group>"; };
+		4C5D68AF271D3298008B73D3 /* StarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarButton.swift; sourceTree = "<group>"; };
 		4C768C7026F7DFEA008E0EE6 /* AnimatableLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatableLayer.swift; sourceTree = "<group>"; };
 		4CD00B6F26BFBD8A00AC491E /* Done-macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Done-macOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CD00B7226BFBD8A00AC491E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -106,7 +119,7 @@
 		4CD00B8826BFC16B00AC491E /* MainSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSplitViewController.swift; sourceTree = "<group>"; };
 		4CD00B8C26BFCB9800AC491E /* MainWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
 		4CD00B9026BFDC6500AC491E /* Core Data Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Core Data Model.swift"; sourceTree = "<group>"; };
-		4CD00B9226BFF17500AC491E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		4CD00B9226BFF17500AC491E /* ContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
 		4CD00B9526BFF1BA00AC491E /* TableBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableBuilder.swift; sourceTree = "<group>"; };
 		4CD00B9826C0542A00AC491E /* ContentView Actions Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView Actions Extension.swift"; sourceTree = "<group>"; };
 		4CD00B9B26C05E2700AC491E /* CoreDataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStorage.swift; sourceTree = "<group>"; };
@@ -128,7 +141,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4C30A9F227102631000299E7 /* CoreDataStore in Frameworks */,
+				4C5D68A2271A1CE0008B73D3 /* CoreDataStore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -151,6 +164,7 @@
 		4C285DF3270B3BEB00FDC23E /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				4C2DDE08271784F40038B41E /* Util */,
 				4C30A9DD270F4AA7000299E7 /* Model */,
 				4C30A9D9270EB9D5000299E7 /* Presenters */,
 			);
@@ -180,6 +194,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		4C2DDE08271784F40038B41E /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				4C5D68A7271AF06A008B73D3 /* Animation */,
+				4C2DDDE027104D780038B41E /* Importer.swift */,
+				4C2DDE09271785130038B41E /* Parser.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
 		4C30A9D9270EB9D5000299E7 /* Presenters */ = {
 			isa = PBXGroup;
 			children = (
@@ -192,7 +216,6 @@
 			isa = PBXGroup;
 			children = (
 				4CD00B8F26BFDC4E00AC491E /* Core Data */,
-				4C2DDDE027104D780038B41E /* Importer.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -211,6 +234,7 @@
 			isa = PBXGroup;
 			children = (
 				4C768C7026F7DFEA008E0EE6 /* AnimatableLayer.swift */,
+				4C2DDE0C27181AF60038B41E /* AnimationStateParser.swift */,
 			);
 			path = "Animation Layer";
 			sourceTree = "<group>";
@@ -283,11 +307,28 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		4C5D68A7271AF06A008B73D3 /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				4C30A9E2270F89E0000299E7 /* Animation Layer */,
+			);
+			path = Animation;
+			sourceTree = "<group>";
+		};
+		4C5D68A9271B3858008B73D3 /* Adapters */ = {
+			isa = PBXGroup;
+			children = (
+				4C5D68AA271B388A008B73D3 /* TableAdapter.swift */,
+			);
+			path = Adapters;
+			sourceTree = "<group>";
+		};
 		4C768C6F26F15E56008E0EE6 /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
 				4C48B66426C295E4001DCA1E /* AnimationButton.swift */,
 				4C48B66526C295E4001DCA1E /* CheckBox.swift */,
+				4C5D68AF271D3298008B73D3 /* StarButton.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -318,8 +359,8 @@
 			isa = PBXGroup;
 			children = (
 				4CD00B7226BFBD8A00AC491E /* AppDelegate.swift */,
+				4C5D68A9271B3858008B73D3 /* Adapters */,
 				4C48B67026C2EE98001DCA1E /* Extensions */,
-				4C30A9E2270F89E0000299E7 /* Animation Layer */,
 				4C48B66326C295CF001DCA1E /* Custom Views */,
 				4CD00B8E26BFCBA400AC491E /* Window Controllers */,
 				4CD00B8726BFC14500AC491E /* View Controllers */,
@@ -365,6 +406,7 @@
 			isa = PBXGroup;
 			children = (
 				4CD00B9526BFF1BA00AC491E /* TableBuilder.swift */,
+				4C5D68A3271AA539008B73D3 /* MenuBuilder.swift */,
 			);
 			path = Builders;
 			sourceTree = "<group>";
@@ -372,7 +414,7 @@
 		4CD00B9726C0540000AC491E /* Content View Controller */ = {
 			isa = PBXGroup;
 			children = (
-				4CD00B9226BFF17500AC491E /* ContentView.swift */,
+				4CD00B9226BFF17500AC491E /* ContentViewController.swift */,
 				4C48B66C26C2EE39001DCA1E /* ContentView Menu Extension.swift */,
 				4CD00B9826C0542A00AC491E /* ContentView Actions Extension.swift */,
 				4C48B65526C2570B001DCA1E /* ContentView TableView Data Source.swift */,
@@ -427,7 +469,7 @@
 			);
 			name = "Done-macOS";
 			packageProductDependencies = (
-				4C30A9F127102631000299E7 /* CoreDataStore */,
+				4C5D68A1271A1CE0008B73D3 /* CoreDataStore */,
 			);
 			productName = "JustTo-DoList";
 			productReference = 4CD00B6F26BFBD8A00AC491E /* Done-macOS.app */;
@@ -461,7 +503,7 @@
 			);
 			mainGroup = 4CD00B6626BFBD8A00AC491E;
 			packageReferences = (
-				4C30A9F027102631000299E7 /* XCRemoteSwiftPackageReference "CoreDataStore" */,
+				4C5D68A0271A1CE0008B73D3 /* XCRemoteSwiftPackageReference "CoreDataStore" */,
 			);
 			productRefGroup = 4CD00B7026BFBD8A00AC491E /* Products */;
 			projectDirPath = "";
@@ -526,13 +568,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				4C285DF7270B3C3A00FDC23E /* CoreDataStorage.swift in Sources */,
+				4C5D68A8271AF07E008B73D3 /* AnimatableLayer.swift in Sources */,
 				4C285DE3270B3AB300FDC23E /* ViewController.swift in Sources */,
 				4C285DF4270B3C2A00FDC23E /* Task+CoreDataClass.swift in Sources */,
+				4C2DDE0E27181AF60038B41E /* AnimationStateParser.swift in Sources */,
 				4C30A9D4270D8097000299E7 /* ContentViewController.swift in Sources */,
 				4C30A9D5270D83EC000299E7 /* Done.xcdatamodeld in Sources */,
 				4C2DDDE227104D780038B41E /* Importer.swift in Sources */,
 				4C30A9DC270EB9FF000299E7 /* ContentViewPresenter.swift in Sources */,
 				4C285DDF270B3AB300FDC23E /* AppDelegate.swift in Sources */,
+				4C2DDE0B271785130038B41E /* Parser.swift in Sources */,
 				4C30A9E1270F8215000299E7 /* String Extension.swift in Sources */,
 				4C285DE1270B3AB300FDC23E /* SceneDelegate.swift in Sources */,
 				4C285DF5270B3C2E00FDC23E /* Task+CoreDataProperties.swift in Sources */,
@@ -547,13 +592,15 @@
 				4C768C7126F7DFEA008E0EE6 /* AnimatableLayer.swift in Sources */,
 				4C48B65D26C295BC001DCA1E /* TextCellView.swift in Sources */,
 				4CD00B9926C0542A00AC491E /* ContentView Actions Extension.swift in Sources */,
+				4C5D68A4271AA539008B73D3 /* MenuBuilder.swift in Sources */,
 				4CD00BA826C1820100AC491E /* Task+CoreDataClass.swift in Sources */,
 				4C2DDDE127104D780038B41E /* Importer.swift in Sources */,
 				4C48B66926C295E4001DCA1E /* CGMutablePath Extension.swift in Sources */,
-				4CD00B9326BFF17500AC491E /* ContentView.swift in Sources */,
+				4CD00B9326BFF17500AC491E /* ContentViewController.swift in Sources */,
 				4C30A9E4270F9CB9000299E7 /* NSView Extension.swift in Sources */,
 				4C3372E326E7E1A50035E5CF /* DefaultViewController.swift in Sources */,
 				4C2DDE012714E8790038B41E /* BackgroundView.swift in Sources */,
+				4C5D68B0271D3298008B73D3 /* StarButton.swift in Sources */,
 				4C30A9DB270EB9FF000299E7 /* ContentViewPresenter.swift in Sources */,
 				4C48B66726C295E4001DCA1E /* AnimationButton.swift in Sources */,
 				4CD00BA926C1820100AC491E /* Task+CoreDataProperties.swift in Sources */,
@@ -566,7 +613,10 @@
 				4C30A9E0270F8215000299E7 /* String Extension.swift in Sources */,
 				4CD00B7326BFBD8A00AC491E /* AppDelegate.swift in Sources */,
 				4C48B66D26C2EE39001DCA1E /* ContentView Menu Extension.swift in Sources */,
+				4C2DDE0A271785130038B41E /* Parser.swift in Sources */,
+				4C5D68AB271B388A008B73D3 /* TableAdapter.swift in Sources */,
 				4C48B66826C295E4001DCA1E /* CheckBox.swift in Sources */,
+				4C2DDE0D27181AF60038B41E /* AnimationStateParser.swift in Sources */,
 				4CD00B9C26C05E2700AC491E /* CoreDataStorage.swift in Sources */,
 				4CD00B9626BFF1BA00AC491E /* TableBuilder.swift in Sources */,
 				4C48B66226C295C4001DCA1E /* SibebarCellView.swift in Sources */,
@@ -621,7 +671,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.antoncherkasov.Done-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -651,7 +701,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.antoncherkasov.Done-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -798,6 +848,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.antoncherkasov.Done-macOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -822,6 +873,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.antoncherkasov.Done-macOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -862,20 +914,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		4C30A9F027102631000299E7 /* XCRemoteSwiftPackageReference "CoreDataStore" */ = {
+		4C5D68A0271A1CE0008B73D3 /* XCRemoteSwiftPackageReference "CoreDataStore" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/unsaferawpointer/CoreDataStore";
 			requirement = {
-				branch = main;
+				branch = master;
 				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		4C30A9F127102631000299E7 /* CoreDataStore */ = {
+		4C5D68A1271A1CE0008B73D3 /* CoreDataStore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 4C30A9F027102631000299E7 /* XCRemoteSwiftPackageReference "CoreDataStore" */;
+			package = 4C5D68A0271A1CE0008B73D3 /* XCRemoteSwiftPackageReference "CoreDataStore" */;
 			productName = CoreDataStore;
 		};
 /* End XCSwiftPackageProductDependency section */

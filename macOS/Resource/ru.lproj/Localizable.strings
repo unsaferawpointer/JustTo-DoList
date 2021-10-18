@@ -21,3 +21,8 @@
 "menu_move_task_to_favorites" = "Добавить в Избранное";
 "menu_move_task_from_favorites" = "Удалить из Избранного";
 "menu_delete_task" = "Удалить";
+
+// Main Menu
+"main_menu_item_about" = "О приложении";
+"main_menu_item_preferences" = "Настройки...";
+"main_menu_item_quit" = "Выход";
