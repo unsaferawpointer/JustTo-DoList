@@ -84,6 +84,7 @@ extension ContentViewController {
 
 		let cell = makeCell(ofType: TextCellView.self, in: tableView, withRawID: "listCell")
 		cell.set(textStyle: .subheadline)
+		cell.textField?.stringValue = task.list?.name ?? ""
 		cell.textField?.textColor = .secondaryLabelColor
 		return cell
 	}

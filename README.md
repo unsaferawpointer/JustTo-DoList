@@ -11,8 +11,8 @@ Mac OS version:
 - [x] Content View with check list.
 - [x] Pretty animatable buttons.
 - [x] Reordering.
-- [ ] Drag and Drop Support.
+- [x] Drag and Drop Support.
 - [x] Import tasks from the string.
 - [x] Touchbar Support
-- [ ] Add sidebar with basic categories and lists.
+- [x] Add sidebar with basic categories and lists.
 

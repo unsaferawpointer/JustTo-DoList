@@ -153,7 +153,6 @@ class TableViewBuilder {
 		tableView.backgroundColor = .clear
 		tableView.allowsColumnResizing = true
 		tableView.columnAutoresizingStyle = .reverseSequentialColumnAutoresizingStyle
-		
 	}
 	
 }

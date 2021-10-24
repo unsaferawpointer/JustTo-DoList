@@ -1,13 +1,13 @@
 //
-//  SibebarCellView.swift
-//  CompactToDo
+//  SidebarTextCell.swift
+//  Done-macOS
 //
-//  Created by Anton Cherkasov on 26.04.2021.
+//  Created by Anton Cherkasov on 21.10.2021.
 //
 
 import Cocoa
 
-class SidebarLabelCell: NSTableCellView {
+class SidebarTextCell: NSTableCellView {
 	
 	var completionHandler: ((String) -> ())?
 	var budge: NSButton!
@@ -30,30 +30,14 @@ class SidebarLabelCell: NSTableCellView {
 	private func setup() {
 		let _textField = NSTextField()
 		self.textField = _textField
-		_textField.stringValue = "List"
+		_textField.stringValue = "Lists"
 		_textField.drawsBackground = false
 		_textField.isBordered = false
-		_textField.lineBreakMode = .byTruncatingMiddle
+		_textField.lineBreakMode = .byTruncatingTail
 		_textField.font = NSFont.preferredFont(forTextStyle: .body, options: [:])
 		textField?.target = self
 		textField?.action = #selector(titleDidChanged(_:))
 		self.addSubview(_textField)
-		
-		let _imageView = NSImageView()
-		self.imageView = _imageView
-		_imageView.imageScaling = .scaleNone
-		_imageView.image = NSImage(systemSymbolName: "list.star", accessibilityDescription: nil)
-		self.addSubview(_imageView)
-		
-		let budge = NSButton()
-		self.budge = budge
-		budge.bezelStyle = .inline
-		budge.title = "99+"
-		budge.contentTintColor = .systemRed
-		budge.isHidden = false
-		self.addSubview(budge)
-		
-		//configureConstraints()
 	}
 	
 	private func configureConstraints() {
@@ -88,10 +72,10 @@ class SidebarLabelCell: NSTableCellView {
 		super.prepareForReuse()
 		textField?.unbind(.value)
 	}
-
+	
 }
 
-extension SidebarLabelCell {
+extension SidebarTextCell {
 	@objc
 	func titleDidChanged(_ sender: NSTextField) {
 		completionHandler?(sender.stringValue)

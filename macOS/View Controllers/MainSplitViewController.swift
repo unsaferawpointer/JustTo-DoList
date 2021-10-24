@@ -44,7 +44,7 @@ extension MainSplitViewController {
 	}
 	
 	private func setupSidebarItem() {
-		let sidebarVC = DefaultViewController()
+		let sidebarVC = SidebarViewController()
 		let sidebarItem = NSSplitViewItem(sidebarWithViewController: sidebarVC)
 		sidebarItem.canCollapse = true
 		sidebarItem.titlebarSeparatorStyle = .none
@@ -60,7 +60,7 @@ extension MainSplitViewController {
 		let contentVC = ContentViewController(presenter: presenter)
 		let contentItem = NSSplitViewItem(contentListWithViewController: contentVC)
 		contentItem.allowsFullHeightLayout = true
-		contentItem.titlebarSeparatorStyle = .line
+		contentItem.titlebarSeparatorStyle = .none
 		contentItem.minimumThickness = CONTENT_MIN_WIDTH
 		contentItem.holdingPriority = .defaultLow
 		addSplitViewItem(contentItem)

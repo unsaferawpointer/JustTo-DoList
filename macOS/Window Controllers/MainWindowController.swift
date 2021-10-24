@@ -24,6 +24,12 @@ class MainWindowController: NSWindowController {
 	
 }
 
+extension MainWindowController {
+	override var undoManager: UndoManager? {
+		return CoreDataManager.shared.mainContext.undoManager
+	}
+}
+
 //extension MainWindowController : NSToolbarDelegate {
 //
 //	func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {

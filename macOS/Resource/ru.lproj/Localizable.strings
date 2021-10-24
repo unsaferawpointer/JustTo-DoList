@@ -6,8 +6,16 @@
   
 */
 
+// Entity
+"new_list" = "Новый список";
+
 // Toolbar
 "toolbar_searchfield_placeholder" = "Поиск";
+
+//Sidebar
+"sidebar_inbox" = "Входящие";
+"sidebar_favorites" = "Избранные";
+"sidebar_completed" = "Завершенные";
 
 // Content View
 "tableview_column_task" = "Задание";
@@ -22,7 +30,15 @@
 "menu_move_task_from_favorites" = "Удалить из Избранного";
 "menu_delete_task" = "Удалить";
 
+"menu_new_list" = "Новый список";
+"menu_delete_list" = "Удалить";
+"menu_rename_list" = "Переименовать";
+
 // Main Menu
 "main_menu_item_about" = "О приложении";
 "main_menu_item_preferences" = "Настройки...";
 "main_menu_item_quit" = "Выход";
+
+"main_menu_undo" = "Отменить";
+"main_menu_redo" = "Повторить";
+"menu_select_all" = "Выбрать все";

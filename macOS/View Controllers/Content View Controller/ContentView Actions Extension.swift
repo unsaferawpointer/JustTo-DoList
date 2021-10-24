@@ -8,6 +8,17 @@
 import Foundation
 
 extension ContentViewController {
+	
+	@objc
+	func undo(_ sender: Any?) {
+		presenter.undoManager?.undo()
+	}
+	
+	@objc
+	func redo(_ sender: Any?) {
+		presenter.undoManager?.redo()
+	}
+	
 	@objc
 	func newTask(_ sender: Any?) {
 		presenter.newTask()

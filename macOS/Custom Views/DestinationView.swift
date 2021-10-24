@@ -11,27 +11,31 @@ protocol DestinationViewDelegate: AnyObject {
 	func placeholderTitleFor(draggedType: NSPasteboard.PasteboardType) -> String
 	func placeholderImageFor(draggedType: NSPasteboard.PasteboardType) -> NSImage?
 	func destinationViewPerformDragOperation(destinationView: DestinationView, sender: NSDraggingInfo) -> Bool
+	func cancelExecuting()
 }
 
 class DestinationView: NSView {
 	
 	weak var dropDelegate: DestinationViewDelegate?
+	
+	var contentInset: CGFloat = 24.0
+	var cornerRadius: CGFloat = 8.0
+	
 	var onDrop: Bool = false
-	var isExecuting: Bool = false {
-		didSet {
-			updateViewsVisibility()
-		}
-	}
+	var isExecuting: Bool = false
+	
+	var dropLayer: CAShapeLayer?
 	
 	private (set) var placeholderView: NSView?
 	private (set) var progressIndicator: NSProgressIndicator?
 	private (set) var label: NSTextField?
 	private (set) var imageView: NSImageView?
+	private (set) var cancelButton: NSButton?
 	
 	init(frame frameRect: NSRect, draggedTypes: [NSPasteboard.PasteboardType]) {
 		super.init(frame: frameRect)
 		registerForDraggedTypes(draggedTypes)
-		configurePlaceholder()
+		initPlaceholder()
 	}
 	
 	convenience init(draggedTypes: [NSPasteboard.PasteboardType]) {
@@ -53,20 +57,23 @@ class DestinationView: NSView {
 		progressIndicator?.doubleValue = 0.0
 	}
 	
-	private func configurePlaceholder() {
-		
+	private func initPlaceholder() {
 		let placeholderView = BackgroundView()
-		self.placeholderView = placeholderView
 		placeholderView.wantsLayer = true
-		let square = CAShapeLayer()
-		placeholderView.layer?.addSublayer(square)
+		
+		let dropLayer = CAShapeLayer()
+		placeholderView.layer?.addSublayer(dropLayer)
+		self.placeholderView = placeholderView
+		self.dropLayer = dropLayer
 		
 		self.addSubview(placeholderView)
 		placeholderView.translatesAutoresizingMaskIntoConstraints = false
-		placeholderView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor).isActive = true
-		placeholderView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor).isActive = true
-		placeholderView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor).isActive = true
-		placeholderView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor).isActive = true
+		NSLayoutConstraint.activate([
+			placeholderView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
+			placeholderView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
+			placeholderView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
+			placeholderView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
+		])
 		
 		let imageView = NSImageView(frame: .zero)
 		self.imageView = imageView
@@ -89,6 +96,9 @@ class DestinationView: NSView {
 		indicator.doubleValue = 0.0
 
 		let cancelButton = NSButton(title: "Cancel", target: nil, action: nil)
+		self.cancelButton = cancelButton
+		cancelButton.target = self
+		cancelButton.action = #selector(cancel(_:))
 		cancelButton.translatesAutoresizingMaskIntoConstraints = false
 		cancelButton.keyEquivalent = .carriageReturnKey
 		
@@ -98,28 +108,35 @@ class DestinationView: NSView {
 		stackView.translatesAutoresizingMaskIntoConstraints = false
 		placeholderView.addSubview(stackView)
 		
-		placeholderView.centerXAnchor.constraint(equalTo: stackView.centerXAnchor).isActive = true
-		placeholderView.centerYAnchor.constraint(equalTo: stackView.centerYAnchor).isActive = true
+		NSLayoutConstraint.activate([
+			placeholderView.centerXAnchor.constraint(equalTo: stackView.centerXAnchor),
+			placeholderView.centerYAnchor.constraint(equalTo: stackView.centerYAnchor)
+		])
 	}
 	
 	override func updateLayer() {
 		super.updateLayer()
+		dropLayer?.lineDashPattern = [10.0, 4.0]
+		dropLayer?.lineWidth = 2.0
+		dropLayer?.fillColor = nil
+		dropLayer?.strokeColor = NSColor.tertiaryLabelColor.cgColor
 	}
 	
 	override func layout() {
 		super.layout()
-		let square = placeholderView?.layer?.sublayers?[0] as! CAShapeLayer
-		let roundedCornerSquare = CGPath(roundedRect: NSInsetRect(placeholderView!.bounds, 24.0, 24.0), cornerWidth: 8.0, cornerHeight: 8.0, transform: nil)
-		square.path = roundedCornerSquare
-		square.lineDashPattern = [10.0, 4.0]
-		square.lineWidth = 2.0
-		square.fillColor = nil
-		square.strokeColor = NSColor.tertiaryLabelColor.cgColor
-		(placeholderView?.layer as? CAShapeLayer)?.path = roundedCornerSquare
+		if let dropLayer = dropLayer, let bounds = placeholderView?.bounds {
+			let insetRect = NSInsetRect(bounds, contentInset, contentInset)
+			let roundedRectPath = CGPath(roundedRect: insetRect, cornerWidth: cornerRadius, cornerHeight: cornerRadius, transform: nil)
+			dropLayer.path = roundedRectPath
+		}
 	}
 	
 	override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
+		print(#function)
 		onDrop = true
+		guard !isExecuting else {
+			return []
+		}
 		let draggedTypes = sender.draggingPasteboard.types ?? []
 		print(draggedTypes)
 		if draggedTypes.count > 1 {
@@ -134,17 +151,27 @@ class DestinationView: NSView {
 	}
 	
 	override func draggingExited(_ sender: NSDraggingInfo?) {
+		print(#function)
 		onDrop = false
+		guard !isExecuting else {
+			return
+		}
+		cancelButton?.resignFirstResponder()
 		updateViewsVisibility()
 	}
 	
 	override public func draggingUpdated(_: NSDraggingInfo) -> NSDragOperation {
+		print(#function)
 		return .copy
 	}
 	
 	override public func prepareForDragOperation(_: NSDraggingInfo) -> Bool {
-		// finished with dragging so remove any highlighting
 		onDrop = false
+		guard !isExecuting else {
+			return false
+		}
+		isExecuting = true
+		// finished with dragging so remove any highlighting
 		updateViewsVisibility()
 		return true
 	}
@@ -153,16 +180,27 @@ class DestinationView: NSView {
 		return dropDelegate?.destinationViewPerformDragOperation(destinationView: self, sender: sender) ?? false
 	}
 	
+	@objc func cancel(_ sender: Any?) {
+		dropDelegate?.cancelExecuting()
+	}
+	
 }
 
 extension DestinationView : DragAndDropView {
 	
-	func showDragAndDropPlaceholder() {
+	func startExecuting() {
 		isExecuting = true
+		if onDrop == true {
+			updateViewsVisibility()
+		}
+		onDrop = false
+		
 	}
 	
-	func hideDragAndDropPlaceHolder() {
+	func stopExecuting() {
 		isExecuting = false
+		onDrop = false
+		updateViewsVisibility()
 	}
 	
 	func update(progress: Double) {

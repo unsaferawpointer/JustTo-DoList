@@ -20,9 +20,8 @@ extension String {
 	static var headerLists = "header_lists"
 	
 	// Menu
-	static var menuNewList = "menu_new_list"
-	static var menuDeleteList = "menu_delete_list"
-	static var menuRenameList = "menu_rename_list"
+	
+	static let newList = "new_list"
 	
 	static var menuNewTask = "menu_new_task"
 	static var menuDeleteTask = "menu_delete_task"
@@ -39,8 +38,21 @@ extension String {
 	
 	static var menuMoveTo = "menu_move_to"
 	
+	static let menuNewList = "menu_new_list"
+	static let menuDeleteList = "menu_delete_list"
+	static let menuRenameList = "menu_rename_list"
+	
 	// Main Menu
 	static var mainMenuItemAbout = "main_menu_item_about"
 	static var mainMenuItemPreferences = "main_menu_item_preferences"
 	static var mainMenuItemQuit = "main_menu_item_quit"
+	
+	static var mainMenuUndo = "main_menu_undo"
+	static var mainMenuRedo = "main_menu_redo"
+	static let selectAll = "menu_select_all"
+	
+	// Sidebar View
+	static var sidebarInbox = "sidebar_inbox"
+	static var sidebarFavorites = "sidebar_favorites"
+	static var sidebarCompleted = "sidebar_completed"
 }

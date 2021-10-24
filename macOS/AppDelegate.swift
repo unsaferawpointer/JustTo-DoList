@@ -99,7 +99,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 	func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
 	    // Save changes in the application's managed object context before the application terminates.
-		let canTerminate = CoreDataStorage.shared.canTerminate(sender)
+		let canTerminate = CoreDataManager.shared.canTerminate(sender)
 		return canTerminate ? .terminateNow : .terminateCancel
 	}
 	

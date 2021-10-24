@@ -11,9 +11,9 @@ import AppKit
 import CloudKit
 import CoreData
 
-class CoreDataStorage {
+class CoreDataManager {
 	
-	static let shared = CoreDataStorage()
+	static let shared = CoreDataManager()
 	
 	var errorHandler: (() -> (Error))?
 	
@@ -56,6 +56,8 @@ class CoreDataStorage {
 		})
 		container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
 		container.viewContext.automaticallyMergesChangesFromParent = true
+		container.viewContext.undoManager = UndoManager()
+		container.viewContext.undoManager?.levelsOfUndo = 4
 		return container
 	}()
 	
@@ -128,7 +130,7 @@ class CoreDataStorage {
 	
 }
 
-extension CoreDataStorage {
+extension CoreDataManager {
 	
 	var newBackgroundContext: NSManagedObjectContext {
 		persistentContainer.newBackgroundContext()

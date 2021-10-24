@@ -9,13 +9,14 @@ import AppKit
 
 protocol TableModel {
 	var count: Int { get }
-	var cellConfigurator: (NSTableView, Int, NSUserInterfaceItemIdentifier?) -> NSView { get set }
+	var cellConfigurator: (NSTableView, Int, NSUserInterfaceItemIdentifier?) -> NSTableCellView { get set }
 	var dragAndDropConfigurator: (NSTableView, Int) -> NSPasteboardWriting? { get set }
 	var reorderConfigurator: (NSTableView, Int, [NSSortDescriptor]) { get set }
 }
 
 class TableAdapter: NSObject {
 	var model: TableModel!
+	
 }
 
 extension TableAdapter: NSTableViewDataSource {
@@ -55,6 +56,17 @@ extension TableAdapter: NSTableViewDataSource {
 
 extension TableAdapter : NSTableViewDelegate {
 	func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-		return model.cellConfigurator(tableView, row, tableColumn?.identifier)
+		let cell = model.cellConfigurator(tableView, row, tableColumn?.identifier)
+		return makeCell(ofType: type(of: cell), in: tableView, withID: tableColumn?.identifier.rawValue ?? "")
+	}
+	
+	private func makeCell<T: NSTableCellView>(ofType: T.Type, in tableView: NSTableView, withID rawID: String, initBlock: (() -> T)? = nil) -> T {
+		let id = NSUserInterfaceItemIdentifier(rawID)
+		var cell = tableView.makeView(withIdentifier: id, owner: nil) as? T
+		if cell == nil {
+			cell = initBlock?() ?? T()
+			cell?.identifier = id
+		}
+		return cell!
 	}
 }

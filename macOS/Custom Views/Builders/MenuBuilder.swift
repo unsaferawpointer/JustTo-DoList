@@ -8,12 +8,33 @@
 import Foundation
 import AppKit
 
+extension NSUserInterfaceItemIdentifier {
+	static let contextMenuNewTask = NSUserInterfaceItemIdentifier("context_menu_new_task")
+	static let mainMenuRedo = NSUserInterfaceItemIdentifier("main_menu_redo")
+	static let mainMenuUndo = NSUserInterfaceItemIdentifier("main_menu_undo")
+}
+
 class MenuBuilder : NSObject {
 	
 	var menu = NSMenu()
 	
 	func createEditMenu() -> NSMenu {
+		
 		let menu = NSMenu(title: "Edit")
+		let undo = NSMenuItem()
+		undo.identifier = .mainMenuUndo
+		undo.title = NSLocalizedString(.mainMenuUndo, comment: "")
+		undo.action = #selector(ContentViewController.undo(_:))
+		undo.keyEquivalent = "z"
+		menu.addItem(undo)
+		let redo = NSMenuItem()
+		redo.identifier = .mainMenuRedo
+		redo.title = NSLocalizedString(.mainMenuRedo, comment: "")
+		redo.action = #selector(ContentViewController.redo(_:))
+		redo.keyEquivalent = "Z"
+		menu.addItem(redo)
+		// ******** Separator ********
+		menu.addItem(NSMenuItem.separator())
 		// ******** New Task ********
 		let newTask = NSMenuItem()
 		newTask.identifier = .contextMenuNewTask
@@ -27,6 +48,13 @@ class MenuBuilder : NSObject {
 		duplicate.action = #selector(ContentViewController.duplicate(_:))
 		duplicate.keyEquivalent = "d"
 		menu.addItem(duplicate)
+		// ******** Separator ********
+		menu.addItem(NSMenuItem.separator())
+		let selectAll = NSMenuItem()
+		selectAll.title = NSLocalizedString("menu_select_all", comment: "")
+		selectAll.target = nil
+		selectAll.action = #selector(NSTableView.selectAll(_:))
+		menu.addItem(selectAll)
 		// ******** Separator ********
 		menu.addItem(NSMenuItem.separator())
 		// ******** Mark completed / incomplete ********
@@ -58,10 +86,11 @@ class MenuBuilder : NSObject {
 		let delete = NSMenuItem()
 		delete.title = NSLocalizedString(.menuDeleteTask, comment: "")
 		delete.keyEquivalent = .backspaceKey
-		delete.action = #selector(ContentViewController.delete(_:))
+		delete.action = Selector("delete:")
 		menu.addItem(delete)
 		return menu
 	}
+	
 	func createMainMenu() -> NSMenu {
 		let menu = NSMenu(title: "Done")
 		// ******** About ********

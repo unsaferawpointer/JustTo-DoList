@@ -48,6 +48,10 @@ class ContentViewController: NSViewController {
 						  identifier: .textColumn,
 						  style: .flexible(size: .primary),
 						  sortDescriptor: NSSortDescriptor(keyPath: \Task.text, ascending: true))
+		builder.addColumn("List",
+						  identifier: .listColumn,
+						  style: .flexible(size: .secondary),
+						  sortDescriptor: NSSortDescriptor(keyPath: \Task.list?.name, ascending: true))
 		builder.addColumn("􀋂",
 						  identifier: .isFavoriteColumn,
 						  style: .fixed(size: .oneSymbol),
@@ -90,7 +94,7 @@ class ContentViewController: NSViewController {
 		tableView.dataSource = self
 		tableView.delegate = self
 		
-		tableView.headerView = nil
+//		tableView.headerView = nil
 		
 		initContextMenu()
 		presenter.performFetch(with: nil, andSortDescriptors: [])
@@ -111,19 +115,19 @@ class ContentViewController: NSViewController {
 	private func updateTitleAndSubtitle() {
 		#warning("Dont localized")
 		view.window?.title = "Inbox"
-		view.window?.subtitle = "\(presenter.numberOfObjects) tasks, \(presenter.incompleteCount) incomplete"
+		//view.window?.subtitle = "\(presenter.numberOfObjects) tasks, \(presenter.incompleteCount) incomplete"
 	}
 }
 
 extension ContentViewController : ContentView {
 	
 	// Drag And Drop support
-	func showDragAndDropPlaceholder() {
-		dropView.showDragAndDropPlaceholder()
+	func startExecuting() {
+		dropView.startExecuting()
 	}
 	
-	func hideDragAndDropPlaceHolder() {
-		dropView.hideDragAndDropPlaceHolder()
+	func stopExecuting() {
+		dropView.stopExecuting()
 	}
 	
 	func update(progress: Double) {
@@ -155,11 +159,11 @@ extension ContentViewController : ContentView {
 	}
 	
 	func didRemoveItems(at indexSet: IndexSet) {
-		tableView.removeRows(at: indexSet, withAnimation: .slideLeft)
+		tableView.removeRows(at: indexSet, withAnimation: .slideDown)
 	}
 	
 	func didInsertItems(at indexSet: IndexSet) {
-		tableView.insertRows(at: indexSet, withAnimation: .slideRight)
+		tableView.insertRows(at: indexSet, withAnimation: .slideUp)
 	}
 	
 	func didUpdateItems(at indexSet: IndexSet) {
@@ -197,6 +201,10 @@ extension ContentViewController : DestinationViewDelegate {
 	
 	func destinationViewPerformDragOperation(destinationView: DestinationView, sender: NSDraggingInfo) -> Bool {
 		presenter.performDragOperation(sender)
+	}
+	
+	func cancelExecuting() {
+		
 	}
 	
 }

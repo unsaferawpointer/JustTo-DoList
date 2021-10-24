@@ -7,10 +7,6 @@
 
 import AppKit
 
-extension NSUserInterfaceItemIdentifier {
-	static let contextMenuNewTask = NSUserInterfaceItemIdentifier("context_menu_new_task")
-}
-
 extension ContentViewController {
 	
 	func createContextMenu() -> NSMenu {
@@ -43,6 +39,11 @@ extension ContentViewController : NSMenuItemValidation {
 	func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
 		if menuItem.identifier == .contextMenuNewTask {
 			return true
+		}
+		if menuItem.identifier == .mainMenuUndo {
+			return presenter.undoManager?.canUndo ?? false
+		} else if menuItem.identifier == .mainMenuRedo {
+			return presenter.undoManager?.canRedo ?? false
 		}
 		return tableView.clickedOrSelectedIntersection.isEmpty == false
 	}

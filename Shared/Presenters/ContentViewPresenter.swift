@@ -9,6 +9,10 @@ import Foundation
 import CoreData
 import CoreDataStore
 
+extension NSNotification.Name {
+	static let sidebarDidChangeSelectedItem = NSNotification.Name("sidebarDidChangeSelectedItem")
+}
+
 protocol ContentCellRepresentable : AnyObject {
 	func configureCell(with task: Task)
 }
@@ -31,8 +35,8 @@ protocol TableView : AnyObject {
 }
 
 protocol DragAndDropView: AnyObject {
-	func showDragAndDropPlaceholder()
-	func hideDragAndDropPlaceHolder()
+	func startExecuting()
+	func stopExecuting()
 	func update(progress: Double)
 }
 
@@ -54,6 +58,10 @@ class ContentViewPresenter {
 	private (set) var store: AccumulateChangesStore<Task>
 	private (set) var factory: ObjectFactory<Task>
 	
+	var undoManager : UndoManager? {
+		CoreDataManager.shared.mainContext.undoManager
+	}
+	
 	private var selectedTasks: Set<Task> {
 		var expandedIndexSet = view?.getSelectedRows() ?? IndexSet()
 		if let clickedRow = view?.getClickedRow(), clickedRow >= 0 {
@@ -65,15 +73,31 @@ class ContentViewPresenter {
 	}
 	
 	init() {
-		let viewContext = CoreDataStorage.shared.mainContext
+		let viewContext = CoreDataManager.shared.mainContext
 		store = .init(viewContext: viewContext, sortDescriptors: sortDescriptors)
 		factory = .init(viewContext: viewContext)
 		store.delegate = self
 		factory.errorHandler = { [weak self] error in
 			self?.view?.showWarningAllert(with: error.localizedDescription)
 		}
+		NotificationCenter.default.addObserver(self, selector: #selector(sidebarDidChangePredicate(_:)), name: .sidebarDidChangeSelectedItem, object: nil)
 	}
 	
+	@objc func sidebarDidChangePredicate(_ notification: NSNotification) {
+		let item = notification.userInfo?["selected_item"]
+		let predicate = getPredicate(for: item)
+		try? store.performFetch(with: predicate, sortDescriptors: [])
+	}
+	
+	func getPredicate(for object: Any?) -> NSPredicate? {
+		if let list = object as? List {
+			let predicate = NSPredicate(format: "list = %@", argumentArray: [list])
+			return predicate
+		} else if let item = object as? Item {
+			return item.base.predicate
+		}
+		return nil
+	}
 }
 
 extension ContentViewPresenter {
@@ -178,6 +202,8 @@ extension ContentViewPresenter {
 		let text = "\(task.text)\n"
 		let pasterboardItem = NSPasteboardItem()
 		pasterboardItem.setString(text, forType: .string)
+		let url = task.objectID.uriRepresentation().absoluteString
+		pasterboardItem.setString(url, forType: .taskID)
 		return pasterboardItem
 	}
 	
@@ -186,16 +212,24 @@ extension ContentViewPresenter {
 	}
 	
 	func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
-		view?.showDragAndDropPlaceholder()
+		view?.startExecuting()
 		let importer = TasksImporter { [weak self] progress in
 			self?.view?.update(progress: progress)
 		} completionBlock: { [weak self] in
-			self?.view?.hideDragAndDropPlaceHolder()
+			self?.view?.stopExecuting()
 		}
 		if let text = sender.draggingPasteboard.string(forType: .string) {
 			importer.importItems(from: text)
 		}
 		return true
 	}
+	
+	func cancelImporting() {
+		
+	}
+}
+
+extension ContentViewPresenter {
+	
 }
 

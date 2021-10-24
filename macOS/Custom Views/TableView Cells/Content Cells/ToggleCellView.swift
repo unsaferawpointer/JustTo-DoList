@@ -12,7 +12,7 @@ protocol ToggleableButton : NSView {
 	var isOn: Bool { get set }
 	var backgroundStyle: NSView.BackgroundStyle { get set }
 	var handler: ((Bool) -> ())? { get set }
-	func forceStopAnimation()
+	func stopAnimation()
 }
 
 class ToggleCellView: NSTableCellView {
@@ -77,6 +77,7 @@ class ToggleCellView: NSTableCellView {
 		button.handler = { [weak self] isOn in
 			self?.completionHandler?(isOn)
 		}
+		
 		// Constraints
 		button.translatesAutoresizingMaskIntoConstraints = false
 		self.centerXAnchor.constraint(equalTo: button.centerXAnchor).isActive = true
@@ -85,7 +86,7 @@ class ToggleCellView: NSTableCellView {
 	
 	override func prepareForReuse() {
 		super.prepareForReuse()
-		button?.forceStopAnimation()
+		button?.stopAnimation()
 		subsription?.cancel()
 	}
 	

@@ -23,7 +23,7 @@ class TextCellView: NSTableCellView {
 	override init(frame frameRect: NSRect) {
 		super.init(frame: frameRect)
 		configureViews()
-		configureConstraints()
+		//configureConstraints()
 	}
 	
 	required init?(coder: NSCoder) {
@@ -46,7 +46,7 @@ class TextCellView: NSTableCellView {
 		textField.usesSingleLineMode = true
 		textField.isBordered = false
 		textField.drawsBackground = false
-		textField.lineBreakMode = .byTruncatingTail
+		textField.lineBreakMode = .byTruncatingMiddle
 		textField.cell?.sendsActionOnEndEditing = true
 	}
 	
@@ -55,9 +55,11 @@ class TextCellView: NSTableCellView {
 		textField!.setContentHuggingPriority(.defaultLow, for: .horizontal)
 		textField!.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
 		self.translatesAutoresizingMaskIntoConstraints = false
-		self.centerYAnchor.constraint(equalTo: textField!.centerYAnchor).isActive = true
-		self.leadingAnchor.constraint(equalTo: textField!.leadingAnchor).isActive = true
-		self.trailingAnchor.constraint(equalTo: textField!.trailingAnchor).isActive = true
+		NSLayoutConstraint.activate([
+			self.centerYAnchor.constraint(equalTo: textField!.centerYAnchor),
+			self.leadingAnchor.constraint(equalTo: textField!.leadingAnchor),
+			self.trailingAnchor.constraint(equalTo: textField!.trailingAnchor)
+		])
 	}
 	
 	// #END		******** Init Block ********
@@ -76,10 +78,3 @@ extension TextCellView : NSTextFieldDelegate {
 	}
 }
 
-//extension TextCellView : ContentCellRepresentable {
-//
-//	func configureCell(with task: Task) {
-//
-//	}
-//
-//}

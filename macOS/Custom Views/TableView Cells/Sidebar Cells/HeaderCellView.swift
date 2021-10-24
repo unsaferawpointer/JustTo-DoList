@@ -28,7 +28,7 @@ class HeaderCellView: NSTableCellView {
     
     private func setup() {
         
-        self.translatesAutoresizingMaskIntoConstraints = false
+        //self.translatesAutoresizingMaskIntoConstraints = false
         
         let titleTextField = NSTextField()
         self.textField = titleTextField
@@ -47,36 +47,36 @@ class HeaderCellView: NSTableCellView {
         
         self.addSubview(titleTextField)
         
-        self.actionButton = NSButton()
-        actionButton.isBordered = false
-		actionButton.bezelStyle = .inline
-        actionButton.showsBorderOnlyWhileMouseInside = true
-        actionButton.image = NSImage(systemSymbolName: "plus", accessibilityDescription: nil)
-        actionButton.imageScaling = .scaleNone
-        actionButton.symbolConfiguration = .none
-		actionButton.setContentCompressionResistancePriority(.required, for: .horizontal)
-		actionButton.setContentHuggingPriority(.required, for: .horizontal)
-        actionButton.translatesAutoresizingMaskIntoConstraints = false
-        actionButton.isHidden = true
-        self.addSubview(actionButton)
+//        self.actionButton = NSButton()
+//        actionButton.isBordered = false
+//		actionButton.bezelStyle = .inline
+//        actionButton.showsBorderOnlyWhileMouseInside = true
+//        actionButton.image = NSImage(systemSymbolName: "plus", accessibilityDescription: nil)
+//        actionButton.imageScaling = .scaleNone
+//        actionButton.symbolConfiguration = .none
+//		actionButton.setContentCompressionResistancePriority(.required, for: .horizontal)
+//		actionButton.setContentHuggingPriority(.required, for: .horizontal)
+//        actionButton.translatesAutoresizingMaskIntoConstraints = false
+//        actionButton.isHidden = true
+//        self.addSubview(actionButton)
         
-        let trailing = NSLayoutConstraint(item: actionButton, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1, constant: -7)
-        trailing.priority = .defaultHigh
-        self.addConstraint(trailing)
-
-        self.addConstraint(NSLayoutConstraint(item: actionButton, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
-
-        self.addConstraint(NSLayoutConstraint(item: titleTextField, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
-        
-       
-        
-        let leading = NSLayoutConstraint(item: titleTextField, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1, constant: 4)
-        leading.priority = .defaultHigh
-        self.addConstraint(leading)
-
-        let titleTextFieldLeading = NSLayoutConstraint(item: titleTextField, attribute: .trailing, relatedBy: .equal, toItem: actionButton, attribute: .leading, multiplier: 1, constant: -4)
-        titleTextFieldLeading.priority = .defaultLow
-        self.addConstraint(titleTextFieldLeading)
+//        let trailing = NSLayoutConstraint(item: actionButton, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1, constant: -7)
+//        trailing.priority = .defaultHigh
+//        self.addConstraint(trailing)
+//
+//        self.addConstraint(NSLayoutConstraint(item: actionButton, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
+//
+//        self.addConstraint(NSLayoutConstraint(item: titleTextField, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
+//
+//
+//
+//        let leading = NSLayoutConstraint(item: titleTextField, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1, constant: 4)
+//        leading.priority = .defaultHigh
+//        self.addConstraint(leading)
+//
+//        let titleTextFieldLeading = NSLayoutConstraint(item: titleTextField, attribute: .trailing, relatedBy: .equal, toItem: actionButton, attribute: .leading, multiplier: 1, constant: -4)
+//        titleTextFieldLeading.priority = .defaultLow
+//        self.addConstraint(titleTextFieldLeading)
 
         
     }
