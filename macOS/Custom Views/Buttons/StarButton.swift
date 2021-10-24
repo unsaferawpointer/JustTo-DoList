@@ -9,10 +9,6 @@ import AppKit
 
 class StarButton: NSView, ToggleableButton {
 	
-	func set(isOn: Bool) {
-		self.isOn = isOn
-	}
-	
 	var backgroundStyle: NSView.BackgroundStyle = .normal {
 		didSet {
 			stopAnimation()
@@ -23,10 +19,6 @@ class StarButton: NSView, ToggleableButton {
 	}
 	
 	var handler: ((Bool) -> Void)?
-	
-	func forceStopAnimation() {
-		starLayer?.removeAllAnimations()
-	}
 	
 	var isOn: Bool = false {
 		didSet {
@@ -46,7 +38,7 @@ class StarButton: NSView, ToggleableButton {
 	}
 	
 	var lineWidth:		CGFloat = 1.2
-	var animationDuration = 0.25
+	var animationDuration = 0.18
 	
 	var starLayer: CAShapeLayer!
 	
@@ -90,7 +82,7 @@ class StarButton: NSView, ToggleableButton {
 	
 	override func layout() {
 		super.layout()
-		let square = getMaxSquare(for: bounds)
+		let square = bounds.maxSquare
 		let insetsRect = NSInsetRect(square, lineWidth/2, lineWidth/2)
 		let starPath = CGMutablePath.star(in: insetsRect, corners: 5, smoothness: 0.5)
 		starLayer.path = starPath
@@ -120,7 +112,6 @@ class StarButton: NSView, ToggleableButton {
 	}
 	
 	private func createAnimationGroup() {
-		
 		let scaleAnimation = CAKeyframeAnimation(keyPath: "transform.scale")
 		scaleAnimation.values = [1.0, 1.5, 1.0]
 		scaleAnimation.keyTimes = [0.1, 0.2, 0.9]
@@ -148,22 +139,12 @@ class StarButton: NSView, ToggleableButton {
 		createAnimationGroup()
 	}
 	
-	private func stopAnimation() {
+	func stopAnimation() {
 		starLayer.removeAllAnimations()
-	}
-	
-	func getMaxSquare(for rect: NSRect) -> NSRect {
-		let side = min(rect.height, rect.width)
-		let x = (rect.width - side)/2
-		let y = (rect.height - side)/2
-		let origin = CGPoint(x: x, y: y)
-		let size = CGSize(width: side, height: side)
-		return NSRect(origin: origin, size: size)
 	}
 	
 	@objc
 	func clicked(_ sender: Any?) {
-		print(#function)
 		startAnimation()
 	}
 }
