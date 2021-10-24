@@ -9,10 +9,11 @@
 import Foundation
 import CoreData
 import CoreDataStore
+import AppKit
 
 @objc(Task)
 public class Task: NSManagedObject {
-	
+	var listName: String?
 }
 
 extension Task : Duplicatable {
@@ -38,7 +39,7 @@ extension Task {
 				
 				id = \(objectID)
 				text = \(text)
-				
+				list = \(list?.name)
 				"""
 	}
 }

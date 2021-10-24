@@ -24,6 +24,8 @@ extension Task {
     @NSManaged public var isFavorite: Bool
     @NSManaged public var typeMask: Int16
 	
+	@NSManaged public var list: List?
+	
 	public override func awakeFromInsert() {
 		super.awakeFromInsert()
 		self.id = UUID()
@@ -44,6 +46,36 @@ extension Task {
 				self.completionDate = newValue ? Date() : nil
 				self.isDone = newValue
 			}
+		}
+	}
+	
+	public override func awakeFromFetch() {
+		super.awakeFromFetch()
+		print(#function)
+		print("text = \(text)")
+		list?.addObserver(self, forKeyPath: "name", options: [NSKeyValueObservingOptions.new], context: nil)
+	}
+	
+	public override func willTurnIntoFault() {
+		print(#function)
+		print("text = \(text)")
+		super.willTurnIntoFault()
+		list?.removeObserver(self, forKeyPath: "name")
+	}
+	
+	public override func didTurnIntoFault() {
+		print(#function)
+		print("text = \(text)")
+		super.didTurnIntoFault()
+	}
+	
+	public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+		switch (keyPath, context) {
+		case ("name", _):
+			print("isFault = \(isFault)")
+			managedObjectContext?.refresh(self, mergeChanges: true)
+		default:
+			super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
 		}
 	}
 
